@@ -488,6 +488,13 @@ body.claro input:disabled,body.claro select:disabled,body.claro textarea:disable
 .discreto b{color:var(--hair);font-weight:400}
 .discreto button:hover{color:var(--marca)}
 .discreto button.perigo:hover{color:var(--c2)}
+.pecas{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:8px}
+.pecas .lb{flex:1 1 100%;font-family:var(--mono);font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink2)}
+.peca{font-family:var(--mono);font-size:11.5px;padding:6px 11px;border-radius:999px;cursor:pointer;
+  border:1px solid var(--hair);background:transparent;color:var(--ink2)}
+.peca:hover{border-color:var(--marca);color:var(--marca)}
+.peca.on{background:var(--marca);border-color:var(--marca);color:#fff}
+.contaPeca{flex:1 1 100%;font-family:var(--mono);font-size:10.5px;color:var(--ink3)}
 </style>
 
 <div class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -500,7 +507,7 @@ body.claro input:disabled,body.claro select:disabled,body.claro textarea:disable
         <h1>Controle de estoque</h1>
         <p>Almoxarifado · Manutenção técnica</p>
         <div class="estado"><span class="ponto"></span><span id="estadoTxt">carregando…</span>
-          <span class="selo" title="versão deste programa">v69 · ícone</span></div>
+          <span class="selo" title="versão deste programa">v70 · rastreio</span></div>
       </div>
       <div class="direita">
         <span class="cracha" id="cracha">—</span>
@@ -704,7 +711,7 @@ body.claro input:disabled,body.claro select:disabled,body.claro textarea:disable
     <span class="discreto">
       <button id="json">exportar backup</button><b>·</b><button id="import">importar</button><b>·</b><button id="btnCores">cores</button><b>·</b><button id="wipe" class="perigo">apagar tudo</button>
     </span>
-    <span class="versao" title="versão deste programa">v69 · ícone</span>
+    <span class="versao" title="versão deste programa">v70 · rastreio</span>
 </footer>
 </div>
 
@@ -1148,7 +1155,7 @@ async function lerPlanilha(){
 async function enviarParaPlanilha(){
   if(!API) return false;
   const r=await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},
-    body:JSON.stringify({acao:'gravar',materiais:mats,movimentos:movs,cadastros:cads,usuarios:usuarios})});
+    body:JSON.stringify({acao:'gravar',materiais:mats,movimentos:movs,cadastros:cads,usuarios:usuarios,series:listaSeries()})});
   const d=await r.json();
   if(!d||!d.ok) throw new Error(d&&d.erro?d.erro:'não foi possível gravar');
   pendenteEnvio=false;
@@ -2775,21 +2782,49 @@ function opcoesHTML(sel){
 function opcoesMat(sel){ $('#v_mat').innerHTML=opcoesHTML(sel); if(sel)$('#v_mat').value=sel; }
 
 /* ---- itens da requisição (saída com vários materiais) ---- */
-function linhaItem(materialId,qtd){
+function linhaItem(materialId,qtd,seriesEscolhidas){
   const d=document.createElement('div');
   d.className='item-row';
   d.innerHTML=`<div class="f"><label>Material</label><select class="i-mat">${opcoesHTML(materialId)}</select></div>
     <div class="f"><label>Quantidade</label><input type="number" class="i-qtd" min="0" step="1" value="${qtd||''}" placeholder="0"></div>
     <button class="x" type="button" title="remover este material">remover</button>
-    <div class="sld"></div>`;
+    <div class="sld"></div>
+    <div class="pecas"></div>`;
   d.querySelector('.x').onclick=()=>{ d.remove(); resumoItens(); };
-  d.querySelector('.i-mat').onchange=resumoItens;
+  d.querySelector('.i-mat').onchange=()=>{ pintaPecas(d); resumoItens(); };
   d.querySelector('.i-qtd').oninput=resumoItens;
+  d.dataset.series=(seriesEscolhidas||[]).join('\n');
+  pintaPecas(d);
   return d;
+}
+/* pergunta qual peça está saindo, quando o produto tem número de série */
+function pintaPecas(linha){
+  const cx=linha.querySelector('.pecas'); if(!cx) return;
+  const id=linha.querySelector('.i-mat').value;
+  const escolhidas=(linha.dataset.series||'').split('\n').filter(Boolean);
+  if(!id){ cx.innerHTML=''; return; }
+  const disp=[...new Set(seriesEmEstoque(id).concat(escolhidas))];
+  if(!disp.length){ cx.innerHTML=''; return; }
+  cx.innerHTML='<span class="lb">Qual peça está saindo? Clique no número de série</span>'
+    +disp.map(s=>'<button type="button" class="peca'+(escolhidas.indexOf(s)>=0?' on':'')+'" data-s="'+esc(s)+'">'+esc(s)+'</button>').join('')
+    +'<span class="contaPeca"></span>';
+  cx.querySelectorAll('.peca').forEach(b=>b.onclick=()=>{
+    const atual=(linha.dataset.series||'').split('\n').filter(Boolean);
+    const s=b.dataset.s, i=atual.indexOf(s);
+    if(i>=0) atual.splice(i,1); else atual.push(s);
+    linha.dataset.series=atual.join('\n');
+    b.classList.toggle('on',atual.indexOf(s)>=0);
+    linha.querySelector('.i-qtd').value=atual.length||'';
+    cx.querySelector('.contaPeca').textContent=atual.length?atual.length+' peça(s) escolhida(s)':'';
+    resumoItens();
+  });
+  const c=cx.querySelector('.contaPeca');
+  if(c) c.textContent=escolhidas.length?escolhidas.length+' peça(s) escolhida(s)':'';
 }
 function itensAtuais(){
   return [...$('#itens').querySelectorAll('.item-row')].map(d=>({
-    el:d, materialId:d.querySelector('.i-mat').value, qtd:num(d.querySelector('.i-qtd').value)
+    el:d, materialId:d.querySelector('.i-mat').value, qtd:num(d.querySelector('.i-qtd').value),
+    series:(d.dataset.series||'').split('\n').filter(Boolean)
   }));
 }
 /* saldo sem contar o que está sendo editado agora */
@@ -2861,6 +2896,56 @@ function bipar(codigo){
   return m;
 }
 /* ---- vários números de série numa entrada: 5 TVs, 5 seriais ---- */
+
+/* ============ rastreio por número de série ============ */
+function seriesDoMov(v){
+  return String(v&&v.series||'').split(/[\n;,]+/).map(x=>x.trim()).filter(Boolean);
+}
+/* séries que estão no estoque hoje: entraram e ainda não saíram */
+function seriesEmEstoque(materialId){
+  const dentro=[], fora=[];
+  movs.forEach(v=>{
+    if(v.materialId!==materialId) return;
+    const L=seriesDoMov(v);
+    if(v.tipo==='entrada') L.forEach(s=>dentro.push(s));
+    else L.forEach(s=>fora.push(s));
+  });
+  return dentro.filter(s=>{
+    const i=fora.indexOf(s);
+    if(i>=0){ fora.splice(i,1); return false; }
+    return true;
+  });
+}
+function historicoDaSerie(serie){
+  const alvo=String(serie).trim().toUpperCase();
+  return movs.filter(v=>seriesDoMov(v).some(s=>s.toUpperCase()===alvo))
+    .sort((a,b)=>String(a.data||'').localeCompare(String(b.data||'')));
+}
+/* uma linha por peça, para a planilha de backup */
+function listaSeries(){
+  const saida=[];
+  mats.forEach(m=>{
+    const vistos={};
+    movs.filter(v=>v.materialId===m.id).sort((a,b)=>String(a.data||'').localeCompare(String(b.data||'')))
+      .forEach(v=>{
+        seriesDoMov(v).forEach(s=>{
+          const k=s.toUpperCase();
+          if(v.tipo==='entrada'){
+            vistos[k]={serie:s,produto:m.nome,patrimonio:m.patrimonio||'',
+              entrouEm:v.data||'',documento:v.nf||'',fornecedor:v.origem||'',
+              saiuEm:'',os:'',destino:'',retirado:'',situacao:'em estoque'};
+          }else if(vistos[k]){
+            vistos[k].saiuEm=v.data||''; vistos[k].os=v.os||'';
+            vistos[k].destino=v.destino||''; vistos[k].retirado=v.retirado||'';
+            vistos[k].situacao='saiu';
+          }
+        });
+      });
+    Object.keys(vistos).forEach(k=>saida.push(vistos[k]));
+  });
+  return saida;
+}
+
 function seriesInformadas(){
   const t=$('#v_series'); if(!t) return [];
   return t.value.split(/[\n;,]+/).map(x=>x.trim()).filter(Boolean);
@@ -2954,7 +3039,7 @@ function openMov(tipo,materialId,mv){
   $('#itens').innerHTML='';
   if(tipo==='saida'){
     const grupo=editReq?movs.filter(v=>(v.reqId||v.id)===editReq):[];
-    if(grupo.length) grupo.forEach(v=>$('#itens').appendChild(linhaItem(v.materialId,num(v.qtd))));
+    if(grupo.length) grupo.forEach(v=>$('#itens').appendChild(linhaItem(v.materialId,num(v.qtd),seriesDoMov(v))));
     else $('#itens').appendChild(linhaItem(materialId||'',''));
   }
   pintaTipo();
@@ -2997,8 +3082,11 @@ async function salvarMov(){
   delete base.qtd; delete base.preco;
   const itens=itensAtuais().filter(it=>it.materialId&&it.qtd>0);
   if(!itens.length){toast('Adicione ao menos um material com quantidade.');return null;}
-  const soma={};
-  itens.forEach(it=>{ soma[it.materialId]=(soma[it.materialId]||0)+it.qtd; });
+  const soma={}, seriesPorMat={};
+  itens.forEach(it=>{
+    soma[it.materialId]=(soma[it.materialId]||0)+it.qtd;
+    (it.series||[]).forEach(x=>{ (seriesPorMat[it.materialId]=seriesPorMat[it.materialId]||[]).push(x); });
+  });
   /* matemática: só sai o que existe. Sem saldo, não registra — manda comprar. */
   const faltam=Object.keys(soma).filter(id=>soma[id]>saldoBase(id));
   if(faltam.length){
@@ -3024,7 +3112,8 @@ async function salvarMov(){
   if(editReq) movs=movs.filter(v=>(v.reqId||v.id)!==editReq);
   const marca=Date.now();
   const criados=Object.keys(soma).map((id,i)=>Object.assign({},base,{
-    id:'v-'+marca+'-'+i, reqId:req, tipo:'saida', materialId:id, qtd:soma[id], preco:0, usuario:(sessao?sessao.nome:'')
+    id:'v-'+marca+'-'+i, reqId:req, tipo:'saida', materialId:id, qtd:soma[id], preco:0,
+    series:(seriesPorMat[id]||[]).join('\n'), usuario:(sessao?sessao.nome:'')
   }));
   movs=movs.concat(criados);
   render();persist(['mov']);
