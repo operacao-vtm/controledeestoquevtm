@@ -495,6 +495,8 @@ body.claro input:disabled,body.claro select:disabled,body.claro textarea:disable
 .discreto button:hover{color:var(--marca)}
 .discreto button.perigo:hover{color:var(--c2)}
 .pecas{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:8px}
+.pecas-lista{flex:1 1 100%;display:flex;flex-wrap:wrap;gap:6px}
+.pecas .i-series{flex:1 1 100%;margin-top:8px;min-height:74px;font-size:13px;line-height:1.6}
 .pecas .lb{flex:1 1 100%;font-family:var(--mono);font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink2)}
 .peca{font-family:var(--mono);font-size:11.5px;padding:6px 11px;border-radius:999px;cursor:pointer;
   border:1px solid var(--hair);background:transparent;color:var(--ink2)}
@@ -523,7 +525,7 @@ table.tbl.lote tr.sem-preco td:first-child{box-shadow:inset 3px 0 0 var(--low)}
         <h1>Controle de estoque</h1>
         <p>Almoxarifado · Manutenção técnica</p>
         <div class="estado"><span class="ponto"></span><span id="estadoTxt">carregando…</span>
-          <span class="selo" title="versão deste programa">v73 · sem seletor</span></div>
+          <span class="selo" title="versão deste programa">v74 · série na saída</span></div>
       </div>
       <div class="direita">
         <span class="cracha" id="cracha">—</span>
@@ -728,7 +730,7 @@ table.tbl.lote tr.sem-preco td:first-child{box-shadow:inset 3px 0 0 var(--low)}
     <span class="discreto">
       <button id="json">exportar backup</button><b>·</b><button id="import">importar</button><b>·</b><button id="wipe" class="perigo">apagar tudo</button>
     </span>
-    <span class="versao" title="versão deste programa">v73 · sem seletor</span>
+    <span class="versao" title="versão deste programa">v74 · série na saída</span>
 </footer>
 </div>
 
@@ -2895,29 +2897,39 @@ function linhaItem(materialId,qtd,seriesEscolhidas){
   pintaPecas(d);
   return d;
 }
-/* pergunta qual peça está saindo, quando o produto tem número de série */
+/* pergunta qual peça está saindo: pastilhas do que está em estoque, e sempre um campo para digitar */
 function pintaPecas(linha){
   const cx=linha.querySelector('.pecas'); if(!cx) return;
   const id=linha.querySelector('.i-mat').value;
-  const escolhidas=(linha.dataset.series||'').split('\n').filter(Boolean);
   if(!id){ cx.innerHTML=''; return; }
-  const disp=[...new Set(seriesEmEstoque(id).concat(escolhidas))];
-  if(!disp.length){ cx.innerHTML=''; return; }
-  cx.innerHTML='<span class="lb">Qual peça está saindo? Clique no número de série</span>'
-    +disp.map(s=>'<button type="button" class="peca'+(escolhidas.indexOf(s)>=0?' on':'')+'" data-s="'+esc(s)+'">'+esc(s)+'</button>').join('')
+  const escolhidas=(linha.dataset.series||'').split('\n').map(x=>x.trim()).filter(Boolean);
+  const disp=[...new Set(seriesEmEstoque(id))].filter(s=>escolhidas.indexOf(s)<0);
+  const m=mat(id);
+  cx.innerHTML=
+    '<span class="lb">Números de série que estão saindo'+(disp.length?' — clique nos que saírem, ou digite abaixo':' — digite ou bipe um por linha')+'</span>'
+    +(disp.length?'<div class="pecas-lista">'+disp.map(s=>'<button type="button" class="peca" data-s="'+esc(s)+'">'+esc(s)+'</button>').join('')+'</div>':'')
+    +'<textarea class="i-series mono" rows="3" placeholder="'+(m&&m.sn?esc(m.sn):'Y5UTHX5L400062')+'&#10;um por linha">'+esc(escolhidas.join('\n'))+'</textarea>'
     +'<span class="contaPeca"></span>';
-  cx.querySelectorAll('.peca').forEach(b=>b.onclick=()=>{
-    const atual=(linha.dataset.series||'').split('\n').filter(Boolean);
-    const s=b.dataset.s, i=atual.indexOf(s);
-    if(i>=0) atual.splice(i,1); else atual.push(s);
-    linha.dataset.series=atual.join('\n');
-    b.classList.toggle('on',atual.indexOf(s)>=0);
-    linha.querySelector('.i-qtd').value=atual.length||'';
-    cx.querySelector('.contaPeca').textContent=atual.length?atual.length+' peça(s) escolhida(s)':'';
+
+  const area=cx.querySelector('.i-series');
+  const atualiza=()=>{
+    const L=area.value.split(/[\n;,]+/).map(x=>x.trim()).filter(Boolean);
+    linha.dataset.series=L.join('\n');
+    const q=linha.querySelector('.i-qtd');
+    if(L.length&&num(q.value)!==L.length){ q.value=L.length; }
+    const c=cx.querySelector('.contaPeca');
+    const repetidos=[...new Set(L.filter((x,i)=>L.indexOf(x)!==i))];
+    if(c) c.innerHTML=L.length
+      ? '<b>'+L.length+'</b> peça(s) informada(s)'+(repetidos.length?' · <b style="color:var(--zero)">repetido: '+esc(repetidos.join(', '))+'</b>':'')
+      : 'Sem número de série — a quantidade é a que você digitou.';
     resumoItens();
+  };
+  area.addEventListener('input',atualiza);
+  cx.querySelectorAll('.peca').forEach(b=>b.onclick=()=>{
+    area.value=(area.value.trim()?area.value.trim()+'\n':'')+b.dataset.s;
+    atualiza(); pintaPecas(linha);
   });
-  const c=cx.querySelector('.contaPeca');
-  if(c) c.textContent=escolhidas.length?escolhidas.length+' peça(s) escolhida(s)':'';
+  atualiza();
 }
 function itensAtuais(){
   return [...$('#itens').querySelectorAll('.item-row')].map(d=>({
