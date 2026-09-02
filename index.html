@@ -525,11 +525,12 @@ table.tbl.lote tr.sem-preco td:first-child{box-shadow:inset 3px 0 0 var(--low)}
         <h1>Controle de estoque</h1>
         <p>Almoxarifado · Manutenção técnica</p>
         <div class="estado"><span class="ponto"></span><span id="estadoTxt">carregando…</span>
-          <span class="selo" title="versão deste programa">v74 · série na saída</span></div>
+          <span class="selo" title="versão deste programa">v75 · acesso</span></div>
       </div>
       <div class="direita">
         <span class="cracha" id="cracha">—</span>
         <span class="tema"><button class="btn sm" id="temaEscuro" aria-pressed="true">Escuro</button><button class="btn sm" id="temaClaro" aria-pressed="false">Claro</button></span>
+        <button class="btn sm" id="backupAgora" title="envia todos os produtos e lançamentos para a planilha agora">Enviar para a planilha</button>
         <button class="btn sm" id="irPlanilha" title="abre a planilha de backup no Google">Planilha</button>
         <button class="btn sm" id="sair">Sair</button>
       </div>
@@ -725,12 +726,11 @@ table.tbl.lote tr.sem-preco td:first-child{box-shadow:inset 3px 0 0 var(--low)}
   <footer class="bot">
     <input type="file" id="jsonIn" accept="application/json,.json" style="display:none">
     <p>Os dados ficam nesta conta e sobem para a planilha. O backup em arquivo é a garantia extra.</p>
-    <button class="btn ghost sm" id="backupAgora" title="envia tudo para a planilha do Google agora">Backup na planilha</button>
     <button class="btn ghost sm" id="desfazer" disabled title="Volta o sistema ao estado anterior à última alteração">Desfazer alteração</button>
     <span class="discreto">
       <button id="json">exportar backup</button><b>·</b><button id="import">importar</button><b>·</b><button id="wipe" class="perigo">apagar tudo</button>
     </span>
-    <span class="versao" title="versão deste programa">v74 · série na saída</span>
+    <span class="versao" title="versão deste programa">v75 · acesso</span>
 </footer>
 </div>
 
@@ -912,7 +912,7 @@ table.tbl.lote tr.sem-preco td:first-child{box-shadow:inset 3px 0 0 var(--low)}
       <div class="f"><label for="listaUsuarios">Quem está usando</label>
         <select id="listaUsuarios"></select>
         <p class="hint" id="perfilResumo"></p></div>
-      <div class="f" style="margin-top:14px"><label for="loginSenha">Senha</label>
+      <div class="f" id="boxSenhaLogin" style="margin-top:14px"><label for="loginSenha">Senha</label>
         <input type="password" id="loginSenha" autocomplete="off" placeholder="digite a senha"></div>
       <p class="hint" id="loginAviso">Escolha o seu nome na lista e digite a senha.</p>
     </div>
@@ -942,7 +942,9 @@ table.tbl.lote tr.sem-preco td:first-child{box-shadow:inset 3px 0 0 var(--low)}
             <option value="consulta">Consulta</option>
           </select>
         </div>
-        <div class="f"><label for="u_senha">Senha</label><input id="u_senha" class="mono" autocomplete="off"></div>
+        <div class="f"><label for="u_senha">Senha</label>
+          <input type="password" id="u_senha" class="mono" autocomplete="new-password">
+          <button type="button" class="btn ghost sm" id="verSenha" style="margin-top:6px">Mostrar</button></div>
         <div class="f wide"><label for="u_obs">Observação</label><input id="u_obs" placeholder="setor, telefone, quando foi criado"></div>
       </div>
       <p class="hint" id="usuDica"></p>
@@ -1655,14 +1657,16 @@ function abreLogin(){
   pintaLogin(); escolhido=null; $('#loginSenha').value='';
   $('#listaUsuarios').value='';
   $('#loginAviso').style.color='';
-  $('#loginAviso').textContent='Escolha o seu nome na lista e digite a senha.';
+  $('#loginAviso').textContent='Escolha o seu nome na lista. Quem só consulta entra sem senha.';
+  const bs=$('#boxSenhaLogin'); if(bs) bs.style.display='';
   $('#scrimLogin').classList.add('on'); document.body.style.overflow='hidden';
 }
 function entrar(){
   const u=usuarios.find(x=>x.id===escolhido);
   if(!u){ $('#loginAviso').textContent='Escolha primeiro quem está usando.';
     $('#loginAviso').style.color='var(--low)'; $('#listaUsuarios').focus(); return; }
-  if(String($('#loginSenha').value)!==String(u.senha||'')){
+  /* quem só observa entra sem senha */
+  if(u.perfil!=='consulta' && String($('#loginSenha').value)!==String(u.senha||'')){
     $('#loginAviso').textContent='Senha incorreta para '+u.nome+'.';
     $('#loginAviso').style.color='var(--zero)'; return;
   }
@@ -1674,8 +1678,16 @@ function entrar(){
   $('#r_visao').value='cartoes'; descreveVisao(); gerar();
   toast('Bem-vindo, '+u.nome+' · '+PERFIS[u.perfil].rotulo);
 }
+function pedeSenha(){
+  const u=usuarios.find(x=>x.id===$('#listaUsuarios').value);
+  const semSenha=!!(u&&u.perfil==='consulta');
+  const box=$('#boxSenhaLogin');
+  if(box) box.style.display=semSenha?'none':'';
+  return !semSenha;
+}
 $('#listaUsuarios').addEventListener('change',()=>{
   escolhido=$('#listaUsuarios').value;
+  pedeSenha();
   descreveEscolhido();
   $('#loginAviso').style.color='';
   $('#loginAviso').textContent='Agora digite a senha e clique em Entrar.';
@@ -1714,13 +1726,23 @@ function openUsu(u){
 function closeUsu(){ $('#scrimUsu').classList.remove('on'); document.body.style.overflow=''; editUsu=null; }
 $('#usuClose').onclick=closeUsu;
 $('#scrimUsu').addEventListener('click',e=>{ if(e.target===$('#scrimUsu'))closeUsu(); });
-$('#u_perfil').addEventListener('change',()=>{ $('#usuDica').textContent=PERFIS[$('#u_perfil').value].resumo; });
+$('#verSenha').onclick=()=>{
+  const e=$('#u_senha'), b=$('#verSenha');
+  const mostrando=e.type==='text';
+  e.type=mostrando?'password':'text';
+  b.textContent=mostrando?'Mostrar':'Esconder';
+};
+$('#u_perfil').addEventListener('change',()=>{
+  /* perfil de consulta não usa senha */
+  const so=$('#u_perfil').value==='consulta';
+  $('#u_senha').placeholder=so?'não precisa de senha':'';
+ $('#usuDica').textContent=PERFIS[$('#u_perfil').value].resumo; });
 async function salvarUsu(){
   guardaAnterior(editUsu?'a edição do usuário':'o usuário criado');
   guardaAnterior(editUsu?'edição de usuário':'novo usuário');
   const nome=$('#u_nome').value.trim(), senha=$('#u_senha').value.trim(), perfil=$('#u_perfil').value;
   if(!nome){ toast('Informe o nome.'); return; }
-  if(!senha){ toast('Informe a senha.'); return; }
+  if(!senha&&perfil!=='consulta'){ toast('Informe a senha.'); return; }
   if(perfil==='senior'&&sessao.perfil!=='senior'){ toast('Só um administrador sênior cria outro sênior.'); return; }
   const admins=usuarios.filter(x=>x.id!==editUsu&&(x.perfil==='senior'||x.perfil==='junior'));
   if((perfil==='senior'||perfil==='junior')&&admins.length>=3){
@@ -2079,7 +2101,7 @@ function documentoUsuario(u){
   if(!u) return null;
   return fichaRegistro('Ficha do usuário — '+u.nome,
     'ficha-usuario-'+String(u.nome).replace(/[^A-Za-z0-9]+/g,'-').toLowerCase().slice(0,24),
-    [['Nome',u.nome],['Perfil',PERFIS[u.perfil].rotulo],['O que pode fazer',PERFIS[u.perfil].resumo],
+    [['Nome',u.nome],['Perfil',PERFIS[u.perfil].rotulo],['Senha','não é mostrada por segurança'],['O que pode fazer',PERFIS[u.perfil].resumo],
      ['Observação',u.obs],['Lançamentos feitos',movs.filter(v=>String(v.usuario||'').toUpperCase()===String(u.nome).toUpperCase()).length]],
     ['Ciente do acesso','Administrador responsável']);
 }
