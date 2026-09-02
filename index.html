@@ -525,7 +525,7 @@ table.tbl.lote tr.sem-preco td:first-child{box-shadow:inset 3px 0 0 var(--low)}
         <h1>Controle de estoque</h1>
         <p>Almoxarifado · Manutenção técnica</p>
         <div class="estado"><span class="ponto"></span><span id="estadoTxt">carregando…</span>
-          <span class="selo" title="versão deste programa">v75 · acesso</span></div>
+          <span class="selo" title="versão deste programa">v78 · planilha nova</span></div>
       </div>
       <div class="direita">
         <span class="cracha" id="cracha">—</span>
@@ -730,7 +730,7 @@ table.tbl.lote tr.sem-preco td:first-child{box-shadow:inset 3px 0 0 var(--low)}
     <span class="discreto">
       <button id="json">exportar backup</button><b>·</b><button id="import">importar</button><b>·</b><button id="wipe" class="perigo">apagar tudo</button>
     </span>
-    <span class="versao" title="versão deste programa">v75 · acesso</span>
+    <span class="versao" title="versão deste programa">v78 · planilha nova</span>
 </footer>
 </div>
 
@@ -1145,13 +1145,16 @@ function ask(msg,okLabel,naoLabel){
 
 /* ============ sincronização com a planilha do Google ============ */
 /* planilha oficial do almoxarifado — quem abrir o site já entra conectado */
-const API_PADRAO='https://script.google.com/macros/s/AKfycbyq7n0tnH0Q-jfIArNNVfMWeYn-iO0qlgDQ7dr_4_DLWPX5GQsx0NLSgCHF_fOdnCOo/exec';
+const API_PADRAO='https://script.google.com/macros/s/AKfycbwZuFk1RqHlodh-jP7dp_y8Fq1fMJla5A9Ml4pkdaomzNKS3oZ6M3C37vOlZZDb0nCJ/exec';
 let API=API_PADRAO;
 try{
   const guardado=localStorage.getItem('alm:api');
   /* endereço guardado só vale se for de outra planilha escolhida de propósito */
-  if(guardado&&guardado.indexOf('script.google.com')>=0) API=guardado;
-  else localStorage.setItem('alm:api',API_PADRAO);
+  /* o endereço embutido é a referência; um antigo guardado no aparelho não prevalece */
+  if(guardado&&guardado.indexOf('script.google.com')>=0&&guardado!==API_PADRAO){
+    localStorage.setItem('alm:api',API_PADRAO);
+  }
+  API=API_PADRAO;
 }catch(e){}
 let sincronizando=false;
 function pintaBotaoConflito(){
@@ -1246,7 +1249,22 @@ async function puxarDaPlanilha(){
     await enviarParaPlanilha();
     return true;
   }
-  /* só a planilha mudou (ou é a primeira troca): adota o que veio */
+  /* planilha vazia não é conflito: o daqui sobe e pronto */
+  if((!d.materiais||!d.materiais.length)&&(!d.movimentos||!d.movimentos.length)&&(mats.length||movs.length)){
+    statusSinc('A planilha está vazia — enviando os dados deste aparelho.','var(--low)');
+    await enviarParaPlanilha();
+    await store.set(K_SINC,assinatura(mats,movs,cads));
+    return true;
+  }
+  /* primeira conversa deste aparelho com a planilha, e os dois têm dados diferentes:
+     nada é substituído por conta própria — quem decide é você */
+  if(!ultima && (mats.length||movs.length)){
+    conflitoPendente={d:d,remoto:remoto,local:local};
+    statusSinc('Este aparelho e a planilha têm dados diferentes — clique em "Resolver diferença".','var(--zero)');
+    mostraConflito();
+    return false;
+  }
+  /* só a planilha mudou: adota o que veio */
   if(d.materiais&&d.materiais.length) mats=d.materiais;
   if(d.movimentos&&d.movimentos.length) movs=d.movimentos;
   if(d.cadastros&&d.cadastros.length) cads=d.cadastros;
@@ -1996,7 +2014,19 @@ $('#backupAgora').onclick=async()=>{
     const ok=await enviarParaPlanilha();
     toast(ok?'Backup enviado: '+mats.length+' produto(s) e '+movs.length+' lançamento(s) estão na planilha.'
             :'Não consegui enviar agora. Tente de novo em alguns instantes.');
-  }catch(err){ toast('Não consegui enviar: '+err.message); }
+  }catch(err){
+    const causa=String(err&&err.message||err);
+    let explica=causa;
+    if(/Failed to fetch|NetworkError|Load failed/i.test(causa))
+      explica=emMoldura()
+        ? 'o navegador bloqueou a conexão porque o programa está aberto dentro do chat. Abra o endereço publicado.'
+        : 'não foi possível alcançar o Apps Script. Confira se a implantação está como "Qualquer pessoa".';
+    if(/senha incorreta/i.test(causa)) explica='o script está pedindo senha e o site não tem a mesma configurada.';
+    if(/Unexpected token|JSON/i.test(causa)) explica='o endereço respondeu algo que não é do nosso script — provável implantação antiga ou endereço errado.';
+    $('#banner').innerHTML='<div class="banner">Não consegui enviar para a planilha: '+esc(explica)
+      +'<br><span style="opacity:.7">detalhe técnico: '+esc(causa)+'</span></div>';
+    toast('Não consegui enviar. Veja o aviso no alto da tela.');
+  }
   b.disabled=false; b.textContent=antes;
 };
 $('#irPlanilha').onclick=()=>{
@@ -2467,7 +2497,10 @@ async function load(){
       await puxarDaPlanilha();
       statusSinc('Planilha sincronizada às '+horaAgora()+'.','var(--ok)');
     }catch(err){
-      statusSinc('Não consegui ler a planilha ('+esc(err.message)+') — mostrando o que está neste aparelho.','var(--zero)');
+      const c=String(err&&err.message||err);
+      statusSinc('Não consegui falar com a planilha: '+esc(/Failed to fetch|Load failed/i.test(c)
+        ? (emMoldura()?'bloqueado dentro do chat — use o endereço publicado':'sem acesso ao Apps Script')
+        : c)+'. Mostrando o que está neste aparelho.','var(--zero)');
     }
     sincronizando=false;
   }
