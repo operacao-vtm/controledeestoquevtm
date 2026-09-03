@@ -507,12 +507,14 @@ body.claro input:disabled,body.claro select:disabled,body.claro textarea:disable
 .aviso-lote{background:var(--tn-low);border-left:3px solid var(--low);border-radius:8px;padding:12px 14px;
   font-size:13.5px;color:var(--ink)}
 .aviso-lote b{color:var(--low)}
-table.tbl.lote input,table.tbl.lote select{min-height:38px;padding:7px 9px;font-size:13.5px;border-radius:8px;width:100%;min-width:96px}
+table.tbl.lote input[type=checkbox]{min-height:0;width:17px;height:17px;accent-color:var(--marca);cursor:pointer}
+table.tbl.lote input:not([type=checkbox]),table.tbl.lote select{min-height:38px;padding:7px 9px;font-size:13.5px;border-radius:8px;width:100%;min-width:96px}
 table.tbl.lote td{padding:7px 8px}
 table.tbl.lote tr.sem-preco td:first-child{box-shadow:inset 3px 0 0 var(--low)}
 .acoes-lote{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px}
 .acoes-lote .hint{margin:0}
-@media (max-width:700px){ table.tbl.lote input,table.tbl.lote select{min-width:80px} }
+@media (max-width:700px){ table.tbl.lote input[type=checkbox]{min-height:0;width:17px;height:17px;accent-color:var(--marca);cursor:pointer}
+table.tbl.lote input:not([type=checkbox]),table.tbl.lote select{min-width:80px} }
 </style>
 
 <div class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -525,7 +527,7 @@ table.tbl.lote tr.sem-preco td:first-child{box-shadow:inset 3px 0 0 var(--low)}
         <h1>Controle de estoque</h1>
         <p>Almoxarifado · Manutenção técnica</p>
         <div class="estado"><span class="ponto"></span><span id="estadoTxt">carregando…</span>
-          <span class="selo" title="versão deste programa">v78 · planilha nova</span></div>
+          <span class="selo" title="versão deste programa">v80 · excluir</span></div>
       </div>
       <div class="direita">
         <span class="cracha" id="cracha">—</span>
@@ -730,7 +732,7 @@ table.tbl.lote tr.sem-preco td:first-child{box-shadow:inset 3px 0 0 var(--low)}
     <span class="discreto">
       <button id="json">exportar backup</button><b>·</b><button id="import">importar</button><b>·</b><button id="wipe" class="perigo">apagar tudo</button>
     </span>
-    <span class="versao" title="versão deste programa">v78 · planilha nova</span>
+    <span class="versao" title="versão deste programa">v80 · excluir</span>
 </footer>
 </div>
 
@@ -748,7 +750,9 @@ table.tbl.lote tr.sem-preco td:first-child{box-shadow:inset 3px 0 0 var(--low)}
         <div class="f wide tripla">
           <div class="f"><label for="m_patrimonio">Nº de patrimônio</label><input id="m_patrimonio" class="mono" placeholder="etiqueta da VTM — pode bipar"></div>
           <div class="f"><label for="m_ean">Código de barras do fabricante</label><input id="m_ean" class="mono" placeholder="bipe a embalagem"></div>
-          <div class="f"><label for="m_sn">Nº de série (S/N)</label><input id="m_sn" class="mono" placeholder="quando a peça tiver"></div>
+          <div class="f"><label for="m_sn">Nºs de série (S/N) — um por linha</label>
+            <textarea id="m_sn" rows="3" class="mono" placeholder="039-000015471&#10;039-000015472&#10;um por linha"></textarea>
+            <p class="hint" id="contaSnMat" style="margin:6px 0 0"></p></div>
         </div>
         <div class="f wide tripla">
           <div class="f"><label for="m_unidade">Unidade</label>
@@ -772,7 +776,7 @@ table.tbl.lote tr.sem-preco td:first-child{box-shadow:inset 3px 0 0 var(--low)}
         </div>
         <div class="f wide"><label for="m_obs">Observação</label><textarea id="m_obs"></textarea></div>
       </div>
-      <p class="hint" id="dicaMat">A quantidade já existente vira automaticamente uma entrada de inventário inicial, para o saldo nascer certo. Depois disso, o saldo só muda por entrada ou saída.</p>
+      <p class="hint" id="dicaMat">A quantidade já existente vira uma entrada de inventário inicial. Se informar os números de série, a quantidade se ajusta a eles. Depois disso, o saldo só muda por entrada ou saída.</p>
     </div>
     <div class="sheet-foot">
 <button class="btn" id="matSalvar" style="background:var(--brand);color:#FFFFFF">Salvar</button>
@@ -1618,8 +1622,8 @@ let usuarios=[], sessao=null, editUsu=null;
 const PERFIS={
   senior:{rotulo:'Administrador sênior',lancar:1,cadastrar:1,excluir:1,usuarios:1,exportar:1,planilha:1,
     resumo:'Faz tudo, inclusive excluir registros e administrar usuários.'},
-  junior:{rotulo:'Administrador júnior',lancar:1,cadastrar:1,excluir:0,usuarios:1,exportar:1,planilha:1,
-    resumo:'Lança, cadastra, imprime e administra usuários. Não pode excluir nada da base.'},
+  junior:{rotulo:'Administrador júnior',lancar:1,cadastrar:1,excluir:1,usuarios:1,exportar:1,planilha:1,
+    resumo:'Lança, cadastra, imprime, exclui e administra usuários.'},
   diretoria:{rotulo:'Diretoria',lancar:0,cadastrar:0,excluir:0,usuarios:0,exportar:1,planilha:0,
     resumo:'Emite relatórios: ver, baixar, imprimir e compartilhar. Não lança nem altera dados.'},
   consulta:{rotulo:'Consulta',lancar:0,cadastrar:0,excluir:0,usuarios:0,exportar:0,planilha:0,
@@ -2418,11 +2422,13 @@ function pintaCompletar(){
     </div>
     <div class="tblbox" style="margin-top:12px"><table class="tbl lote">
       <thead><tr>
+        ${pode('excluir')?'<th class="ctr" style="width:38px"><input type="checkbox" id="loteTodos" title="marcar todos"></th>':''}
         <th class="esq">Produto</th><th class="ctr">Un</th><th class="ctr">Saldo</th>
         <th class="ctr">Mínimo</th><th class="ctr">Preço unitário</th>
         <th class="ctr">Localização</th><th class="ctr">Fornecedor</th>
       </tr></thead>
       <tbody>${L.map(m=>`<tr data-id="${m.id}" class="${num(m.preco)?'':'sem-preco'}">
+        ${pode('excluir')?'<td class="ctr"><input type="checkbox" class="l-sel"></td>':''}
         <td class="esq">${esc(m.nome)}</td>
         <td class="ctr">${esc(m.unidade||'')}</td>
         <td class="ctr">${saldo(m.id)}</td>
@@ -2435,6 +2441,7 @@ function pintaCompletar(){
     <div class="acoes-lote">
       <button class="btn" id="loteSalvar" style="background:var(--marca);border-color:var(--marca);color:#fff">Salvar todos</button>
       <button class="btn ghost" id="loteImprimir">Imprimir a lista</button>
+      ${pode('excluir')?'<button class="btn ghost danger" id="loteExcluir">Excluir selecionados</button>':''}
       <span class="hint" id="loteConta"></span>
     </div>`;
 
@@ -2464,6 +2471,41 @@ function pintaCompletar(){
     await persist(['mat']);
     render(); pintaCompletar();
     toast(mudou+' produto(s) atualizado(s). Se errar, use Desfazer no rodapé.');
+  };
+  const marcados=()=>[...$('#gridMat').querySelectorAll('tbody tr')].filter(tr=>{
+    const c=tr.querySelector('.l-sel'); return c&&c.checked; });
+  const todos=$('#loteTodos');
+  if(todos) todos.onclick=()=>{
+    $('#gridMat').querySelectorAll('.l-sel').forEach(c=>{c.checked=todos.checked;});
+    contaMarcados();
+  };
+  function contaMarcados(){
+    const b=$('#loteExcluir'); if(!b) return;
+    const n=marcados().length;
+    b.textContent=n?'Excluir '+n+' selecionado(s)':'Excluir selecionados';
+    b.disabled=!n;
+  }
+  $('#gridMat').querySelectorAll('.l-sel').forEach(c=>c.addEventListener('change',contaMarcados));
+  contaMarcados();
+
+  const bx=$('#loteExcluir');
+  if(bx) bx.onclick=async()=>{
+    const linhas=marcados();
+    if(!linhas.length){ toast('Marque os produtos que quer excluir.'); return; }
+    const ids=linhas.map(tr=>tr.dataset.id);
+    const nomes=ids.map(id=>{const m=mat(id);return m?m.nome:id;});
+    const lanc=movs.filter(v=>ids.indexOf(v.materialId)>=0).length;
+    const ok=await ask('Excluir '+ids.length+' produto(s)?\n\n'+nomes.slice(0,8).join('\n')
+      +(nomes.length>8?'\n… e mais '+(nomes.length-8):'')
+      +(lanc?'\n\nIsso apaga também '+lanc+' lançamento(s) de entrada e saída desses produtos.':'')
+      +'\n\nSe errar, use Desfazer no rodapé.','Excluir');
+    if(!ok) return;
+    guardaAnterior('a exclusão de '+ids.length+' produto(s)');
+    mats=mats.filter(m=>ids.indexOf(m.id)<0);
+    movs=movs.filter(v=>ids.indexOf(v.materialId)<0);
+    await persist(['mat','mov']);
+    render(); pintaCompletar();
+    toast(ids.length+' produto(s) excluído(s)'+(lanc?' e '+lanc+' lançamento(s)':'')+'. Desfazer está no rodapé.');
   };
   $('#loteImprimir').onclick=()=>{
     const R={titulo:'Cadastro dos produtos — o que falta preencher',arquivo:'cadastro-produtos-pendencias',
@@ -2822,16 +2864,32 @@ function montaLocalProduto(valor){
     else { campo.style.display='none'; campo.value=sel.value; }
   };
 }
+function seriesDoProduto(){
+  const t=$('#m_sn'); if(!t) return [];
+  return t.value.split(/[\n;,]+/).map(x=>x.trim()).filter(Boolean);
+}
+function contaSnMat(){
+  const c=$('#contaSnMat'); if(!c) return;
+  const L=seriesDoProduto();
+  const q=$('#m_inicial');
+  if(!L.length){ c.textContent='Se cada peça tem número de série, informe um por linha — a quantidade se ajusta sozinha.'; return; }
+  const repetidos=[...new Set(L.filter((x,i)=>L.indexOf(x)!==i))];
+  c.innerHTML='<b>'+L.length+'</b> peça(s) com número de série'
+    +(repetidos.length?' · <b style="color:var(--zero)">repetido: '+esc(repetidos.join(', '))+'</b>':'');
+  if(q&&!editMat&&num(q.value)!==L.length) q.value=L.length;
+}
+(function(){ const t=document.getElementById('m_sn'); if(t) t.addEventListener('input',contaSnMat); })();
 function openMat(m){
   if(!pode('cadastrar')) return barra('Seu perfil não permite cadastrar produtos.');
   editMat=m?m.id:null;
   $('#matTitle').textContent=m?'Editar produto':'Novo produto';
   $('#boxInicial').style.display=m?'none':'';
   $('#m_inicial').value='';
+  contaSnMat();
   const cx=$('#semelhantes'); if(cx)cx.innerHTML='';
   $('#dicaMat').textContent=m
     ? 'O saldo deste produto vem dos movimentos. Para corrigir, registre uma entrada ou uma saída.'
-    : 'A quantidade já existente vira automaticamente uma entrada de inventário inicial, para o saldo nascer certo.';
+    : 'A quantidade já existente vira uma entrada de inventário inicial. Se informar os números de série, a quantidade se ajusta a eles.';
   $('#matDel').style.display=(m&&pode('excluir'))?'':'none';
   MF.forEach(([el,k])=>{$('#'+el).value=m?(m[k]===0?'':m[k]||''):'';});
   campoDoUsuario('m_registrador', m?m.registrador:'');
@@ -2888,6 +2946,7 @@ async function salvarMat(){
     if(inicial>0){
       movs.push({id:'v-'+Date.now(),tipo:'entrada',materialId:o.id,qtd:inicial,data:agora(),
         origem:'Inventário inicial',nf:'',preco:o.preco,recebido:o.registrador||'',motivo:'inicial',
+        series:seriesDoProduto().join('\n'),
         obs:'Quantidade existente no momento do cadastro do produto.'});
     }
   }
@@ -2908,7 +2967,8 @@ function limparFormMat(){
   editMat=null;
   $('#matTitle').textContent='Novo produto';
   MF.forEach(([el])=>{const e=$('#'+el); if(e&&el!=='m_registrador')e.value='';});
-  $('#m_inicial').value=''; $('#boxInicial').style.display='';
+  $('#m_inicial').value='';
+  contaSnMat(); $('#boxInicial').style.display='';
   $('#semelhantes').innerHTML=''; $('#matDel').style.display='none';
   $('#m_unidade').value='UN'; $('#m_nome').focus();
 }
