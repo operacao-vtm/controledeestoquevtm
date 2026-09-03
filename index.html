@@ -2417,8 +2417,9 @@ function pintaCompletar(){
 
   $('#gridMat').innerHTML=`
     <div class="aviso-lote">
-      <b>${faltando}</b> de <b>${L.length}</b> produto(s) ainda sem preço. Preencha aqui e salve tudo de uma vez —
-      o preço é o que alimenta o valor do estoque e o pedido de compra.
+      <b>${faltando}</b> de <b>${L.length}</b> produto(s) ainda sem preço. Preencha e salve tudo de uma vez.
+      Em <b>contagem real</b> digite o que você contou na prateleira — o sistema lança o ajuste e o saldo passa a ser esse.
+      ${pode('excluir')?'Para tirar um produto do estoque, use o <b>excluir</b> no fim da linha.':''}
     </div>
     <div class="tblbox" style="margin-top:12px"><table class="tbl lote">
       <thead><tr>
@@ -2426,6 +2427,7 @@ function pintaCompletar(){
         <th class="esq">Produto</th><th class="ctr">Un</th><th class="ctr">Saldo</th>
         <th class="ctr">Mínimo</th><th class="ctr">Preço unitário</th>
         <th class="ctr">Localização</th><th class="ctr">Fornecedor</th>
+        <th class="ctr">Contagem real</th><th class="ctr"></th>
       </tr></thead>
       <tbody>${L.map(m=>`<tr data-id="${m.id}" class="${num(m.preco)?'':'sem-preco'}">
         ${pode('excluir')?'<td class="ctr"><input type="checkbox" class="l-sel"></td>':''}
@@ -2436,6 +2438,8 @@ function pintaCompletar(){
         <td class="ctr"><input type="number" class="l-preco" min="0" step="0.01" value="${num(m.preco)||''}" placeholder="0,00"></td>
         <td class="ctr"><select class="l-local">${opcoes(locais,m.local)}</select></td>
         <td class="ctr"><select class="l-forn">${opcoes(forns,m.fornecedor)}</select></td>
+        <td class="ctr"><input type="number" class="l-conta" min="0" step="1" placeholder="${saldo(m.id)}"></td>
+        <td class="ctr">${pode('excluir')?'<button class="btn ghost sm danger" data-del="'+m.id+'">excluir</button>':''}</td>
       </tr>`).join('')}</tbody>
     </table></div>
     <div class="acoes-lote">
@@ -2452,9 +2456,25 @@ function pintaCompletar(){
   $('#gridMat').querySelectorAll('.l-preco').forEach(e=>e.addEventListener('input',conta));
   conta();
 
+  /* excluir produto direto da lista */
+  $('#gridMat').querySelectorAll('button[data-del]').forEach(b=>b.onclick=async()=>{
+    const m=mat(b.dataset.del); if(!m) return;
+    if(!pode('excluir')) return barra('Seu perfil não permite excluir.');
+    const n=movs.filter(v=>v.materialId===m.id).length;
+    const ok=await ask('Excluir o produto "'+m.nome+'"'+(n?' e os '+n+' lançamento(s) dele':'')+
+      '? O saldo deixa de existir. Se errar, use Desfazer no rodapé.','Excluir');
+    if(!ok) return;
+    guardaAnterior('a exclusão de '+m.nome);
+    mats=mats.filter(x=>x.id!==m.id);
+    movs=movs.filter(v=>v.materialId!==m.id);
+    await persist(['mat','mov']);
+    render(); pintaCompletar();
+    toast('Produto excluído.');
+  });
+
   $('#loteSalvar').onclick=async()=>{
     guardaAnterior('o preenchimento em lote');
-    let mudou=0;
+    let mudou=0, ajustes=0;
     [...$('#gridMat').querySelectorAll('tbody tr')].forEach(tr=>{
       const i=mats.findIndex(x=>x.id===tr.dataset.id); if(i<0)return;
       const novo={ minimo:num(tr.querySelector('.l-min').value),
@@ -2467,10 +2487,27 @@ function pintaCompletar(){
         mats[i]=Object.assign({},antes,novo); mudou++;
       }
     });
-    if(!mudou){ toast('Nada mudou — não havia o que salvar.'); return; }
-    await persist(['mat']);
+    /* contagem real: gera lançamento de ajuste, para o saldo continuar vindo dos movimentos */
+    [...$('#gridMat').querySelectorAll('tbody tr')].forEach(tr=>{
+      const campo=tr.querySelector('.l-conta');
+      if(!campo||campo.value==='') return;
+      const m=mat(tr.dataset.id); if(!m) return;
+      const contado=num(campo.value), atual=saldo(m.id), dif=contado-atual;
+      if(!dif) return;
+      movs.push({ id:'v-aj-'+Date.now()+'-'+ajustes,
+        tipo:dif>0?'entrada':'saida', materialId:m.id, qtd:Math.abs(dif), data:agora(),
+        origem:dif>0?'Ajuste de inventário':'', retirado:dif<0?'Ajuste de inventário':'',
+        motivo:'inicial', justifica:'Contagem física: de '+atual+' para '+contado,
+        preco:dif>0?num(m.preco):0, recebido:dif>0?(sessao?sessao.nome:''):'',
+        entregue:dif<0?(sessao?sessao.nome:''):'',
+        obs:'Ajuste feito na tela de completar cadastros.', usuario:(sessao?sessao.nome:'') });
+      ajustes++;
+    });
+    if(!mudou&&!ajustes){ toast('Nada mudou — não havia o que salvar.'); return; }
+    await persist(['mat','mov']);
     render(); pintaCompletar();
-    toast(mudou+' produto(s) atualizado(s). Se errar, use Desfazer no rodapé.');
+    toast([mudou?mudou+' produto(s) atualizado(s)':'',ajustes?ajustes+' ajuste(s) de estoque':'']
+      .filter(Boolean).join(' e ')+'. Se errar, use Desfazer no rodapé.');
   };
   const marcados=()=>[...$('#gridMat').querySelectorAll('tbody tr')].filter(tr=>{
     const c=tr.querySelector('.l-sel'); return c&&c.checked; });
