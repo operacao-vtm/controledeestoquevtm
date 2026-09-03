@@ -55,12 +55,16 @@ h1{font-size:clamp(23px,3.9vw,35px);line-height:1.08;margin:0;font-weight:700;le
   .principios{font-size:9.5px;letter-spacing:.1em;line-height:1.9}
 }
 
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:22px 0 0}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:12px;margin:22px 0 0}
 .kpi{flex:1 1 150px;background:var(--panel);padding:16px 16px 14px;border:1px solid var(--hair);border-radius:var(--r-cartao);cursor:pointer;transition:border-color .15s,box-shadow .15s}
 .kpi:hover{border-color:var(--bar3);transform:translateY(-1px)}
 .kpi:focus-visible{outline:2px solid var(--bar3);outline-offset:2px}
 .kpi small::after{content:" ›";color:var(--ink3)}
-.kpi b{display:block;font-family:var(--mono);font-size:34px;line-height:1.05;font-weight:600;letter-spacing:-.03em;color:var(--num)}
+.kpi b{display:block;font-family:var(--mono);line-height:1.06;font-weight:600;letter-spacing:-.03em;
+  color:var(--num);white-space:nowrap;overflow:hidden;text-overflow:clip;
+  font-size:clamp(21px,2.4vw,34px)}
+.kpi b[data-tam="medio"]{font-size:clamp(19px,1.9vw,26px)}
+.kpi b[data-tam="longo"]{font-size:clamp(16px,1.55vw,22px);letter-spacing:-.02em}
 .kpi small{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink2)}
 .kpi.is-low{border-color:var(--marca)}
 .kpi.is-low span::before,.kpi.is-zero span::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--marca);margin-right:6px;vertical-align:middle} .kpi.is-low b{color:var(--low)}
@@ -324,9 +328,11 @@ table.tbl tfoot td{color:var(--num);background:var(--panel2);border-top:2px soli
   .wrap{padding:0 12px 64px}
   .hero-in{padding:22px 14px 20px}
   h1 span{font-size:.46em;margin-top:9px}
-  .kpis{gap:8px}
+  .kpis{gap:8px;grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
   .kpi{flex:1 1 calc(50% - 4px);padding:10px 11px 11px}
-  .kpi b{font-size:21px}
+  .kpi b{font-size:clamp(19px,5.4vw,25px)}
+  .kpi b[data-tam="medio"]{font-size:clamp(17px,4.6vw,21px)}
+  .kpi b[data-tam="longo"]{font-size:clamp(15px,4vw,19px)}
   .kpi small{font-size:9px}
   .toolbar{padding:10px 0;gap:8px}
   .tabs{width:100%}
@@ -385,7 +391,7 @@ table.tbl tfoot td{color:var(--num);background:var(--panel2);border-top:2px soli
   .toast{left:12px;right:12px;transform:none;text-align:center}
 }
 @media (max-width:400px){
-  .kpi{flex:1 1 100%}
+  .kpis{grid-template-columns:1fr 1fr}
   .toolbar>.btn{flex:1 1 100%}
   .filtros .fgrid{grid-template-columns:1fr}
 }
@@ -532,7 +538,7 @@ table.tbl.lote input:not([type=checkbox]),table.tbl.lote select{min-width:80px} 
         <h1>Controle de estoque</h1>
         <p>Almoxarifado · Manutenção técnica</p>
         <div class="estado"><span class="ponto"></span><span id="estadoTxt">carregando…</span>
-          <span class="selo" title="versão deste programa">v85 · preço do cadastro</span></div>
+          <span class="selo" title="versão deste programa">v86 · números que caibam</span></div>
       </div>
       <div class="direita">
         <span class="cracha" id="cracha">—</span>
@@ -737,7 +743,7 @@ table.tbl.lote input:not([type=checkbox]),table.tbl.lote select{min-width:80px} 
     <span class="discreto">
       <button id="json">exportar backup</button><b>·</b><button id="import">importar</button><b>·</b><button id="wipe" class="perigo">apagar tudo</button>
     </span>
-    <span class="versao" title="versão deste programa">v85 · preço do cadastro</span>
+    <span class="versao" title="versão deste programa">v86 · números que caibam</span>
 </footer>
 </div>
 
@@ -2753,6 +2759,10 @@ async function persist(quais){
 }
 
 /* ============ indicadores ============ */
+function tamanhoNum(v){
+  const n=String(v).length;
+  return n>10?'longo':(n>6?'medio':'curto');
+}
 function kpis(){
   const baixos=mats.filter(m=>nivel(m)==='baixo').length;
   const zerados=mats.filter(m=>nivel(m)==='zerado').length;
@@ -2771,7 +2781,7 @@ function kpis(){
     ['Valor em estoque',brl(valor),'','Ver o valor de cada material em estoque',{lado:'estoque',visao:'posicao',f:{}}]
   ];
   $('#kpis').innerHTML=rows.map(([l,v,c,titulo,spec])=>
-    `<div class="kpi ${c}" tabindex="0" role="button" title="${esc(titulo)}" data-rel="${esc(JSON.stringify(spec))}"><b>${v}</b><small>${l}</small></div>`).join('');
+    `<div class="kpi ${c}" tabindex="0" role="button" title="${esc(titulo)}" data-rel="${esc(JSON.stringify(spec))}"><b data-tam="${tamanhoNum(v)}">${v}</b><small>${l}</small></div>`).join('');
 }
 function abrirRelatorio(spec){
   aba('tabRel');
