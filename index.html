@@ -515,6 +515,11 @@ table.tbl.lote tr.sem-preco td:first-child{box-shadow:inset 3px 0 0 var(--low)}
 .acoes-lote .hint{margin:0}
 @media (max-width:700px){ table.tbl.lote input[type=checkbox]{min-height:0;width:17px;height:17px;accent-color:var(--marca);cursor:pointer}
 table.tbl.lote input:not([type=checkbox]),table.tbl.lote select{min-width:80px} }
+.aviso-filtro{background:var(--tn-low);border-left:3px solid var(--low);border-radius:8px;
+  padding:10px 13px;margin-top:14px;font-size:13px;color:var(--ink)}
+.aviso-filtro b{color:var(--low)}
+.aviso-filtro button{background:none;border:0;padding:0 0 0 6px;font:inherit;color:var(--marca);
+  cursor:pointer;text-decoration:underline;text-underline-offset:3px}
 </style>
 
 <div class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -527,7 +532,7 @@ table.tbl.lote input:not([type=checkbox]),table.tbl.lote select{min-width:80px} 
         <h1>Controle de estoque</h1>
         <p>Almoxarifado · Manutenção técnica</p>
         <div class="estado"><span class="ponto"></span><span id="estadoTxt">carregando…</span>
-          <span class="selo" title="versão deste programa">v80 · excluir</span></div>
+          <span class="selo" title="versão deste programa">v82 · histórico claro</span></div>
       </div>
       <div class="direita">
         <span class="cracha" id="cracha">—</span>
@@ -732,7 +737,7 @@ table.tbl.lote input:not([type=checkbox]),table.tbl.lote select{min-width:80px} 
     <span class="discreto">
       <button id="json">exportar backup</button><b>·</b><button id="import">importar</button><b>·</b><button id="wipe" class="perigo">apagar tudo</button>
     </span>
-    <span class="versao" title="versão deste programa">v80 · excluir</span>
+    <span class="versao" title="versão deste programa">v82 · histórico claro</span>
 </footer>
 </div>
 
@@ -772,6 +777,9 @@ table.tbl.lote input:not([type=checkbox]),table.tbl.lote select{min-width:80px} 
           <input id="m_link" class="mono" placeholder="https://…"></div>
         <div class="f wide dupla">
           <div class="f"><label for="m_registrador">Registrado por (automático)</label><input id="m_registrador" list="lista-almoxarife" placeholder="quem está cadastrando"></div>
+          <div class="f" id="boxAjuste" style="display:none"><label for="m_ajuste">Quantidade real em estoque</label>
+            <input type="number" id="m_ajuste" min="0" step="1">
+            <p class="hint" id="dicaAjuste" style="margin:6px 0 0"></p></div>
           <div class="f" id="boxInicial"><label for="m_inicial">Quantidade já existente em estoque</label><input type="number" id="m_inicial" min="0" step="1" placeholder="0"></div>
         </div>
         <div class="f wide"><label for="m_obs">Observação</label><textarea id="m_obs"></textarea></div>
@@ -2259,8 +2267,18 @@ function pintaHistorico(){
     return [m?m.nome:'',v.origem,v.nf,v.recebido,v.retirado,v.entregue,v.destino,v.os,
             v.patrimonio,v.ean,v.usuario,v.obs].join(' ').toLowerCase().includes(q);
   });
+  const escondidos=movs.length-L.length;
+  const avisoFiltro=escondidos>0
+    ? '<div class="aviso-filtro"><b>'+escondidos+'</b> lançamento(s) fora do que você está vendo'
+      +(histFiltro!=='todos'?' — o filtro está em <b>'+(histFiltro==='entrada'?'só entradas':'só saídas')+'</b>':'')
+      +(q?' e a busca está em <b>'+esc(q)+'</b>':'')
+      +' <button type="button" id="histTudo">mostrar tudo</button></div>'
+    : '';
   if(!L.length){
-    $('#histOut').innerHTML='<div class="empty"><p>'+(movs.length?'Nenhum lançamento atende ao que você procurou.':'Nenhum lançamento registrado ainda.')+'</p></div>';
+    $('#histOut').innerHTML=avisoFiltro+'<div class="empty"><p>'
+      +(movs.length?'Nenhum lançamento atende ao filtro. Há '+movs.length+' lançamento(s) registrado(s).':'Nenhum lançamento registrado ainda.')
+      +'</p></div>';
+    ligaMostrarTudo();
     return;
   }
   const linhas=L.map(v=>{
@@ -2284,11 +2302,21 @@ function pintaHistorico(){
   const totalEnt=L.filter(v=>v.tipo==='entrada').reduce((t,v)=>t+num(v.qtd),0);
   const totalSai=L.filter(v=>v.tipo==='saida').reduce((t,v)=>t+num(v.qtd),0);
   const valorEnt=L.filter(v=>v.tipo==='entrada').reduce((t,v)=>t+num(v.qtd)*num(v.preco),0);
-  $('#histOut').innerHTML=`<div class="tblbox" style="margin-top:14px"><table class="tbl">
+  $('#histOut').innerHTML=avisoFiltro+`<div class="tblbox" style="margin-top:14px"><table class="tbl">
     <thead><tr>${['Data','Tipo','Produto','Qtd','Un','De quem / para quem','Documento / destino','OS','Valor','Lançado por',''].map(c=>'<th class="ctr">'+c+'</th>').join('')}</tr></thead>
     <tbody>${linhas}</tbody>
     <tfoot><tr><td colspan="11">${L.length} lançamento(s) &nbsp;·&nbsp; entrou <b>${totalEnt}</b> &nbsp;·&nbsp; saiu <b>${totalSai}</b> &nbsp;·&nbsp; valor das entradas <b>${brl(valorEnt)}</b></td></tr></tfoot>
   </table></div>`;
+  ligaMostrarTudo();
+}
+function ligaMostrarTudo(){
+  const b=$('#histTudo'); if(!b) return;
+  b.onclick=()=>{
+    histFiltro='todos';
+    [...$('#histChips').children].forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.h==='todos')));
+    const busca=$('#histBusca'); if(busca) busca.value='';
+    pintaHistorico();
+  };
 }
 $('#histChips').addEventListener('click',e=>{
   const b=e.target.closest('.chip'); if(!b)return;
@@ -2925,11 +2953,22 @@ function openMat(m){
   contaSnMat();
   const cx=$('#semelhantes'); if(cx)cx.innerHTML='';
   $('#dicaMat').textContent=m
-    ? 'O saldo deste produto vem dos movimentos. Para corrigir, registre uma entrada ou uma saída.'
+    ? 'O saldo vem dos movimentos. Para corrigir de uma vez, use o campo "Quantidade real em estoque" acima.'
     : 'A quantidade já existente vira uma entrada de inventário inicial. Se informar os números de série, a quantidade se ajusta a eles.';
   $('#matDel').style.display=(m&&pode('excluir'))?'':'none';
   MF.forEach(([el,k])=>{$('#'+el).value=m?(m[k]===0?'':m[k]||''):'';});
   campoDoUsuario('m_registrador', m?m.registrador:'');
+  /* ao editar, o ajuste de contagem fica aqui mesmo */
+  const bxA=$('#boxAjuste'), cA=$('#m_ajuste');
+  if(bxA&&cA){
+    const podeAjustar=!!m&&pode('excluir');
+    bxA.style.display=podeAjustar?'':'none';
+    if(podeAjustar){
+      cA.value=''; cA.placeholder=String(saldo(m.id));
+      $('#dicaAjuste').textContent='Saldo atual: '+saldo(m.id)+' '+(m.unidade||'')
+        +'. Digite o que você contou de verdade — o sistema lança o ajuste em seu nome.';
+    }
+  }
   montaFornecedorProduto(m?m.fornecedor:'');
   montaLocalProduto(m?m.local:'');
   if(!m)$('#m_unidade').value='UN';
@@ -2985,6 +3024,24 @@ async function salvarMat(){
         origem:'Inventário inicial',nf:'',preco:o.preco,recebido:o.registrador||'',motivo:'inicial',
         series:seriesDoProduto().join('\n'),
         obs:'Quantidade existente no momento do cadastro do produto.'});
+    }
+  }
+  /* contagem real informada no próprio produto */
+  if(editMat){
+    const cA=$('#m_ajuste');
+    if(cA&&cA.value!==''){
+      const contado=num(cA.value), atual=saldo(editMat), dif=contado-atual;
+      if(dif){
+        movs.push({ id:'v-aj-'+Date.now(), tipo:dif>0?'entrada':'saida', materialId:editMat,
+          qtd:Math.abs(dif), data:agora(), motivo:'inicial',
+          origem:dif>0?'Ajuste de inventário':'', retirado:dif<0?'Ajuste de inventário':'',
+          justifica:'Contagem física: de '+atual+' para '+contado,
+          preco:dif>0?num(o.preco):0,
+          recebido:dif>0?(sessao?sessao.nome:''):'', entregue:dif<0?(sessao?sessao.nome:''):'',
+          obs:'Ajuste feito no cadastro do produto.', usuario:(sessao?sessao.nome:'') });
+        toast('Estoque ajustado: de '+atual+' para '+contado+'.');
+      }
+      cA.value='';
     }
   }
   const era=editMat;
