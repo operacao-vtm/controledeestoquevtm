@@ -64,7 +64,8 @@ h1{font-size:clamp(23px,3.9vw,35px);line-height:1.08;margin:0;font-weight:700;le
   color:var(--num);white-space:nowrap;overflow:hidden;text-overflow:clip;
   font-size:clamp(21px,2.4vw,34px)}
 .kpi b[data-tam="medio"]{font-size:clamp(19px,1.9vw,26px)}
-.kpi b[data-tam="longo"]{font-size:clamp(16px,1.55vw,22px);letter-spacing:-.02em}
+.kpi b[data-tam="longo"]{font-size:clamp(15px,1.45vw,20px);letter-spacing:-.02em}
+.kpi b[data-tam="enorme"]{font-size:clamp(13px,1.15vw,16px);letter-spacing:-.01em}
 .kpi small{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink2)}
 .kpi.is-low{border-color:var(--marca)}
 .kpi.is-low span::before,.kpi.is-zero span::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--marca);margin-right:6px;vertical-align:middle} .kpi.is-low b{color:var(--low)}
@@ -332,7 +333,8 @@ table.tbl tfoot td{color:var(--num);background:var(--panel2);border-top:2px soli
   .kpi{flex:1 1 calc(50% - 4px);padding:10px 11px 11px}
   .kpi b{font-size:clamp(19px,5.4vw,25px)}
   .kpi b[data-tam="medio"]{font-size:clamp(17px,4.6vw,21px)}
-  .kpi b[data-tam="longo"]{font-size:clamp(15px,4vw,19px)}
+  .kpi b[data-tam="longo"]{font-size:clamp(14px,3.6vw,17px)}
+  .kpi b[data-tam="enorme"]{font-size:clamp(12px,3.1vw,15px)}
   .kpi small{font-size:9px}
   .toolbar{padding:10px 0;gap:8px}
   .tabs{width:100%}
@@ -538,7 +540,7 @@ table.tbl.lote input:not([type=checkbox]),table.tbl.lote select{min-width:80px} 
         <h1>Controle de estoque</h1>
         <p>Almoxarifado · Manutenção técnica</p>
         <div class="estado"><span class="ponto"></span><span id="estadoTxt">carregando…</span>
-          <span class="selo" title="versão deste programa">v86 · números que caibam</span></div>
+          <span class="selo" title="versão deste programa">v88 · valores medidos</span></div>
       </div>
       <div class="direita">
         <span class="cracha" id="cracha">—</span>
@@ -741,9 +743,9 @@ table.tbl.lote input:not([type=checkbox]),table.tbl.lote select{min-width:80px} 
     <p>Os dados ficam nesta conta e sobem para a planilha. O backup em arquivo é a garantia extra.</p>
     <button class="btn ghost sm" id="desfazer" disabled title="Volta o sistema ao estado anterior à última alteração">Desfazer alteração</button>
     <span class="discreto">
-      <button id="json">exportar backup</button><b>·</b><button id="import">importar</button><b>·</b><button id="wipe" class="perigo">apagar tudo</button>
+      <button id="json">exportar backup</button><b>·</b><button id="import">importar</button>
     </span>
-    <span class="versao" title="versão deste programa">v86 · números que caibam</span>
+    <span class="versao" title="versão deste programa">v87 · zerar protegido</span>
 </footer>
 </div>
 
@@ -1720,7 +1722,7 @@ function aplicaPermissoes(){
   escondeSe('#irPlanilha',!pode('planilha'));
   escondeSe('#tabHist',!pode('lancar'));
   escondeSe('[data-act="in"],[data-act="out"],[data-act="edit"]',!pode('lancar'));
-  escondeSe('[data-act="del"],#wipe',!pode('excluir'));
+  escondeSe('[data-act="del"]',!pode('excluir'));
   escondeSe('#csvSaldo,#csvMov,#json,#import,#relCsv,#relPrint,#printMatLista,#printMovLista',!pode('exportar'));
   b.classList.toggle('sem-excluir',!pode('excluir'));
   b.classList.toggle('sem-lancar',!pode('lancar'));
@@ -2761,7 +2763,9 @@ async function persist(quais){
 /* ============ indicadores ============ */
 function tamanhoNum(v){
   const n=String(v).length;
-  return n>10?'longo':(n>6?'medio':'curto');
+  if(n>13) return 'enorme';
+  if(n>10) return 'longo';
+  return n>6?'medio':'curto';
 }
 function kpis(){
   const baixos=mats.filter(m=>nivel(m)==='baixo').length;
@@ -3696,13 +3700,27 @@ $('#jsonIn').addEventListener('change',async e=>{
   V.forEach(v=>{if(!v||!v.id)return;const i=movs.findIndex(x=>x.id===v.id);if(i>=0)movs[i]=Object.assign({},movs[i],v);else{movs.push(v);nv++;}});
   await persist();render();toast(nm+' material(is) e '+nv+' movimento(s) importados.');
 });
-$('#wipe').onclick=async()=>{
-  guardaAnterior('apagar tudo');
-  if(!pode('excluir')) return barra('Apagar tudo é exclusivo do administrador sênior.');
-  const ok=await ask('Apagar todos os materiais e movimentos deste controle? Não é possível desfazer.','Apagar tudo');
-  if(!ok)return;
-  mats=[];movs=[];await persist();render();toast('Controle zerado.');
-};
+
+/* pede uma palavra digitada, para confirmar coisa grave */
+function pedeTexto(msg,exemplo){
+  return new Promise(resolve=>{
+    const t=document.createElement('div');
+    t.className='scrim on'; t.style.zIndex='210';
+    t.innerHTML='<div class="sheet" style="max-width:440px"><div class="sheet-head"><h2>Confirmar</h2></div>'
+      +'<div class="sheet-body"><p style="margin:0 0 12px">'+esc(msg)+'</p>'
+      +'<input id="txtConfirma" class="mono" autocomplete="off" placeholder="'+esc(exemplo||'')+'"></div>'
+      +'<div class="sheet-foot"><button class="btn" id="txtOk" style="background:var(--zero);border-color:var(--zero);color:#fff">Confirmar</button>'
+      +'<button class="btn ghost" id="txtNao">Cancelar</button></div></div>';
+    document.body.appendChild(t);
+    const campo=t.querySelector('#txtConfirma');
+    setTimeout(()=>campo.focus(),60);
+    const fim=v=>{ t.remove(); resolve(v); };
+    t.querySelector('#txtOk').onclick=()=>fim(campo.value);
+    t.querySelector('#txtNao').onclick=()=>fim(null);
+    campo.addEventListener('keydown',e=>{ if(e.key==='Enter')fim(campo.value); if(e.key==='Escape')fim(null); });
+  });
+}
+
 
 /* ============ relatórios ============ */
 /* ============ relatórios: primeiro o lado, depois os filtros, depois a visão ============ */
