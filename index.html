@@ -532,7 +532,7 @@ table.tbl.lote input:not([type=checkbox]),table.tbl.lote select{min-width:80px} 
         <h1>Controle de estoque</h1>
         <p>Almoxarifado · Manutenção técnica</p>
         <div class="estado"><span class="ponto"></span><span id="estadoTxt">carregando…</span>
-          <span class="selo" title="versão deste programa">v83 · sincronia</span></div>
+          <span class="selo" title="versão deste programa">v85 · preço do cadastro</span></div>
       </div>
       <div class="direita">
         <span class="cracha" id="cracha">—</span>
@@ -737,7 +737,7 @@ table.tbl.lote input:not([type=checkbox]),table.tbl.lote select{min-width:80px} 
     <span class="discreto">
       <button id="json">exportar backup</button><b>·</b><button id="import">importar</button><b>·</b><button id="wipe" class="perigo">apagar tudo</button>
     </span>
-    <span class="versao" title="versão deste programa">v83 · sincronia</span>
+    <span class="versao" title="versão deste programa">v85 · preço do cadastro</span>
 </footer>
 </div>
 
@@ -1172,6 +1172,11 @@ let sincronizando=false;
 function pintaBotaoConflito(){
   const b=$('#resolverDif'); if(b) b.style.display=conflitoPendente?'':'none';
 }
+function estadoTopo(txt,cor){
+  const e=$('#estadoTxt'); if(e) e.textContent=txt;
+  const p=document.querySelector('.estado .ponto');
+  if(p) p.style.background=cor||'#3FD08A';
+}
 function statusSinc(txt,cor){ const el=$('#sincStatus'); if(el){ el.innerHTML=txt; el.style.color=cor||'var(--ink3)'; } }
 function horaAgora(){ const d=new Date(),p=n=>String(n).padStart(2,'0'); return p(d.getHours())+':'+p(d.getMinutes()); }
 
@@ -1184,7 +1189,7 @@ async function lerPlanilha(){
   if(!d||!d.ok) throw new Error(d&&d.erro?d.erro:'resposta inesperada');
   if(d.planilhaId){ planilhaId=d.planilhaId; planilhaUrl=d.planilhaUrl||''; pintaBotoesPlanilha(); }
   return { materiais:Array.isArray(d.materiais)?d.materiais:null,
-           movimentos:Array.isArray(d.movimentos)?d.movimentos:null,
+           movimentos:Array.isArray(d.movimentos)?d.movimentos.map(normalizaMov):null,
            cadastros:Array.isArray(d.cadastros)?d.cadastros:null,
            usuarios:Array.isArray(d.usuarios)?d.usuarios:null };
 }
@@ -1201,13 +1206,49 @@ async function enviarParaPlanilha(){
 const K_SINC='alm:ultimaSinc';
 let conflitoPendente=null;
 /* impressão digital do conjunto: muda se alguém cria, altera ou apaga qualquer registro */
+/* ---- datas: a planilha às vezes devolve "Wed Aug 26 2026 13:22:00 GMT-0400".
+        tudo volta ao formato do sistema, senão a comparação nunca fecha ---- */
+function normalizaData(x){
+  const s=String(x==null?'':x).trim();
+  if(!s) return '';
+  /* já no formato do sistema */
+  if(/^\d{4}-\d{2}-\d{2}([T ]\d{2}:\d{2})?/.test(s)) return s.replace(' ','T').slice(0,16);
+  const MES={jan:'01',feb:'02',fev:'02',mar:'03',apr:'04',abr:'04',may:'05',mai:'05',jun:'06',
+             jul:'07',aug:'08',ago:'08',sep:'09',set:'09',oct:'10',out:'10',nov:'11',dec:'12',dez:'12'};
+  /* "Wed Aug 26 2026 13:22:00 GMT-0400" — a hora é lida como está escrita, sem converter fuso */
+  let m=s.match(/^[A-Za-z]{3}\s+([A-Za-z]{3})\s+(\d{1,2})\s+(\d{4})(?:\s+(\d{1,2}):(\d{2}))?/);
+  if(m&&MES[m[1].toLowerCase()]){
+    const p=n=>String(n).padStart(2,'0');
+    return m[3]+'-'+MES[m[1].toLowerCase()]+'-'+p(m[2])+(m[4]?'T'+p(m[4])+':'+m[5]:'');
+  }
+  /* "26 de agosto de 2026" ou "26/08/2026 13:22" */
+  m=s.match(/^(\d{1,2})[\/\s-]+([A-Za-z]{3}|\d{1,2})[\/\s-]+(\d{4})(?:[ ,]+(\d{1,2}):(\d{2}))?/);
+  if(m){
+    const p=n=>String(n).padStart(2,'0');
+    const mes=/^\d+$/.test(m[2])?p(m[2]):MES[m[2].toLowerCase()];
+    if(mes) return m[3]+'-'+mes+'-'+p(m[1])+(m[4]?'T'+p(m[4])+':'+m[5]:'');
+  }
+  return s;
+}
+function normalizaMov(v){
+  const o=Object.assign({},v);
+  o.data=normalizaData(o.data);
+  if(o.emissao) o.emissao=normalizaData(o.emissao).slice(0,10);
+  return o;
+}
+function normalizaMat(m){
+  const o=Object.assign({},m);
+  if(o.emissao) o.emissao=normalizaData(o.emissao).slice(0,10);
+  if(o.cadastradoEm) o.cadastradoEm=normalizaData(o.cadastradoEm);
+  return o;
+}
 function assinatura(m,v,c){
   /* compara o CONTEÚDO que importa, não a quantidade de campos:
      a planilha devolve todas as colunas, o aparelho só as preenchidas */
   const t=x=>String(x==null?'':x).trim().toUpperCase();
   const n=x=>String(Number(String(x==null?'':x).replace(',','.'))||0);
   const pm=(m||[]).map(r=>[r.id,t(r.nome),t(r.unidade),n(r.minimo),n(r.preco)].join('~')).sort().join('|');
-  const pv=(v||[]).map(r=>[r.id,t(r.tipo),t(r.materialId),n(r.qtd),t(r.data).slice(0,16)].join('~')).sort().join('|');
+  const pv=(v||[]).map(r=>[r.id,t(r.tipo),t(r.materialId),n(r.qtd),normalizaData(r.data)].join('~')).sort().join('|');
   const pc=(c||[]).map(r=>[r.id,t(r.tipo),t(r.nome)].join('~')).sort().join('|');
   return (m||[]).length+'-'+(v||[]).length+'-'+(c||[]).length+'#'+
          (pm+pv+pc).split('').reduce((h,ch)=>((h<<5)-h+ch.charCodeAt(0))|0,0);
@@ -1286,6 +1327,7 @@ async function puxarDaPlanilha(){
     if(conflitoPendente) return false;          /* já perguntei, não pergunto de novo */
     conflitoPendente={d:d,remoto:remoto,local:local};
     statusSinc('Este aparelho e a planilha têm dados diferentes — clique em "Resolver diferença".','var(--zero)');
+    estadoTopo('aguardando a sua decisão','var(--low)');
     mostraConflito();
     return false;
   }
@@ -1311,9 +1353,11 @@ async function sincronizar(sentido){
   try{
     if(sentido==='baixar') await puxarDaPlanilha(); else await enviarParaPlanilha();
     statusSinc('Planilha sincronizada às '+horaAgora()+'.','var(--ok)');
+    estadoTopo('planilha em dia · '+horaAgora());
     ok=true;
   }catch(err){
     statusSinc('Falha ao sincronizar: '+esc(err.message)+' — o lançamento continua salvo aqui e sobe na próxima tentativa.','var(--zero)');
+    estadoTopo('falha ao sincronizar','var(--zero)');
   }
   sincronizando=false;
   if(pendenteEnvio && ok) sincronizar('enviar');
@@ -2610,28 +2654,32 @@ async function load(){
   const u=await store.get(K_USU);
   try{ usuarios=u?JSON.parse(u):[]; }catch(e){ usuarios=[]; }
   if(!usuarios.length) usuarios=SEED_USUARIOS.slice();
+  /* datas no formato do sistema, venham de onde vierem */
+  mats=mats.map(normalizaMat);
+  movs=movs.map(normalizaMov);
   const el=$('#apiUrl'); if(el) el.value=API;
   if(API){
     sincronizando=true;
     try{
       await puxarDaPlanilha();
       statusSinc('Planilha sincronizada às '+horaAgora()+'.','var(--ok)');
+      estadoTopo('planilha em dia · '+horaAgora());
     }catch(err){
       const c=String(err&&err.message||err);
+      estadoTopo('planilha fora de alcance','var(--zero)');
       statusSinc('Não consegui falar com a planilha: '+esc(/Failed to fetch|Load failed/i.test(c)
         ? (emMoldura()?'bloqueado dentro do chat — use o endereço publicado':'sem acesso ao Apps Script')
         : c)+'. Mostrando o que está neste aparelho.','var(--zero)');
     }
     sincronizando=false;
-    if(($('#sincStatus')||{}).textContent&&/carregando/i.test($('#sincStatus').textContent))
-      statusSinc('Planilha em dia às '+horaAgora()+'.','var(--ok)');
+  }else{
+    estadoTopo('sem planilha conectada','var(--low)');
   }
+  if(/carregando/i.test(($('#estadoTxt')||{}).textContent||''))
+    estadoTopo('pronto · '+horaAgora());
   /* CORRIGIDO: o sistema não cria produto por conta própria.
      Esta linha plantava a lista de exemplo por cima do cadastro do usuário. */
-  /* o preço de cada produto vem das entradas: acerta o que ficou gravado de antes */
-  const antes=JSON.stringify(mats.map(m=>num(m.preco)));
-  mats.forEach(m=>recalcPreco(m.id));
-  if(JSON.stringify(mats.map(m=>num(m.preco)))!==antes) persist(['mat']);
+  /* o preço é do cadastro do produto, informado por você — nada é recalculado aqui */
   render();
 }
 /* ---- desfazer: guarda o estado anterior a cada alteração ---- */
@@ -3405,7 +3453,6 @@ async function salvarMov(){
     const era=editMov;
     if(editMov){const i=movs.findIndex(x=>x.id===editMov);movs[i]=Object.assign({},movs[i],o);}
     else movs.push(o);
-    recalcPreco(o.materialId);
     render();persist(['mov','mat']);
     if(relAtual&&!$('#panRel').hidden)gerar();
     toast(era?'Entrada atualizada.':'Entrada registrada.');
@@ -3482,7 +3529,6 @@ async function removeMov(v){
   if(!ok)return false;
   const afetados=[...new Set(movs.filter(x=>(x.reqId||x.id)===chave).map(x=>x.materialId))];
   movs=movs.filter(x=>(x.reqId||x.id)!==chave);
-  afetados.forEach(recalcPreco);
   render();persist(['mov','mat']);
   if(relAtual&&!$('#panRel').hidden)gerar();
   toast(grupo.length>1?'Requisição excluída.':'Movimento excluído.');return true;
@@ -3731,7 +3777,7 @@ function fil(){
   return o;
 }
 const tem=(campo,alvo)=>!alvo||String(campo||'').toLowerCase().includes(String(alvo).toLowerCase());
-function recalcPreco(materialId){
+function recalcPreco(materialId){   /* só usada quando o produto não tem preço no cadastro */
   const i=mats.findIndex(x=>x.id===materialId);
   if(i<0) return;
   const comPreco=movs.filter(v=>v.tipo==='entrada'&&v.materialId===materialId&&num(v.preco)>0)
