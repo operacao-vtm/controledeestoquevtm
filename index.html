@@ -532,7 +532,7 @@ table.tbl.lote input:not([type=checkbox]),table.tbl.lote select{min-width:80px} 
         <h1>Controle de estoque</h1>
         <p>Almoxarifado · Manutenção técnica</p>
         <div class="estado"><span class="ponto"></span><span id="estadoTxt">carregando…</span>
-          <span class="selo" title="versão deste programa">v82 · histórico claro</span></div>
+          <span class="selo" title="versão deste programa">v83 · sincronia</span></div>
       </div>
       <div class="direita">
         <span class="cracha" id="cracha">—</span>
@@ -737,7 +737,7 @@ table.tbl.lote input:not([type=checkbox]),table.tbl.lote select{min-width:80px} 
     <span class="discreto">
       <button id="json">exportar backup</button><b>·</b><button id="import">importar</button><b>·</b><button id="wipe" class="perigo">apagar tudo</button>
     </span>
-    <span class="versao" title="versão deste programa">v82 · histórico claro</span>
+    <span class="versao" title="versão deste programa">v83 · sincronia</span>
 </footer>
 </div>
 
@@ -1202,9 +1202,15 @@ const K_SINC='alm:ultimaSinc';
 let conflitoPendente=null;
 /* impressão digital do conjunto: muda se alguém cria, altera ou apaga qualquer registro */
 function assinatura(m,v,c){
-  const p=x=>(x||[]).map(r=>r.id+':'+Object.keys(r).length).sort().join('|');
+  /* compara o CONTEÚDO que importa, não a quantidade de campos:
+     a planilha devolve todas as colunas, o aparelho só as preenchidas */
+  const t=x=>String(x==null?'':x).trim().toUpperCase();
+  const n=x=>String(Number(String(x==null?'':x).replace(',','.'))||0);
+  const pm=(m||[]).map(r=>[r.id,t(r.nome),t(r.unidade),n(r.minimo),n(r.preco)].join('~')).sort().join('|');
+  const pv=(v||[]).map(r=>[r.id,t(r.tipo),t(r.materialId),n(r.qtd),t(r.data).slice(0,16)].join('~')).sort().join('|');
+  const pc=(c||[]).map(r=>[r.id,t(r.tipo),t(r.nome)].join('~')).sort().join('|');
   return (m||[]).length+'-'+(v||[]).length+'-'+(c||[]).length+'#'+
-         (p(m)+p(v)+p(c)).split('').reduce((h,ch)=>((h<<5)-h+ch.charCodeAt(0))|0,0);
+         (pm+pv+pc).split('').reduce((h,ch)=>((h<<5)-h+ch.charCodeAt(0))|0,0);
 }
 async function mostraConflito(){
   if(!conflitoPendente) return;
@@ -1268,9 +1274,16 @@ async function puxarDaPlanilha(){
     await store.set(K_SINC,assinatura(mats,movs,cads));
     return true;
   }
-  /* primeira conversa deste aparelho com a planilha, e os dois têm dados diferentes:
+  /* os dois lados iguais: nada a decidir, só registrar que estão em dia */
+  if(remoto===local){
+    await store.set(K_SINC,local);
+    statusSinc('Planilha em dia às '+horaAgora()+'.','var(--ok)');
+    return true;
+  }
+  /* primeira conversa deste aparelho com a planilha, e os dois são REALMENTE diferentes:
      nada é substituído por conta própria — quem decide é você */
   if(!ultima && (mats.length||movs.length)){
+    if(conflitoPendente) return false;          /* já perguntei, não pergunto de novo */
     conflitoPendente={d:d,remoto:remoto,local:local};
     statusSinc('Este aparelho e a planilha têm dados diferentes — clique em "Resolver diferença".','var(--zero)');
     mostraConflito();
@@ -2610,6 +2623,8 @@ async function load(){
         : c)+'. Mostrando o que está neste aparelho.','var(--zero)');
     }
     sincronizando=false;
+    if(($('#sincStatus')||{}).textContent&&/carregando/i.test($('#sincStatus').textContent))
+      statusSinc('Planilha em dia às '+horaAgora()+'.','var(--ok)');
   }
   /* CORRIGIDO: o sistema não cria produto por conta própria.
      Esta linha plantava a lista de exemplo por cima do cadastro do usuário. */
