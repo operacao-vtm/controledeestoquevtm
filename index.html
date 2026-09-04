@@ -540,7 +540,7 @@ table.tbl.lote input:not([type=checkbox]),table.tbl.lote select{min-width:80px} 
         <h1>Controle de estoque</h1>
         <p>Almoxarifado · Manutenção técnica</p>
         <div class="estado"><span class="ponto"></span><span id="estadoTxt">carregando…</span>
-          <span class="selo" title="versão deste programa">v88 · valores medidos</span></div>
+          <span class="selo" title="versão deste programa">v89 · aviso de série</span></div>
       </div>
       <div class="direita">
         <span class="cracha" id="cracha">—</span>
@@ -3502,6 +3502,21 @@ async function salvarMov(){
     }
     return null;
   }
+  /* peças com número de série em estoque, mas nenhuma escolhida: pergunta antes de gravar */
+  const semSerie=itens.filter(it=>{
+    if((it.series||[]).length) return false;
+    return seriesEmEstoque(it.materialId).length>0;
+  });
+  if(semSerie.length){
+    const detalhe=semSerie.map(it=>{
+      const m=mat(it.materialId);
+      return (m?m.nome:'produto')+' — '+seriesEmEstoque(it.materialId).length+' peça(s) com série em estoque';
+    }).join('\n');
+    const seguir=await ask('Você não informou quais peças estão saindo:\n\n'+detalhe+
+      '\n\nSem isso, a requisição sai sem os números de série e o rastreio da peça não fecha. Quer voltar e escolher?',
+      'Voltar e escolher','Registrar sem série');
+    if(seguir) return null;
+  }
   const req=editReq||('req-'+Date.now());
   const eraEdicao=!!editReq;
   if(editReq) movs=movs.filter(v=>(v.reqId||v.id)!==editReq);
@@ -4607,7 +4622,10 @@ function dadosMov(v){
     const todasSeries=grupo.reduce((L,x)=>L.concat(seriesDoMov(x)),[]);
     cab.push(['Retirado por',v.retirado],['Destino / aplicação',v.destino],
       ['Nº ordem de serviço',v.os],['Autorizado por',v.autorizado],['Entregue por (almoxarifado)',v.entregue],
-      ['Peças que saíram (S/N)', todasSeries.length?todasSeries.length+' peça(s): '+todasSeries.join('  ·  '):'']);
+      ['Peças que saíram (S/N)', todasSeries.length
+        ? todasSeries.length+' peça(s): '+todasSeries.join('  ·  ')
+        : (grupo.some(x=>seriesEmEstoque(x.materialId).length||seriesDoMov(x).length)
+            ? 'não informado no lançamento' : '')]);
     itens=grupo.map((x,i)=>{
       const mm=mat(x.materialId);
       const sn=seriesDoMov(x);
