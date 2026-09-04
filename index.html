@@ -4604,13 +4604,17 @@ function dadosMov(v){
         ['Saldo em estoque após o movimento', saldo(v.materialId)+' '+(m?m.unidade:'')]);
     }
   }else{
+    const todasSeries=grupo.reduce((L,x)=>L.concat(seriesDoMov(x)),[]);
     cab.push(['Retirado por',v.retirado],['Destino / aplicação',v.destino],
-      ['Nº ordem de serviço',v.os],['Autorizado por',v.autorizado],['Entregue por (almoxarifado)',v.entregue]);
+      ['Nº ordem de serviço',v.os],['Autorizado por',v.autorizado],['Entregue por (almoxarifado)',v.entregue],
+      ['Peças que saíram (S/N)', todasSeries.length?todasSeries.length+' peça(s): '+todasSeries.join('  ·  '):'']);
     itens=grupo.map((x,i)=>{
       const mm=mat(x.materialId);
+      const sn=seriesDoMov(x);
       return {
         n:i+1,
-        nome:mm?mm.nome:'material excluído',
+        nome:(mm?mm.nome:'material excluído')+(sn.length?'  ·  S/N: '+sn.join(' · '):''),
+        series:sn,
         qtd:String(num(x.qtd)),
         un:mm?(mm.unidade||''):'',
         saldo:saldo(x.materialId)+(mm&&mm.unidade?' '+mm.unidade:''),
