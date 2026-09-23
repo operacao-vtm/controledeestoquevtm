@@ -528,6 +528,65 @@ table.tbl.lote input:not([type=checkbox]),table.tbl.lote select{min-width:80px} 
 .aviso-filtro b{color:var(--low)}
 .aviso-filtro button{background:none;border:0;padding:0 0 0 6px;font:inherit;color:var(--marca);
   cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+
+/* ---------- troca de equipamento ---------- */
+#panTroca{display:none}
+body.so-campo #panTroca{display:block}
+body.so-campo .kpis, body.so-campo .toolbar, body.so-campo section[role=tabpanel],
+body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{display:none!important}
+.cx-troca{background:var(--panel);border:1px solid var(--hair);border-radius:14px;padding:18px;margin:18px 0}
+.cx-troca h2{margin:0 0 3px;font-size:17px}
+.quem-troca{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);margin:0 0 10px}
+.quem-troca b{color:var(--c5);font-weight:500}
+.grid-troca{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px 14px;margin-top:16px}
+.grid-troca .wide{grid-column:1/-1}
+.troca{display:grid;grid-template-columns:1fr auto 1fr auto;gap:10px;align-items:end;padding:12px;
+  border:1px solid var(--hair2);border-radius:12px;background:var(--panel2);margin-bottom:10px}
+.troca .seta{font-size:18px;color:var(--ink3);padding-bottom:12px;text-align:center}
+.troca .x{background:none;border:0;color:var(--ink3);cursor:pointer;font-size:12px;padding:0 0 14px;font-family:var(--mono)}
+.troca .x:hover{color:var(--c2)}
+.troca .lado-vol label{color:var(--c5)} .troca .lado-sai label{color:var(--c2)}
+.troca .info{font-family:var(--mono);font-size:10.5px;color:var(--ink3);margin-top:5px;min-height:14px}
+.troca .info b{color:var(--c5);font-weight:500}
+@media (max-width:700px){ .troca{grid-template-columns:1fr} .troca .seta{padding:0;transform:rotate(90deg)} }
+.enviado{border:1px solid var(--ok);background:var(--tn-ok);border-radius:14px;padding:16px;margin:18px 0 0}
+.enviado h3{margin:0 0 4px;font-size:15px;color:var(--ok)}
+.enviado p{margin:0 0 12px;font-size:13px;color:var(--ink2)}
+.zap{background:#0B141A;border-radius:12px;padding:14px;max-width:460px}
+.zap .topo-zap{font-family:Arial,sans-serif;font-size:12px;color:#8696A0;margin-bottom:10px}
+.zap .bolha{background:#005C4B;color:#E9EDEF;border-radius:10px 10px 2px 10px;padding:10px 12px;
+  font-family:Arial,sans-serif;font-size:13.5px;line-height:1.45;white-space:pre-wrap}
+.tag-t{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;
+  border-radius:999px;border:1px solid;white-space:nowrap;display:inline-block}
+.tag-t.vol{background:var(--tn-in);color:var(--in);border-color:var(--in)}
+.tag-t.pend{background:var(--tn-low);color:var(--low);border-color:var(--low)}
+.tag-t.ok{background:var(--tn-ok);color:var(--ok);border-color:var(--ok)}
+.tag-t.baixa{background:var(--tn-out);color:var(--out);border-color:var(--out)}
+.tr-card{border:1px solid var(--hair);border-radius:12px;padding:14px;margin-bottom:12px;background:var(--panel)}
+.tr-card .cab{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+.tr-card .cab b{font-size:14.5px}
+.tr-card .cab span{font-family:var(--mono);font-size:11px;color:var(--ink3)}
+.tr-linha{display:grid;grid-template-columns:1fr 1.4fr;gap:12px;padding:10px 0;border-top:1px dashed var(--hair)}
+@media (max-width:700px){.tr-linha{grid-template-columns:1fr}}
+.tr-rot{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px}
+.tr-rot.vol{color:var(--in)} .tr-rot.sai{color:var(--out)}
+.peca-t{font-family:var(--mono);font-size:11.5px;padding:6px 11px;border-radius:999px;cursor:pointer;
+  border:1px solid var(--hair);background:transparent;color:var(--ink2);margin:0 6px 6px 0}
+.peca-t:hover:not([disabled]){border-color:var(--marca);color:var(--marca)}
+.peca-t.on,.peca-t.on:hover{background:var(--marca)!important;border-color:var(--marca)!important;color:#fff!important}
+.peca-t[disabled]{opacity:.3;text-decoration:line-through;cursor:not-allowed}
+.badge{font-family:var(--mono);font-size:10px;padding:1px 7px;border-radius:999px;background:var(--low);color:#1B1305;margin-left:4px}
+.badge:empty{display:none}
+.pleno{grid-column:1/-1;min-width:0;width:100%}
+.rt-resumo{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:14px}
+.rt-k{background:var(--panel);border:1px solid var(--hair);border-radius:14px;padding:13px 14px;position:relative;overflow:hidden}
+.rt-k::before{content:'';position:absolute;inset:0 0 auto 0;height:2px;background:var(--cor)}
+.rt-k small{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);margin-bottom:6px}
+.rt-k b{font-family:var(--mono);font-size:28px;font-weight:600;color:var(--num);line-height:1}
+.bt-util{border-color:var(--ok)!important;color:var(--ok)!important}
+.bt-util.on{background:var(--ok)!important;color:#fff!important}
+.bt-baixa{border-color:var(--out)!important;color:var(--out)!important}
+.bt-baixa.on{background:var(--out)!important;color:#fff!important}
 </style>
 
 <div class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -540,7 +599,7 @@ table.tbl.lote input:not([type=checkbox]),table.tbl.lote select{min-width:80px} 
         <h1>Controle de estoque</h1>
         <p>Almoxarifado · Manutenção técnica</p>
         <div class="estado"><span class="ponto"></span><span id="estadoTxt">carregando…</span>
-          <span class="selo" title="versão deste programa">v89 · aviso de série</span></div>
+          <span class="selo" title="versão deste programa">v90 · troca de equipamento</span></div>
       </div>
       <div class="direita">
         <span class="cracha" id="cracha">—</span>
@@ -610,6 +669,8 @@ table.tbl.lote input:not([type=checkbox]),table.tbl.lote select{min-width:80px} 
         <button class="chip cad" data-cad="fornecedor">Cadastrar fornecedor</button>
         <button class="chip cad" data-cad="usuario">Cadastrar usuário</button>
         <button class="chip cad" data-cad="completar">Completar cadastros</button>
+        <button class="chip cad" data-cad="trocas">Pedidos de troca<span class="badge" id="bTrocas"></span></button>
+        <button class="chip cad" data-cad="retornos">Retornos<span class="badge" id="bRet"></span></button>
       </div>
     </div>
     <p class="hint" id="guiaRegistro" style="margin:12px 0 0"></p>
@@ -707,6 +768,27 @@ table.tbl.lote input:not([type=checkbox]),table.tbl.lote select{min-width:80px} 
   <div id="histOut"></div>
 </section>
 
+
+  <section id="panTroca" aria-label="Pedido de troca de equipamento">
+    <div id="tConfirma"></div>
+    <div class="cx-troca">
+      <p class="quem-troca">tela de <b id="tQuem">—</b> · só você vê esta tela</p>
+      <h2>Pedido de troca de equipamento</h2>
+      <p class="hint" style="margin:0 0 16px">Para cada peça que você vai tirar do campo, informe o S/N dela e o que precisa no lugar.</p>
+      <div id="linhasTroca"></div>
+      <button class="btn ghost sm" id="tMais" type="button">+ outra troca</button>
+      <div class="grid-troca">
+        <div class="f"><label for="tOnde">Onde é a troca</label>
+          <select id="tOnde"></select>
+          <input id="tOndeTxt" style="display:none;margin-top:8px" placeholder="digite o local"></div>
+        <div class="f"><label for="tOs">Nº da OS</label><input id="tOs" class="mono" placeholder="OS-0091"></div>
+        <div class="f wide"><label for="tObs">O que aconteceu</label><input id="tObs" placeholder="tela sem imagem, box travando…"></div>
+      </div>
+      <button class="btn" id="tEnviar" type="button" style="background:var(--marca);border-color:var(--marca);color:#fff;margin-top:16px">Enviar pedido pelo WhatsApp</button>
+      <p class="hint" id="tDica" style="margin:10px 0 0"></p>
+    </div>
+  </section>
+
 <section role="tabpanel" id="panPlan" hidden aria-labelledby="tabPlan" hidden>
     <div class="filtros" style="border-top-color:var(--bar4)">
       <h3>Planilha do Google — banco de dados do almoxarifado</h3>
@@ -745,7 +827,7 @@ table.tbl.lote input:not([type=checkbox]),table.tbl.lote select{min-width:80px} 
     <span class="discreto">
       <button id="json">exportar backup</button><b>·</b><button id="import">importar</button>
     </span>
-    <span class="versao" title="versão deste programa">v87 · zerar protegido</span>
+    <span class="versao" title="versão deste programa">v90 · troca de equipamento</span>
 </footer>
 </div>
 
@@ -960,6 +1042,7 @@ table.tbl.lote input:not([type=checkbox]),table.tbl.lote select{min-width:80px} 
             <option value="junior">Administrador júnior</option>
             <option value="diretoria">Diretoria</option>
             <option value="consulta">Consulta</option>
+            <option value="campo">Técnico de campo</option>
           </select>
         </div>
         <div class="f"><label for="u_senha">Senha</label>
@@ -1129,6 +1212,8 @@ const store={
 
 /* ============ estado ============ */
 let mats=[], movs=[];
+const K_TRO='alm:trocas', K_RET='alm:retornos';
+let trocas=[], retornos=[];
 let fMat='todos', fMov='todos', busca='', matFiltro=null;
 let editMat=null, editMov=null, editReq=null, tipoMov='entrada';
 
@@ -1199,12 +1284,62 @@ async function lerPlanilha(){
   return { materiais:Array.isArray(d.materiais)?d.materiais:null,
            movimentos:Array.isArray(d.movimentos)?d.movimentos.map(normalizaMov):null,
            cadastros:Array.isArray(d.cadastros)?d.cadastros:null,
-           usuarios:Array.isArray(d.usuarios)?d.usuarios:null };
+           usuarios:Array.isArray(d.usuarios)?d.usuarios:null,
+           trocas:Array.isArray(d.trocas)?d.trocas:null,
+           retornos:Array.isArray(d.retornos)?d.retornos:null };
+}
+/* ---- trocas e retornos: mescla por identificação, o mais recente vence, nada some ---- */
+function mesclaPorId(locais,remotos){
+  const porId={}; let mudou=false;
+  (locais||[]).forEach(r=>{ if(r&&r.id) porId[r.id]=r; });
+  (remotos||[]).forEach(r=>{
+    if(!r||!r.id) return;
+    const v=porId[r.id];
+    if(!v||String(r.atualizadoEm||'')>String(v.atualizadoEm||'')){ porId[r.id]=r; mudou=true; }
+  });
+  return {lista:Object.keys(porId).map(k=>porId[k]), mudou:mudou};
+}
+function recebeTrocas(d){
+  let mudou=false;
+  const antes=trocas.filter(t=>t.status==='aguardando').map(t=>t.id);
+  if(Array.isArray(d.trocas)){
+    const chegando=d.trocas.map(t=>Object.assign({},t,{itens:Array.isArray(t.itens)?t.itens:
+      (()=>{try{return JSON.parse(t.itens||'[]');}catch(e){return [];}})()}));
+    const x=mesclaPorId(trocas,chegando); trocas=x.lista; mudou=mudou||x.mudou;
+  }
+  if(Array.isArray(d.retornos)){
+    const chegando=d.retornos.map(r=>Object.assign({},r,{patrimonio:r.patrimonio===true||String(r.patrimonio).toLowerCase()==='true'}));
+    const x=mesclaPorId(retornos,chegando); retornos=x.lista; mudou=mudou||x.mudou;
+  }
+  if(mudou){
+    store.set(K_TRO,JSON.stringify(trocas)); store.set(K_RET,JSON.stringify(retornos));
+    const novos=trocas.filter(t=>t.status==='aguardando'&&antes.indexOf(t.id)<0);
+    if(novos.length&&sessao&&sessao.perfil!=='campo')
+      toast('Chegou pedido de troca de '+novos[0].quem+' · '+novos[0].numero);
+    atualizaBadges();
+    if(typeof cadastroAtual!=='undefined'&&(cadastroAtual==='trocas'||cadastroAtual==='retornos')
+       &&$('#panMat')&&!$('#panMat').hidden) render();
+  }
+  return mudou;
+}
+/* o técnico de campo manda SÓ o pedido: nunca o estoque inteiro */
+async function enviarTroca(t){
+  if(!API) return false;
+  try{
+    const c=Object.assign({},t); delete c.pendente;
+    const r=await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body:JSON.stringify({acao:'troca',troca:c})});
+    const d=await r.json();
+    if(d&&d.ok){ t.pendente=false; await store.set(K_TRO,JSON.stringify(trocas)); return true; }
+  }catch(e){}
+  return false;
 }
 async function enviarParaPlanilha(){
+  if(sessao&&sessao.perfil==='campo') return false;   /* o aparelho do campo só lê */
   if(!API) return false;
   const r=await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},
-    body:JSON.stringify({acao:'gravar',materiais:mats,movimentos:movs,cadastros:cads,usuarios:usuarios,series:listaSeries()})});
+    body:JSON.stringify({acao:'gravar',materiais:mats,movimentos:movs,cadastros:cads,usuarios:usuarios,series:listaSeries(),
+      trocas:trocas.map(t=>{const c=Object.assign({},t); delete c.pendente; return c;}),retornos:retornos})});
   const d=await r.json();
   if(!d||!d.ok) throw new Error(d&&d.erro?d.erro:'não foi possível gravar');
   pendenteEnvio=false;
@@ -1291,7 +1426,24 @@ async function puxarDaPlanilha(){
   if(!API) return false;
   if(pendenteEnvio){ await enviarParaPlanilha(); return true; }
   const marca=versaoLocal;
+  if(sessao&&sessao.perfil==='campo'){
+    for(const t of trocas.filter(x=>x.pendente)) await enviarTroca(t);   /* reenvia o que não subiu */
+    const dc=await lerPlanilha();
+    recebeTrocas(dc);
+    if(dc.materiais&&dc.materiais.length) mats=dc.materiais.map(normalizaMat);
+    if(dc.movimentos&&dc.movimentos.length) movs=dc.movimentos;
+    if(dc.cadastros&&dc.cadastros.length) cads=dc.cadastros;
+    if(dc.usuarios&&dc.usuarios.length){
+      usuarios=dc.usuarios;
+      if(!usuarios.some(x=>x.perfil==='campo')) usuarios.push(Object.assign({},USUARIO_CAMPO));
+    }
+    await store.set(K_MAT,JSON.stringify(mats)); await store.set(K_MOV,JSON.stringify(movs));
+    await store.set(K_CAD,JSON.stringify(cads)); await store.set(K_USU,JSON.stringify(usuarios));
+    if(typeof pintaListaSN==='function') pintaListaSN();
+    return true;
+  }
   const d=await lerPlanilha();
+  recebeTrocas(d);
   if(versaoLocal!==marca || pendenteEnvio){
     await enviarParaPlanilha();     /* mexeram aqui enquanto eu lia: o daqui manda */
     return true;
@@ -1700,9 +1852,12 @@ const PERFIS={
   diretoria:{rotulo:'Diretoria',lancar:0,cadastrar:0,excluir:0,usuarios:0,exportar:1,planilha:0,
     resumo:'Emite relatórios: ver, baixar, imprimir e compartilhar. Não lança nem altera dados.'},
   consulta:{rotulo:'Consulta',lancar:0,cadastrar:0,excluir:0,usuarios:0,exportar:0,planilha:0,
-    resumo:'Apenas consulta os relatórios na tela.'}
+    resumo:'Apenas consulta os relatórios na tela.'},
+  campo:{rotulo:'Técnico de campo',lancar:0,cadastrar:0,excluir:0,usuarios:0,exportar:0,planilha:0,
+    resumo:'Pede troca de equipamento no campo. Não vê estoque, relatórios nem cadastros. Entra sem senha.'}
 };
-const SEED_USUARIOS=[
+const USUARIO_CAMPO={id:'u-campo-1',nome:'PACHECO',perfil:'campo',senha:'',obs:'Técnico de campo · pede troca de equipamento'};
+const SEED_USUARIOS=[USUARIO_CAMPO,
   {id:'u-1',nome:'CARLOS',perfil:'senior',senha:'vtm-senior',obs:'Responsável pela manutenção técnica'},
   {id:'u-2',nome:'ADM JÚNIOR 1',perfil:'junior',senha:'vtm-jr1',obs:'trocar o nome pelo nome real'},
   {id:'u-3',nome:'ADM JÚNIOR 2',perfil:'junior',senha:'vtm-jr2',obs:'trocar o nome pelo nome real'},
@@ -1728,6 +1883,7 @@ function aplicaPermissoes(){
   b.classList.toggle('sem-lancar',!pode('lancar'));
   b.classList.toggle('sem-exportar',!pode('exportar'));
   b.classList.toggle('sem-planilha',!pode('planilha'));
+  b.classList.toggle('so-campo',sessao.perfil==='campo');
   const c=$('#cracha');
   if(c&&sessao) c.innerHTML=esc(sessao.nome)+' · <b>'+esc(PERFIS[sessao.perfil].rotulo)+'</b>';
   const chipU=document.querySelector('#cadChips .chip[data-cad="usuario"]');
@@ -1736,7 +1892,12 @@ function aplicaPermissoes(){
 }
 
 /* ---- entrada no sistema ---- */
+function garanteCampo(){
+  /* o técnico de campo precisa estar na lista, mesmo antes de a planilha conhecê-lo */
+  if(!usuarios.some(x=>x.perfil==='campo')) usuarios.push(Object.assign({},USUARIO_CAMPO));
+}
 function pintaLogin(){
+  garanteCampo();
   const l=$('#listaUsuarios');
   l.innerHTML='<option value="">— escolha o seu nome —</option>'+
     usuarios.map(u=>'<option value="'+u.id+'">'+esc(u.nome)+'  ·  '+esc(PERFIS[u.perfil].rotulo)+'</option>').join('');
@@ -1757,11 +1918,12 @@ function abreLogin(){
   $('#scrimLogin').classList.add('on'); document.body.style.overflow='hidden';
 }
 function entrar(){
+  garanteCampo();
   const u=usuarios.find(x=>x.id===escolhido);
   if(!u){ $('#loginAviso').textContent='Escolha primeiro quem está usando.';
     $('#loginAviso').style.color='var(--low)'; $('#listaUsuarios').focus(); return; }
   /* quem só observa entra sem senha */
-  if(u.perfil!=='consulta' && String($('#loginSenha').value)!==String(u.senha||'')){
+  if(u.perfil!=='consulta' && u.perfil!=='campo' && String($('#loginSenha').value)!==String(u.senha||'')){
     $('#loginAviso').textContent='Senha incorreta para '+u.nome+'.';
     $('#loginAviso').style.color='var(--zero)'; return;
   }
@@ -1769,13 +1931,14 @@ function entrar(){
   try{ localStorage.setItem('alm:sessao',JSON.stringify(sessao)); }catch(e){}
   $('#scrimLogin').classList.remove('on'); document.body.style.overflow='';
   aplicaPermissoes(); render();
+  if(u.perfil==='campo'){ abreTroca(); toast('Bem-vindo, '+u.nome); return; }
   aba('tabRel'); ladoAtual='estoque'; pintaLado();
   $('#r_visao').value='cartoes'; descreveVisao(); gerar();
   toast('Bem-vindo, '+u.nome+' · '+PERFIS[u.perfil].rotulo);
 }
 function pedeSenha(){
   const u=usuarios.find(x=>x.id===$('#listaUsuarios').value);
-  const semSenha=!!(u&&u.perfil==='consulta');
+  const semSenha=!!(u&&(u.perfil==='consulta'||u.perfil==='campo'));
   const box=$('#boxSenhaLogin');
   if(box) box.style.display=semSenha?'none':'';
   return !semSenha;
@@ -1896,10 +2059,14 @@ const ACOES_REGISTRO={
   destino:{rotulo:'+ Destino', abre:()=>openCad(null), guia:''},
   fornecedor:{rotulo:'+ Fornecedor', abre:()=>openCad(null), guia:''},
   usuario:{rotulo:'+ Usuário', abre:()=>openUsu(null), guia:'Quem entra no sistema e o que cada um pode fazer.'},
+  trocas:{rotulo:'', abre:()=>{},
+    guia:'Pedidos que chegaram do campo. Escolha a peça que sai para cada troca e gere a requisição.'},
+  retornos:{rotulo:'', abre:()=>{},
+    guia:'Peças que voltaram do campo. Decida uma por uma: útil volta ao estoque; não útil fica baixada.'},
   completar:{rotulo:'', abre:()=>{},
     guia:'Preencha preço, mínimo, localização e fornecedor de todos os produtos numa tela só, e salve de uma vez.'}
 };
-const TEM_LISTA=['requisitante','almoxarife','destino','fornecedor','usuario','completar'];
+const TEM_LISTA=['requisitante','almoxarife','destino','fornecedor','usuario','completar','trocas','retornos'];
 
 
 /* ============ solicitação de compra ============ */
@@ -2651,6 +2818,331 @@ function pintaCompletar(){
   };
 }
 
+
+/* ================= troca de equipamento no campo ================= */
+/* número do WhatsApp do almoxarifado (só dígitos, com DDI e DDD: 5592…).
+   Em branco, o WhatsApp abre e o técnico escolhe o contato ou o grupo. */
+const ZAP_ALMOX='5592982220171';   /* (92) 98222-0171 · almoxarifado */
+
+/* qualquer S/N digitado em qualquer lugar do sistema entra nesta lista */
+function seriesConhecidas(){
+  const mapa={};
+  const poe=(sn,produtoId,onde,fonte)=>{
+    const k=String(sn||'').trim().toUpperCase(); if(!k) return;
+    const m=produtoId?mat(produtoId):null, v=mapa[k]||{};
+    mapa[k]={sn:String(sn).trim(), produtoId:(m?m.id:v.produtoId)||'', produto:(m?m.nome:v.produto)||'',
+             onde:onde!==undefined?onde:(v.onde||''), fonte:fonte};
+  };
+  mats.forEach(m=>String(m.sn||'').split(/[\n;,]+/).forEach(x=>poe(x,m.id,undefined,'cadastro do produto')));
+  movs.slice().sort((a,b)=>String(a.data||'').localeCompare(String(b.data||''))).forEach(v=>
+    seriesDoMov(v).forEach(x=>poe(x,v.materialId,v.tipo==='saida'?(v.destino||'campo'):'no estoque',
+      v.tipo==='saida'?'saiu numa requisição':'entrou no estoque')));
+  trocas.forEach(t=>(t.itens||[]).forEach(it=>poe(it.volta,it.produtoVoltaId||it.precisaId,undefined,'pedido de troca')));
+  return Object.keys(mapa).map(k=>mapa[k]);
+}
+function pintaListaSN(){
+  let dl=document.getElementById('listaSNcampo');
+  if(!dl){ dl=document.createElement('datalist'); dl.id='listaSNcampo'; document.body.appendChild(dl); }
+  const L=seriesConhecidas();
+  dl.innerHTML=L.map(c=>'<option value="'+esc(c.sn)+'">'+esc(c.produto||'')+(c.onde?' · '+esc(c.onde):'')+'</option>').join('');
+  const d=$('#tDica'); if(d) d.innerHTML='<b>'+L.length+' S/N</b> já conhecidos pelo sistema. Comece a digitar e a lista aparece.';
+}
+function opcoesProdutoTroca(sel){
+  return mats.slice().sort((a,b)=>a.nome.localeCompare(b.nome,'pt-BR'))
+    .map(m=>'<option value="'+m.id+'"'+(m.id===sel?' selected':'')+'>'+esc(m.nome)+'</option>').join('');
+}
+function linhaTroca(){
+  const d=document.createElement('div');
+  d.className='troca';
+  d.innerHTML=`
+    <div class="f lado-vol"><label>Peça que volta · S/N</label>
+      <input class="t-sn mono" list="listaSNcampo" placeholder="escolha ou digite">
+      <span class="info"></span></div>
+    <div class="seta">⇄</div>
+    <div class="f lado-sai"><label>O que precisa no lugar</label>
+      <select class="t-prod"><option value="">— escolha —</option>${opcoesProdutoTroca('')}</select></div>
+    <button class="x" type="button">remover</button>`;
+  const inp=d.querySelector('.t-sn'), info=d.querySelector('.info'), sel=d.querySelector('.t-prod');
+  inp.addEventListener('input',()=>{
+    const k=inp.value.trim().toUpperCase();
+    const c=seriesConhecidas().find(x=>x.sn.toUpperCase()===k);
+    info.innerHTML=!k?'':(c?'<b>já conhecido</b> · '+esc(c.produto||'produto')+(c.onde?' · '+esc(c.onde):'')
+      :'S/N novo — fica guardado para as próximas trocas');
+    if(c&&c.produtoId&&!sel.value) sel.value=c.produtoId;
+  });
+  d.querySelector('.x').onclick=()=>d.remove();
+  return d;
+}
+function abreTroca(){
+  $('#tQuem').textContent=sessao?sessao.nome:'—';
+  const L=$('#linhasTroca');
+  if(!L.children.length) L.appendChild(linhaTroca());
+  const dest=doTipo('destino');
+  $('#tOnde').innerHTML='<option value="">— escolha —</option>'
+    +dest.map(c=>'<option value="'+esc(c.nome)+'">'+esc(c.nome)+'</option>').join('')
+    +'<option value="__outro">— outro, digitar —</option>';
+  $('#tOnde').onchange=()=>{ const o=$('#tOnde').value==='__outro'; $('#tOndeTxt').style.display=o?'':'none'; if(o) $('#tOndeTxt').focus(); };
+  pintaListaSN();
+}
+$('#tMais').onclick=()=>$('#linhasTroca').appendChild(linhaTroca());
+
+function mensagemZap(t){
+  const L=['*PEDIDO DE TROCA · '+t.numero+'*','Técnico: '+t.quem,'Local: '+(t.onde||'—'),
+           'OS: '+(t.os||'—'),'Data: '+dtBR(t.quando),''];
+  (t.itens||[]).forEach((it,i)=>{
+    const mv=mat(it.produtoVoltaId), mp=mat(it.precisaId);
+    L.push('*Troca '+(i+1)+'*');
+    L.push('Volta do campo: '+it.volta+(mv?' ('+mv.nome+')':''));
+    L.push('Preciso no lugar: '+(mp?mp.nome:'—'));
+    L.push('');
+  });
+  if(t.obs){ L.push('O que aconteceu: '+t.obs); L.push(''); }
+  L.push('_Pedido registrado no sistema de estoque._');
+  return L.join('\n');
+}
+const linkZap=texto=>'https://wa.me/'+(ZAP_ALMOX||'')+'?text='+encodeURIComponent(texto);
+
+$('#tEnviar').onclick=()=>{
+  const linhas=[...document.querySelectorAll('#linhasTroca .troca')];
+  const conhecidas=seriesConhecidas();
+  const itens=linhas.map(d=>{
+    const volta=d.querySelector('.t-sn').value.trim();
+    const c=conhecidas.find(x=>x.sn.toUpperCase()===volta.toUpperCase());
+    const precisaId=d.querySelector('.t-prod').value;
+    return {volta:volta, produtoVoltaId:(c&&c.produtoId)||precisaId, precisaId:precisaId};
+  }).filter(it=>it.volta);
+  if(!itens.length) return toast('Informe o S/N de pelo menos uma peça que volta.');
+  if(itens.some(it=>!it.precisaId)) return toast('Escolha o que precisa no lugar de cada peça.');
+  const vs=itens.map(it=>it.volta.toUpperCase());
+  if(vs.some((x,i)=>vs.indexOf(x)!==i)) return toast('O mesmo S/N foi informado duas vezes.');
+  const onde=$('#tOnde').value==='__outro'?$('#tOndeTxt').value.trim():$('#tOnde').value;
+  if(!onde) return toast('Informe onde é a troca.');
+  const n=trocas.reduce((mx,t)=>Math.max(mx,parseInt(String(t.numero||'').replace(/\D/g,''),10)||0),0)+1;
+  const t={id:'tr-'+Date.now(), numero:'PT-'+String(n).padStart(3,'0'), quando:agora(),
+    quem:sessao?sessao.nome:'', onde:onde, os:$('#tOs').value.trim(), obs:$('#tObs').value.trim(),
+    status:'aguardando', itens:itens, reqId:'', atendidoPor:'', atendidoEm:'',
+    atualizadoEm:new Date().toISOString(), pendente:true};
+
+  /* 1º salva no sistema */
+  trocas.push(t); persist(['tro']);
+  enviarTroca(t).then(ok=>{
+    const p=$('#tStatus');
+    if(p) p.textContent=ok?'Pedido gravado na planilha — o almoxarifado já vê.':'Sem internet agora: o pedido fica guardado aqui e sobe sozinho na próxima conexão.';
+  });
+
+  /* 2º abre o WhatsApp com a mensagem pronta (dentro do toque, senão o celular bloqueia) */
+  const texto=mensagemZap(t), link=linkZap(texto);
+  let abriu=null; try{ abriu=window.open(link,'_blank','noopener'); }catch(e){}
+  $('#tConfirma').innerHTML=`
+    <div class="enviado">
+      <h3>Pedido ${esc(t.numero)} salvo no sistema</h3>
+      <p>${abriu?'O WhatsApp abriu com a mensagem pronta — é só tocar em enviar.':'O WhatsApp não abriu sozinho. Toque em "Abrir o WhatsApp".'}
+        <br><span id="tStatus">Gravando na planilha…</span></p>
+      <div class="zap"><div class="topo-zap">Mensagem para o almoxarifado</div>
+        <div class="bolha">${esc(texto).replace(/\*([^*\n]+)\*/g,'<b>$1</b>').replace(/_([^_\n]+)_/g,'<i>$1</i>')}</div></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+        <a class="btn" href="${link}" target="_blank" rel="noopener" style="background:var(--marca);border-color:var(--marca);color:#fff;text-decoration:none">Abrir o WhatsApp</a>
+        <button class="btn ghost" id="tCopiar" type="button">Copiar a mensagem</button>
+      </div>
+    </div>`;
+  $('#tCopiar').onclick=()=>{ try{ navigator.clipboard.writeText(texto); toast('Mensagem copiada.'); }catch(e){ toast('Selecione o texto do balão para copiar.'); } };
+  /* formulário limpo para o próximo pedido */
+  $('#linhasTroca').innerHTML=''; $('#linhasTroca').appendChild(linhaTroca());
+  $('#tOs').value=''; $('#tObs').value='';
+  pintaListaSN();
+  try{ window.scrollTo({top:0,behavior:'smooth'}); }catch(e){}
+};
+
+/* ---------- almoxarifado: pedidos de troca ---------- */
+const escolhaTroca={};
+function atualizaBadges(){
+  const a=$('#bTrocas'), b=$('#bRet');
+  if(a){ const n=trocas.filter(t=>t.status==='aguardando').length; a.textContent=n||''; }
+  if(b){ const n=retornos.filter(r=>!r.decisao).length; b.textContent=n||''; }
+}
+function pintaTrocas(){
+  const pend=trocas.filter(t=>t.status==='aguardando').sort((a,b)=>String(a.quando).localeCompare(String(b.quando)));
+  const feitos=trocas.filter(t=>t.status==='atendido').sort((a,b)=>String(b.atendidoEm).localeCompare(String(a.atendidoEm))).slice(0,8);
+  let h='';
+  if(!pend.length) h+='<div class="empty"><p>Nenhum pedido de troca esperando atendimento.</p></div>';
+  pend.forEach(t=>{
+    const esc2=escolhaTroca[t.id]=escolhaTroca[t.id]||{};
+    h+=`<div class="tr-card" data-t="${t.id}">
+      <div class="cab"><span class="tag-t pend">aguardando</span><b>${esc(t.numero)} · ${esc(t.onde)}</b>
+        <span>${dtBR(t.quando)} · pedido por ${esc(t.quem)}${t.os?' · '+esc(t.os):''}</span></div>
+      ${t.obs?'<p class="hint" style="margin:0 0 6px">'+esc(t.obs)+'</p>':''}
+      ${(t.itens||[]).map((it,i)=>{
+        const mp=mat(it.precisaId), mv=mat(it.produtoVoltaId);
+        const disp=seriesEmEstoque(it.precisaId);
+        const usadas=Object.keys(esc2).filter(k=>+k!==i).map(k=>esc2[k]);
+        const escolhas=disp.length
+          ? disp.map(sn=>`<button type="button" class="peca-t${esc2[i]===sn?' on':''}" data-i="${i}" data-sn="${esc(sn)}"${usadas.indexOf(sn)>=0?' disabled title="já escolhida em outra troca"':''}>${esc(sn)}</button>`).join('')
+          : '<span class="hint" style="margin:0">sem peça com S/N em estoque · sai 1 unidade · saldo '+saldo(it.precisaId)+'</span>';
+        return `<div class="tr-linha">
+          <div><div class="tr-rot vol">volta do campo</div><span class="tag-t vol">${esc(it.volta)}</span>
+            <div class="hint" style="margin:5px 0 0">${esc(mv?mv.nome:'')}</div></div>
+          <div><div class="tr-rot sai">sai do estoque · ${esc(mp?mp.nome:'produto excluído')}</div>${escolhas}</div>
+        </div>`;}).join('')}
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+        ${pode('lancar')?`<button class="btn" data-atender="${t.id}" style="background:var(--marca);border-color:var(--marca);color:#fff">Atender e gerar requisição</button>`:''}
+        ${pode('excluir')?`<button class="btn ghost sm danger" data-cancelar="${t.id}">Cancelar pedido</button>`:''}
+      </div>
+    </div>`;
+  });
+  if(feitos.length){
+    h+='<p class="hint" style="margin:18px 0 8px">Atendidos recentemente</p>'
+      +feitos.map(t=>`<div class="tr-card"><div class="cab"><span class="tag-t ok">atendido</span>
+        <b>${esc(t.numero)} · ${esc(t.onde)}</b><span>${dtBR(t.atendidoEm)} · por ${esc(t.atendidoPor)}</span>
+        <button class="btn ghost sm" data-ver="${esc(t.reqId)}" style="margin-left:auto">Ver requisição</button></div></div>`).join('');
+  }
+  $('#gridMat').innerHTML='<div class="pleno">'+h+'</div>';
+  $('#gridMat').querySelectorAll('.tr-card[data-t]').forEach(box=>{
+    const t=trocas.find(x=>x.id===box.dataset.t);
+    box.querySelectorAll('.peca-t').forEach(b=>b.onclick=()=>{
+      if(b.disabled) return;
+      const e=escolhaTroca[t.id]; const i=b.dataset.i;
+      e[i]=e[i]===b.dataset.sn?undefined:b.dataset.sn;
+      if(!e[i]) delete e[i];
+      pintaTrocas();
+    });
+    const at=box.querySelector('[data-atender]'); if(at) at.onclick=()=>atenderTroca(t);
+    const ca=box.querySelector('[data-cancelar]'); if(ca) ca.onclick=()=>cancelarTroca(t);
+  });
+  $('#gridMat').querySelectorAll('[data-ver]').forEach(b=>b.onclick=()=>{
+    const v=movs.find(x=>x.reqId===b.dataset.ver); if(v) printMov(v); else toast('A requisição não foi encontrada.');
+  });
+}
+async function atenderTroca(t){
+  if(!pode('lancar')) return barra('Seu perfil não permite lançar.');
+  const e=escolhaTroca[t.id]||{};
+  const itens=t.itens||[];
+  for(let i=0;i<itens.length;i++){
+    const it=itens[i];
+    if(!mat(it.precisaId)) return toast('O produto da troca '+(i+1)+' não existe mais no cadastro.');
+    if(seriesEmEstoque(it.precisaId).length&&!e[i]) return toast('Escolha a peça que sai na troca '+(i+1)+'.');
+  }
+  const soma={};
+  itens.forEach(it=>{ soma[it.precisaId]=(soma[it.precisaId]||0)+1; });
+  const falta=Object.keys(soma).filter(id=>soma[id]>saldoBase(id));
+  if(falta.length) return toast('Sem saldo para '+falta.map(id=>mat(id).nome).join(', ')+'. Dê entrada antes de atender.');
+  const ok=await ask('Atender o pedido '+t.numero+'? Sai '+itens.length+' peça(s) do estoque para '+t.onde+', e as que voltam ficam em Retornos.','Atender');
+  if(!ok) return;
+  guardaAnterior('o atendimento do pedido '+t.numero);
+  const req='req-'+Date.now(), quando=agora(), iso=new Date().toISOString(), marca=Date.now();
+  const porMat={};
+  itens.forEach((it,i)=>{ const g=porMat[it.precisaId]=porMat[it.precisaId]||{qtd:0,series:[]}; g.qtd++; if(e[i]) g.series.push(e[i]); it.sai=e[i]||''; });
+  const novos=Object.keys(porMat).map((id,k)=>({
+    id:'v-'+marca+'-'+k, reqId:req, tipo:'saida', materialId:id, qtd:porMat[id].qtd, preco:0,
+    series:porMat[id].series.join('\n'), data:quando, retirado:t.quem, destino:t.onde, os:t.os,
+    autorizado:'', entregue:sessao?sessao.nome:'', obs:'Troca '+t.numero+(t.obs?' · '+t.obs:''),
+    trocaId:t.id, usuario:sessao?sessao.nome:''}));
+  movs=movs.concat(novos);
+  t.status='atendido'; t.reqId=req; t.atendidoPor=sessao?sessao.nome:''; t.atendidoEm=quando; t.atualizadoEm=iso;
+  itens.forEach((it,i)=>{
+    const mv=mat(it.produtoVoltaId)||mat(it.precisaId);
+    retornos.push({id:'rt-'+marca+'-'+i, sn:it.volta, produto:mv?mv.nome:'', produtoId:mv?mv.id:'',
+      onde:t.onde, os:t.os, trocaId:t.id, numero:t.numero, reqId:req, chegouEm:quando,
+      decisao:'', motivo:'', patrimonio:false, entradaId:'', decididoPor:'', decididoEm:'', atualizadoEm:iso});
+  });
+  delete escolhaTroca[t.id];
+  await persist(['mov','tro','ret']);
+  render();
+  toast('Pedido '+t.numero+' atendido. As peças que voltam estão em Retornos.');
+  printMov(novos[0]);
+}
+async function cancelarTroca(t){
+  if(!pode('excluir')) return;
+  const ok=await ask('Cancelar o pedido '+t.numero+' de '+t.quem+'? Nada sai do estoque.','Cancelar pedido','Manter');
+  if(!ok) return;
+  guardaAnterior('o cancelamento do pedido '+t.numero);
+  t.status='cancelado'; t.atualizadoEm=new Date().toISOString();
+  await persist(['tro']); render(); toast('Pedido '+t.numero+' cancelado.');
+}
+
+/* ---------- almoxarifado: retornos ---------- */
+function pintaRetornos(){
+  const L=retornos.filter(r=>r.decisao!=='anulado').sort((a,b)=>String(b.chegouEm).localeCompare(String(a.chegouEm)));
+  const cont=f=>L.filter(f).length;
+  let h=`<div class="rt-resumo">${[['Voltaram',L.length,'var(--in)'],['Esperando decisão',cont(r=>!r.decisao),'var(--low)'],
+    ['Úteis · voltam ao estoque',cont(r=>r.decisao==='util'),'var(--ok)'],['Não úteis · baixadas',cont(r=>r.decisao==='baixa'),'var(--out)']]
+    .map(([t,v,c])=>`<div class="rt-k" style="--cor:${c}"><small>${t}</small><b>${v}</b></div>`).join('')}</div>`;
+  if(!L.length){ $('#gridMat').innerHTML='<div class="pleno">'+h+'<div class="empty"><p>Nenhuma peça voltou do campo ainda. Elas aparecem aqui quando um pedido de troca é atendido.</p></div></div>'; return; }
+  h+=`<div class="tblbox"><table class="tbl"><thead><tr>
+      <th class="ctr">Nº de série</th><th class="ctr">Equipamento</th><th class="ctr">Veio de</th>
+      <th class="ctr">Pedido</th><th class="ctr">Situação</th><th class="ctr">Decisão</th></tr></thead><tbody>
+    ${L.map(r=>`<tr data-r="${r.id}">
+      <td class="ctr mono">${esc(r.sn)}</td>
+      <td class="esq">${esc(r.produto||'—')}</td>
+      <td class="esq">${esc(r.onde||'—')}${r.os?'<br><span class="hint" style="margin:0">'+esc(r.os)+'</span>':''}</td>
+      <td class="ctr mono">${esc(r.numero||'—')}</td>
+      <td class="ctr">${!r.decisao?'<span class="tag-t pend">a decidir</span>':(r.decisao==='util'?'<span class="tag-t ok">útil</span>':'<span class="tag-t baixa">baixada</span>')}</td>
+      <td class="ctr" style="min-width:230px">
+        ${pode('lancar')?`<button class="btn ghost sm bt-util${r.decisao==='util'?' on':''}" data-util="${r.id}">Útil</button>
+        <button class="btn ghost sm bt-baixa${r.decisao==='baixa'?' on':''}" data-baixa="${r.id}">Não útil</button>`:''}
+        ${r.decisao==='baixa'?`<input data-motivo="${r.id}" value="${esc(r.motivo||'')}" placeholder="motivo: queimada, tela quebrada…" style="margin-top:6px;min-height:36px;font-size:13px">`:''}
+        ${r.decisao==='util'?`<label style="display:flex;gap:6px;align-items:center;justify-content:center;margin-top:6px;text-transform:none;letter-spacing:0;font-family:var(--sans);font-size:12.5px">
+          <input type="checkbox" data-patr="${r.id}" ${r.patrimonio?'checked':''} style="width:auto;min-height:0"> lançar no patrimônio</label>`:''}
+      </td></tr>`).join('')}</tbody></table></div>`;
+  const P=L.filter(r=>r.decisao==='util'&&r.patrimonio);
+  h+=`<div class="cx-troca"><h2>Para lançar no patrimônio</h2>
+    <p class="hint" style="margin:0 0 12px">As peças marcadas como úteis. Este sistema não escreve no patrimônio — a lista sai pronta para lançar lá.</p>
+    ${P.length?`<div class="tblbox"><table class="tbl"><thead><tr><th class="ctr">Nº de série</th><th class="ctr">Equipamento</th><th class="ctr">Devolvida de</th><th class="ctr">Pedido</th></tr></thead>
+      <tbody>${P.map(r=>`<tr><td class="ctr mono">${esc(r.sn)}</td><td class="esq">${esc(r.produto)}</td><td class="esq">${esc(r.onde)}</td><td class="ctr mono">${esc(r.numero)}</td></tr>`).join('')}</tbody></table></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+        <button class="btn ghost" id="patrImprimir">Imprimir a lista</button><button class="btn ghost" id="patrExportar">Exportar para o Excel</button></div>`
+    :'<div class="empty"><p>Marque uma peça como útil para ela entrar nesta lista.</p></div>'}</div>`;
+  $('#gridMat').innerHTML='<div class="pleno">'+h+'</div>';
+  const acha=id=>retornos.find(x=>x.id===id);
+  $('#gridMat').querySelectorAll('[data-util]').forEach(b=>b.onclick=()=>decideRetorno(acha(b.dataset.util),'util'));
+  $('#gridMat').querySelectorAll('[data-baixa]').forEach(b=>b.onclick=()=>decideRetorno(acha(b.dataset.baixa),'baixa'));
+  $('#gridMat').querySelectorAll('[data-motivo]').forEach(e=>e.onchange=()=>{
+    const r=acha(e.dataset.motivo); r.motivo=e.value.trim(); r.atualizadoEm=new Date().toISOString(); persist(['ret']);
+  });
+  $('#gridMat').querySelectorAll('[data-patr]').forEach(e=>e.onchange=()=>{
+    const r=acha(e.dataset.patr); r.patrimonio=e.checked; r.atualizadoEm=new Date().toISOString(); persist(['ret']); pintaRetornos();
+  });
+  const pi=$('#patrImprimir'); if(pi) pi.onclick=()=>documentoTabela({
+    titulo:'Peças úteis para lançar no patrimônio', arquivo:'retornos-para-patrimonio',
+    cols:['Nº de série','Equipamento','Devolvida de','Pedido','Decidido por'],
+    rows:P.map(r=>[r.sn,r.produto,r.onde,r.numero,r.decididoPor||'']), meta:P.map(()=>null),
+    filtros:['retornos marcados como úteis'], totais:[['Peças',P.length]]});
+  const pe=$('#patrExportar'); if(pe) pe.onclick=()=>{
+    const q=x=>'"'+String(x==null?'':x).replace(/"/g,'""')+'"';
+    const linhas=[['NUMERO DE SERIE','EQUIPAMENTO','DEVOLVIDA DE','OS','PEDIDO','DECIDIDO POR','DECIDIDO EM'].map(q).join(';')]
+      .concat(P.map(r=>[r.sn,r.produto,r.onde,r.os,r.numero,r.decididoPor,dtBR(r.decididoEm)].map(q).join(';')));
+    baixar('retornos-para-patrimonio.csv','\ufeff'+linhas.join('\r\n'),'text/csv;charset=utf-8');
+  };
+}
+async function decideRetorno(r,como){
+  if(!r||!pode('lancar')) return;
+  if(r.decisao===como) return;
+  const iso=new Date().toISOString();
+  if(como==='util'){
+    const m=mat(r.produtoId);
+    if(!m) return toast('O produto desta peça não existe mais no cadastro.');
+    guardaAnterior('a decisão sobre '+r.sn);
+    const e={id:'v-rt-'+Date.now(), tipo:'entrada', materialId:m.id, qtd:1, series:r.sn, data:agora(),
+      origem:'Retorno de campo', nf:'', preco:num(m.preco), recebido:sessao?sessao.nome:'', motivo:'outro',
+      justifica:'Peça devolvida no pedido '+r.numero+' · de '+(r.onde||''), obs:'', retornoId:r.id,
+      usuario:sessao?sessao.nome:''};
+    movs.push(e);
+    Object.assign(r,{decisao:'util',entradaId:e.id,patrimonio:true,motivo:'',decididoPor:sessao?sessao.nome:'',decididoEm:agora(),atualizadoEm:iso});
+    await persist(['mov','ret']); render();
+    toast(r.sn+' volta ao estoque de '+m.nome+', pronto para sair de novo.');
+  }else{
+    if(r.entradaId){
+      const m=mat(r.produtoId);
+      if(m&&seriesEmEstoque(m.id).map(x=>x.toUpperCase()).indexOf(String(r.sn).toUpperCase())<0)
+        return toast('Esta peça já saiu de novo do estoque — não dá para baixar agora.');
+    }
+    guardaAnterior('a decisão sobre '+r.sn);
+    if(r.entradaId) movs=movs.filter(v=>v.id!==r.entradaId);
+    Object.assign(r,{decisao:'baixa',entradaId:'',patrimonio:false,decididoPor:sessao?sessao.nome:'',decididoEm:agora(),atualizadoEm:iso});
+    await persist(['mov','ret']); render();
+    toast(r.sn+' baixada. Informe o motivo.');
+  }
+}
+
 /* ============ carregar e salvar ============ */
 async function load(){
   const a=await store.get(K_MAT), b=await store.get(K_MOV);
@@ -2662,6 +3154,10 @@ async function load(){
   const u=await store.get(K_USU);
   try{ usuarios=u?JSON.parse(u):[]; }catch(e){ usuarios=[]; }
   if(!usuarios.length) usuarios=SEED_USUARIOS.slice();
+  /* o técnico de campo precisa existir para escolher o nome e entrar */
+  if(!usuarios.some(x=>x.perfil==='campo')) usuarios.push(Object.assign({},USUARIO_CAMPO));
+  const tr=await store.get(K_TRO); try{ trocas=tr?JSON.parse(tr):[]; }catch(e){ trocas=[]; }
+  const rt=await store.get(K_RET); try{ retornos=rt?JSON.parse(rt):[]; }catch(e){ retornos=[]; }
   /* datas no formato do sistema, venham de onde vierem */
   mats=mats.map(normalizaMat);
   movs=movs.map(normalizaMov);
@@ -2724,7 +3220,8 @@ let anterior=null;
 function guardaAnterior(oquefoi){
   anterior={ quando:new Date(), oquefoi:oquefoi||'última alteração',
     mats:JSON.stringify(mats), movs:JSON.stringify(movs),
-    cads:JSON.stringify(cads), usuarios:JSON.stringify(usuarios) };
+    cads:JSON.stringify(cads), usuarios:JSON.stringify(usuarios),
+    trocas:JSON.stringify(trocas), retornos:JSON.stringify(retornos) };
   const b=$('#desfazer');
   if(b){ b.disabled=false; b.textContent='Desfazer: '+anterior.oquefoi; }
 }
@@ -2736,6 +3233,18 @@ async function desfazer(){
   try{
     mats=JSON.parse(anterior.mats); movs=JSON.parse(anterior.movs);
     cads=JSON.parse(anterior.cads); usuarios=JSON.parse(anterior.usuarios);
+    if(anterior.trocas){
+      const agoraIso=new Date().toISOString();
+      const curTro=trocas, curRet=retornos;
+      const velhasTro=JSON.parse(anterior.trocas), velhosRet=JSON.parse(anterior.retornos);
+      /* o que volta ao estado anterior ganha hora nova, para valer também na planilha */
+      velhasTro.forEach(t=>{ const c=curTro.find(x=>x.id===t.id); if(!c||JSON.stringify(c)!==JSON.stringify(t)) t.atualizadoEm=agoraIso; });
+      /* pedido que o técnico mandou depois continua: o desfazer do almoxarifado não apaga pedido dele */
+      curTro.forEach(c=>{ if(!velhasTro.some(t=>t.id===c.id)) velhasTro.push(c); });
+      velhosRet.forEach(r=>{ const c=curRet.find(x=>x.id===r.id); if(!c||JSON.stringify(c)!==JSON.stringify(r)) r.atualizadoEm=agoraIso; });
+      curRet.forEach(c=>{ if(!velhosRet.some(r=>r.id===c.id)) velhosRet.push(Object.assign({},c,{decisao:'anulado',atualizadoEm:agoraIso})); });
+      trocas=velhasTro; retornos=velhosRet;
+    }
   }catch(e){ toast('Não consegui desfazer: '+e.message); return; }
   anterior=null;
   const b=$('#desfazer'); if(b){ b.disabled=true; b.textContent='Desfazer alteração'; }
@@ -2745,13 +3254,16 @@ async function desfazer(){
   toast('Alteração desfeita.');
 }
 async function persist(quais){
-  const q=quais||['mat','mov','cad','usu'];
+  const q=quais||['mat','mov','cad','usu','tro','ret'];
   const tarefas=[];
+  if(q.indexOf('tro')>=0) tarefas.push(store.set(K_TRO,JSON.stringify(trocas)));
+  if(q.indexOf('ret')>=0) tarefas.push(store.set(K_RET,JSON.stringify(retornos)));
+  const ehCampo=!!(sessao&&sessao.perfil==='campo');
   if(q.indexOf('mat')>=0) tarefas.push(store.set(K_MAT,JSON.stringify(mats)));
   if(q.indexOf('mov')>=0) tarefas.push(store.set(K_MOV,JSON.stringify(movs)));
   if(q.indexOf('cad')>=0) tarefas.push(store.set(K_CAD,JSON.stringify(cads)));
   if(q.indexOf('usu')>=0) tarefas.push(store.set(K_USU,JSON.stringify(usuarios)));
-  if(API){ versaoLocal++; pendenteEnvio=true;
+  if(API&&!ehCampo){ versaoLocal++; pendenteEnvio=true;
     clearTimeout(envioAgendado);
     envioAgendado=setTimeout(()=>sincronizar('enviar'),1200);   /* junta lançamentos seguidos num envio só */
   }
@@ -2909,6 +3421,9 @@ function render(){
     if($('#listMov')) $('#listMov').innerHTML='';
     return;
   }
+  atualizaBadges();
+  if(cadastroAtual==='trocas'){ pintaTrocas(); return; }
+  if(cadastroAtual==='retornos'){ pintaRetornos(); return; }
   if(cadastroAtual==='completar'){ pintaCompletar(); return; }
   if(cadastroAtual==='usuario'){
     $('#gridMat').innerHTML=pode('usuarios')
@@ -4641,16 +5156,29 @@ function dadosMov(v){
     });
   }
   cab.push(['Observação',v.obs]);
+  let troca=null;
+  if(!ent&&grupo.length&&grupo[0].trocaId){
+    const t=trocas.find(x=>x.id===grupo[0].trocaId);
+    if(t){
+      troca={numero:t.numero, voltam:(t.itens||[]).map((it,i)=>{
+        const mv=mat(it.produtoVoltaId)||mat(it.precisaId);
+        return {n:i+1, nome:mv?mv.nome:'equipamento', sn:it.volta};
+      })};
+      cab.unshift(['Pedido de troca', t.numero+' · pedido por '+(t.quem||'')]);
+    }
+  }
   for(let i=cab.length-1;i>=0;i--) if(!cab[i]) cab.splice(i,1);
 
   return {
-    ent, itens,
-    titulo: ent?'Comprovante de entrada de material':'Requisição de retirada de material',
+    ent, itens, troca,
+    titulo: ent?'Comprovante de entrada de material':(troca?'Requisição de troca de equipamento':'Requisição de retirada de material'),
     sub: (ent?(v.nf?'Nota fiscal '+v.nf:'Entrada '+v.id):'Requisição '+(v.reqId||v.id))+'  ·  '+dtBR(v.data)
        + (itens?'  ·  '+itens.length+' material(is)':''),
     cabecalho: cab,
-    assinaturas:[(ent?'Quem entregou o material: ':'Quem retirou: ')+((ent?v.origem:v.retirado)||''),
-                 'Almoxarifado: '+((ent?v.recebido:v.entregue)||'')],
+    assinaturas: troca
+      ? ['Quem retirou: '+(v.retirado||''), 'Quem devolveu as peças', 'Almoxarifado: '+(v.entregue||'')]
+      : [(ent?'Quem entregou o material: ':'Quem retirou: ')+((ent?v.origem:v.retirado)||''),
+         'Almoxarifado: '+((ent?v.recebido:v.entregue)||'')],
     nome: ent
       ? 'comprovante-entrada-'+String(v.nf||(m?m.nome:'material')).replace(/[^A-Za-z0-9]+/g,'-').toLowerCase().slice(0,28)
       : 'requisicao-'+String(v.reqId||v.id).replace(/[^A-Za-z0-9]+/g,'-').toLowerCase()
@@ -4663,13 +5191,23 @@ function textoDocumento(d){
     linhas.push('','*Materiais:*');
     d.itens.forEach(it=>linhas.push('• '+it.qtd+' '+it.un+' · '+it.nome));
   }
+  if(d.troca){
+    linhas.push('','*Voltando do campo:*');
+    d.troca.voltam.forEach(it=>linhas.push('• '+it.nome+' · S/N '+it.sn));
+  }
   linhas.push('','VTM · Manutenção técnica · Almoxarifado');
   return linhas.join('\n');
 }
 function printMov(v){
   const d=dadosMov(v);
-  const tabelaItens=d.itens?`
-    <table style="margin-top:14px">
+  const secao=(t,cor)=>`<p style="font-weight:bold;font-size:12px;letter-spacing:.05em;margin:16px 0 4px;display:flex;align-items:center;gap:7px"><span style="width:10px;height:10px;background:${cor};display:inline-block"></span>${t}</p>`;
+  const tabelaVolta=d.troca?`${secao('VOLTANDO DO CAMPO','#14657E')}
+    <table>
+      <tr><th style="width:8%;text-align:center">Item</th><th style="width:40%;text-align:center">Equipamento</th><th style="width:26%;text-align:center">Nº de série</th><th style="width:26%;text-align:center">Estado na devolução</th></tr>
+      ${d.troca.voltam.map(it=>`<tr><td style="text-align:center">${it.n}</td><td>${esc(it.nome)}</td><td style="text-align:center;font-family:'Courier New',monospace">${esc(it.sn)}</td><td style="text-align:center;color:#888">a conferir no retorno</td></tr>`).join('')}
+    </table>`:'';
+  const tabelaItens=d.itens?`${d.troca?secao('SAINDO DO ESTOQUE','#A8321E'):''}
+    <table style="margin-top:${d.troca?'0':'14px'}">
       <tr><th style="width:8%;text-align:center">Item</th><th style="width:46%;text-align:center">Material</th><th style="width:14%;text-align:center">Qtd</th><th style="width:10%;text-align:center">Un</th><th style="width:22%;text-align:center">Saldo após</th></tr>
       ${d.itens.map(it=>`<tr><td style="text-align:center">${it.n}</td><td>${esc(it.nome)}</td><td style="text-align:center">${esc(it.qtd)}</td><td style="text-align:center">${esc(it.un)}</td><td style="text-align:center">${esc(it.saldo)}</td></tr>`).join('')}
     </table>`:'';
@@ -4680,6 +5218,7 @@ function printMov(v){
     <p class="p-eyebrow">${esc(d.sub)}</p>
     <table>${d.cabecalho.map(par=>`<tr><th>${esc(par[0])}</th><td style="text-align:${alinhaCelula(par[1],par[0])}">${esc(par[1]||'—')}</td></tr>`).join('')}</table>
     ${tabelaItens}
+    ${tabelaVolta}
     <div class="sig">${d.assinaturas.map(a=>`<div>${esc(a)}</div>`).join('')}</div>`,
     modo=>pdfMovimento(v,modo), textoDocumento(d));
 }
@@ -4754,6 +5293,11 @@ function pdfMovimento(v,modo){
 
   if(d.itens){
     y+=7;
+    if(d.troca){
+      doc.setFillColor(168,50,30); doc.rect(M,y-3.2,3.4,3.4,'F');
+      doc.setFontSize(9.5); doc.setTextColor(20); doc.setFont(undefined,'bold');
+      doc.text('SAINDO DO ESTOQUE', M+5.5, y); doc.setFont(undefined,'normal'); y+=3;
+    }
     const C=[14, 88, 24, 14, L-140];   /* item · material · qtd · un · saldo após */
     const cab=['ITEM','MATERIAL','QTD','UN','SALDO APÓS'];
     const cabecalhoTabela=()=>{
@@ -4782,13 +5326,41 @@ function pdfMovimento(v,modo){
     doc.setFontSize(8); doc.setTextColor(90);
     y+=5; doc.text(d.itens.length+' material(is) nesta requisição', M, y); y+=2;
   }
+  if(d.troca){
+    y+=8; if(y>250){ doc.addPage(); y=M; }
+    doc.setFillColor(20,101,126); doc.rect(M,y-3.2,3.4,3.4,'F');
+    doc.setFontSize(9.5); doc.setTextColor(20); doc.setFont(undefined,'bold');
+    doc.text('VOLTANDO DO CAMPO', M+5.5, y); doc.setFont(undefined,'normal'); y+=3;
+    const C2=[14, 76, 46, L-136];
+    const cab2=['ITEM','EQUIPAMENTO','Nº DE SÉRIE','ESTADO NA DEVOLUÇÃO'];
+    doc.setFillColor(30,30,30); doc.setDrawColor(30);
+    let x=M; doc.rect(M,y,L,8,'FD'); doc.setFontSize(7.4); doc.setTextColor(255);
+    cab2.forEach((t,i)=>{ doc.text(t, x+C2[i]/2, y+5.3, {align:'center'}); x+=C2[i]; });
+    y+=8; doc.setDrawColor(70);
+    d.troca.voltam.forEach(it=>{
+      const nome=doc.splitTextToSize(it.nome, C2[1]-5);
+      const h=Math.max(8, nome.length*4.4+3.6);
+      if(y+h>272){ doc.addPage(); y=M; }
+      let xx=M; C2.forEach(w=>{ doc.rect(xx,y,w,h,'D'); xx+=w; });
+      doc.setFontSize(9); doc.setTextColor(20);
+      doc.text(String(it.n), M+C2[0]/2, y+5.2, {align:'center'});
+      doc.text(nome, M+C2[0]+2.5, y+5.2);
+      doc.setFont('courier','normal'); doc.text(String(it.sn), M+C2[0]+C2[1]+C2[2]/2, y+5.2, {align:'center'});
+      doc.setFont('helvetica','normal'); doc.setTextColor(140);
+      doc.text('a conferir no retorno', M+C2[0]+C2[1]+C2[2]+C2[3]/2, y+5.2, {align:'center'});
+      y+=h;
+    });
+  }
 
   y+=26; if(y>268) y=268;
-  const w=(L-12)/2;
+  const nA=d.assinaturas.length, vao=nA>2?8:12, w=(L-vao*(nA-1))/nA;
   doc.setDrawColor(20); doc.setLineWidth(0.3);
-  doc.line(M,y,M+w,y); doc.line(M+w+12,y,M+L,y);
-  doc.setFontSize(8.5); doc.setTextColor(40);
-  doc.text(d.assinaturas[0], M, y+5); doc.text(d.assinaturas[1], M+w+12, y+5);
+  doc.setFontSize(nA>2?7.8:8.5); doc.setTextColor(40);
+  d.assinaturas.forEach((a,i)=>{
+    const x=M+i*(w+vao);
+    doc.line(x,y,x+w,y);
+    doc.text(doc.splitTextToSize(a,w), x, y+5);
+  });
   doc.setFontSize(7.2); doc.setTextColor(130);
   doc.text('Emitido em '+dtBR(agora()), M, 288);
   const nome=d.nome+'.pdf';
@@ -4927,8 +5499,11 @@ load().then(()=>{
   if(sessao&&!usuarios.some(u=>u.id===sessao.id&&u.perfil===sessao.perfil)) sessao=null;
   if(sessao){
     aplicaPermissoes(); render();
-    aba('tabRel'); ladoAtual='estoque'; pintaLado();
-    $('#r_visao').value='cartoes'; descreveVisao(); gerar();
+    if(sessao.perfil==='campo') abreTroca();
+    else{
+      aba('tabRel'); ladoAtual='estoque'; pintaLado();
+      $('#r_visao').value='cartoes'; descreveVisao(); gerar();
+    }
   } else abreLogin();
 });
 </script>
