@@ -607,6 +607,9 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
 .trava-nf.bloq{background:var(--tn-out);border-color:var(--out)} .trava-nf.bloq b{color:var(--out)}
 .trava-nf.livre{background:var(--tn-ok);border-color:var(--ok)} .trava-nf.livre b{color:var(--ok)}
 #movSalvar[disabled]{opacity:.35;cursor:not-allowed;filter:grayscale(.6)}
+
+.eco-din{display:block;font-family:var(--mono);font-size:11px;color:var(--ok);margin-top:4px;min-height:14px}
+.eco-din.mau{color:var(--out)}
 </style>
 
 <div class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -619,7 +622,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
         <h1>Controle de estoque</h1>
         <p>Almoxarifado · Manutenção técnica</p>
         <div class="estado"><span class="ponto"></span><span id="estadoTxt">carregando…</span>
-          <span class="selo" title="versão deste programa">v92 · fechamento do mês</span></div>
+          <span class="selo" title="versão deste programa">v94 · técnicos de campo</span></div>
       </div>
       <div class="direita">
         <span class="cracha" id="cracha">—</span>
@@ -847,7 +850,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
     <span class="discreto">
       <button id="json">exportar backup</button><b>·</b><button id="import">importar</button>
     </span>
-    <span class="versao" title="versão deste programa">v92 · fechamento do mês</span>
+    <span class="versao" title="versão deste programa">v94 · técnicos de campo</span>
 </footer>
 </div>
 
@@ -879,7 +882,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
               <option value="consumo">Material de consumo · vira despesa ao sair</option>
               <option value="equipamento">Equipamento · vai para o patrimônio ao sair</option></select></div>
           <div class="f"><label for="m_preco">Preço unitário (R$) *</label>
-            <input type="number" id="m_preco" min="0" step="0.01" placeholder="obrigatório"></div>
+            <input type="text" inputmode="decimal" id="m_preco" placeholder="obrigatório · ex.: 2.281 ou 45,90"></div>
           <div class="f"><label for="m_local">Localização</label>
             <select id="m_localSel"></select>
             <input id="m_local" style="display:none;margin-top:8px" placeholder="digite o local"></div>
@@ -949,11 +952,11 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
   <p class="hint" id="v_chaveInfo" style="margin:6px 0 0"></p>
   <div class="lido-nf" id="v_lido"></div>
   <div id="v_fornBox"></div></div>
-<div class="f"><label for="v_frete">Frete e despesas da nota (R$)</label><input type="number" id="v_frete" min="0" step="0.01" placeholder="0,00"></div>
-<div class="f"><label for="v_desc">Desconto da nota (R$)</label><input type="number" id="v_desc" min="0" step="0.01" placeholder="0,00"></div>
+<div class="f"><label for="v_frete">Frete e despesas da nota (R$)</label><input type="text" inputmode="decimal" id="v_frete" placeholder="0,00"></div>
+<div class="f"><label for="v_desc">Desconto da nota (R$)</label><input type="text" inputmode="decimal" id="v_desc" placeholder="0,00"></div>
           <div class="f"><label for="v_origem">Veio de</label><input id="v_origem" list="lista-fornecedor" placeholder="Fornecedor, compra, devolução de obra…"><datalist id="lista-fornecedor"></datalist></div>
           <div class="f"><label for="v_nf">Nº da nota fiscal</label><input id="v_nf" class="mono"></div>
-          <div class="f"><label for="v_preco">Preço unitário (R$)</label><input type="number" id="v_preco" min="0" step="0.01"></div>
+          <div class="f"><label for="v_preco">Preço unitário (R$)</label><input type="text" inputmode="decimal" id="v_preco" placeholder="ex.: 2.281 ou 45,90"></div>
           <div class="f"><label for="v_motivo">Motivo da entrada</label>
             <select id="v_motivo">
               <option value="minimo">Reposição de estoque mínimo</option>
@@ -1467,7 +1470,7 @@ async function puxarDaPlanilha(){
     if(dc.cadastros&&dc.cadastros.length) cads=dc.cadastros;
     if(dc.usuarios&&dc.usuarios.length){
       usuarios=dc.usuarios;
-      if(!usuarios.some(x=>x.perfil==='campo')) usuarios.push(Object.assign({},USUARIO_CAMPO));
+      garanteTecnicos();
     }
     await store.set(K_MAT,JSON.stringify(mats)); await store.set(K_MOV,JSON.stringify(movs));
     await store.set(K_CAD,JSON.stringify(cads)); await store.set(K_USU,JSON.stringify(usuarios));
@@ -1889,7 +1892,16 @@ const PERFIS={
     resumo:'Pede troca de equipamento no campo. Não vê estoque, relatórios nem cadastros. Entra sem senha.'}
 };
 const USUARIO_CAMPO={id:'u-campo-1',nome:'PACHECO',perfil:'campo',senha:'',obs:'Técnico de campo · pede troca de equipamento'};
-const SEED_USUARIOS=[USUARIO_CAMPO,
+/* os técnicos de campo: cada um precisa aparecer na lista, mesmo antes de a planilha conhecê-lo */
+const USUARIOS_CAMPO=[USUARIO_CAMPO,
+  {id:'u-campo-2',nome:'ALEXANDRE',perfil:'campo',senha:'',obs:'Técnico de campo · pede troca de equipamento'}];
+function garanteTecnicos(){
+  USUARIOS_CAMPO.forEach(t=>{
+    const ja=usuarios.some(x=>x.id===t.id||String(x.nome||'').toUpperCase()===t.nome);
+    if(!ja) usuarios.push(Object.assign({},t));
+  });
+}
+const SEED_USUARIOS=[...USUARIOS_CAMPO,
   {id:'u-1',nome:'CARLOS',perfil:'senior',senha:'vtm-senior',obs:'Responsável pela manutenção técnica'},
   {id:'u-2',nome:'ADM JÚNIOR 1',perfil:'junior',senha:'vtm-jr1',obs:'trocar o nome pelo nome real'},
   {id:'u-3',nome:'ADM JÚNIOR 2',perfil:'junior',senha:'vtm-jr2',obs:'trocar o nome pelo nome real'},
@@ -1926,7 +1938,7 @@ function aplicaPermissoes(){
 /* ---- entrada no sistema ---- */
 function garanteCampo(){
   /* o técnico de campo precisa estar na lista, mesmo antes de a planilha conhecê-lo */
-  if(!usuarios.some(x=>x.perfil==='campo')) usuarios.push(Object.assign({},USUARIO_CAMPO));
+  garanteTecnicos();
 }
 function pintaLogin(){
   garanteCampo();
@@ -2727,7 +2739,7 @@ function pintaCompletar(){
         <td class="ctr">${esc(m.unidade||'')}</td>
         <td class="ctr">${saldo(m.id)}</td>
         <td class="ctr"><input type="number" class="l-min" min="0" step="1" value="${num(m.minimo)||''}" placeholder="0"></td>
-        <td class="ctr"><input type="number" class="l-preco" min="0" step="0.01" value="${num(m.preco)||''}" placeholder="0,00"></td>
+        <td class="ctr"><input type="text" inputmode="decimal" class="l-preco" value="${num(m.preco)?fmtDin(num(m.preco)):''}" placeholder="0,00"></td>
         <td class="ctr"><select class="l-nat"><option value=""${m.natureza?'':' selected'}>—</option>
           <option value="consumo"${m.natureza==='consumo'?' selected':''}>Consumo</option>
           <option value="equipamento"${m.natureza==='equipamento'?' selected':''}>Equipamento</option></select></td>
@@ -2745,10 +2757,10 @@ function pintaCompletar(){
     </div>`;
 
   const conta=()=>{
-    const n=[...$('#gridMat').querySelectorAll('tbody tr')].filter(tr=>!num(tr.querySelector('.l-preco').value)).length;
+    const n=[...$('#gridMat').querySelectorAll('tbody tr')].filter(tr=>!dinheiro(tr.querySelector('.l-preco').value)).length;
     $('#loteConta').textContent=n?n+' produto(s) continuam sem preço.':'Todos com preço.';
   };
-  $('#gridMat').querySelectorAll('.l-preco').forEach(e=>e.addEventListener('input',conta));
+  $('#gridMat').querySelectorAll('.l-preco').forEach(e=>{ e.addEventListener('input',conta); ligaDinheiro(e); });
   conta();
 
   /* excluir produto direto da lista */
@@ -2768,12 +2780,23 @@ function pintaCompletar(){
   });
 
   $('#loteSalvar').onclick=async()=>{
+    const linhas=[...$('#gridMat').querySelectorAll('tbody tr')];
+    const ruim=linhas.filter(tr=>isNaN(numBR(tr.querySelector('.l-preco').value)));
+    if(ruim.length){ toast('Não entendi o preço de '+ruim.length+' produto(s). Use 2.281 ou 2.281,50.'); ruim[0].querySelector('.l-preco').focus(); return; }
+    const suspeitos=linhas.map(tr=>{ const m=mats.find(x=>x.id===tr.dataset.id);
+      const novo=dinheiro(tr.querySelector('.l-preco').value), velho=num(m&&m.preco);
+      return (velho>0&&novo>0&&(novo/velho>=10||velho/novo>=10))?m.nome+': '+brl(velho)+' → '+brl(novo):null; }).filter(Boolean);
+    if(suspeitos.length){
+      const certo=await ask('Estes preços mudaram mais de 10 vezes — pode ser um ponto ou uma vírgula no lugar errado:\n\n'
+        +suspeitos.join('\n')+'\n\nEstá certo?','Está certo','Corrigir');
+      if(!certo) return;
+    }
     guardaAnterior('o preenchimento em lote');
     let mudou=0, ajustes=0;
     [...$('#gridMat').querySelectorAll('tbody tr')].forEach(tr=>{
       const i=mats.findIndex(x=>x.id===tr.dataset.id); if(i<0)return;
       const novo={ minimo:num(tr.querySelector('.l-min').value),
-        preco:num(tr.querySelector('.l-preco').value),
+        preco:dinheiro(tr.querySelector('.l-preco').value),
         local:tr.querySelector('.l-local').value.trim(),
         natureza:tr.querySelector('.l-nat').value,
         fornecedor:tr.querySelector('.l-forn').value.trim() };
@@ -3182,6 +3205,66 @@ async function decideRetorno(r,como){
 
 
 
+
+/* ================= dinheiro do jeito brasileiro: 2.281 é dois mil; 45,90 tem centavos ================= */
+function numBR(t){
+  if(typeof t==='number') return isFinite(t)?t:NaN;
+  let s=String(t==null?'':t).trim().replace(/R\$|\s/g,'');
+  if(!s) return 0;
+  if(!/^[\d.,]+$/.test(s)) return NaN;
+  const v=s.lastIndexOf(','), p=s.lastIndexOf('.');
+  if(v>=0&&p>=0){
+    s = v>p ? s.replace(/\./g,'').replace(',','.') : s.replace(/,/g,'');   /* 2.281,50 · 2,281.50 */
+  }else if(v>=0){
+    if(s.split(',').length>2) return NaN;
+    s=s.replace(',','.');                                                     /* 45,90 */
+  }else if(p>=0){
+    const partes=s.split('.');
+    if(partes.length>2) s=partes.join('');                                    /* 1.234.567 */
+    else if(partes[1].length===3&&partes[0]!==''&&partes[0]!=='0') s=partes.join('');   /* 2.281 → 2281 */
+  }
+  const n=Number(s); return isFinite(n)?n:NaN;
+}
+const dinheiro=t=>{ const n=numBR(t); return isNaN(n)?0:n; };
+const fmtDin=n=>Number(n).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:4});
+/* ao abrir um cadastro, o valor gravado é mostrado já no formato brasileiro, sem ambiguidade */
+function mostraDinheiro(e){
+  if(!e) return;
+  const bruto=String(e.value||'').trim();
+  if(bruto===''){ ecoDinheiro(e); return; }
+  const n=parseFloat(bruto);            /* o que vem gravado usa ponto decimal */
+  e.value=isFinite(n)?fmtDin(n):bruto;
+  ecoDinheiro(e);
+}
+/* embaixo do campo: como o sistema entendeu o que foi digitado */
+function ecoDinheiro(e){
+  if(!e) return;
+  let eco=e.nextElementSibling;
+  if(!eco||!eco.classList||!eco.classList.contains('eco-din')){
+    eco=document.createElement('span'); eco.className='eco-din'; e.insertAdjacentElement('afterend',eco);
+  }
+  const t=String(e.value||'').trim();
+  if(!t){ eco.textContent=''; eco.classList.remove('mau'); return; }
+  const n=numBR(t);
+  if(isNaN(n)){ eco.textContent='não entendi este valor — use 2.281 ou 2.281,50'; eco.classList.add('mau'); return; }
+  eco.textContent='= '+brl(n); eco.classList.remove('mau');
+}
+function ligaDinheiro(e){
+  if(!e||e.dataset.din) return;
+  e.dataset.din='1';
+  e.addEventListener('input',()=>ecoDinheiro(e));
+  e.addEventListener('blur',()=>{ const n=numBR(e.value); if(String(e.value).trim()&&!isNaN(n)) e.value=fmtDin(n); ecoDinheiro(e); });
+}
+['v_preco','m_preco','v_frete','v_desc'].forEach(id=>ligaDinheiro(document.getElementById(id)));
+/* preço dez vezes maior ou menor que o de referência: pergunta antes de gravar */
+async function conferePreco(novo,ref,oque){
+  if(!(ref>0)||!(novo>0)) return true;
+  const razao=novo/ref;
+  if(razao<10&&razao>0.1) return true;
+  return ask('O preço '+oque+' ('+brl(novo)+') está '+(razao<1?'muito abaixo':'muito acima')+
+    ' do preço de referência ('+brl(ref)+'). Pode ser um ponto ou uma vírgula no lugar errado. Está certo?','Está certo','Corrigir');
+}
+
 /* ================= custo médio ponderado: o valor do estoque nasce dos lançamentos ================= */
 function precoBase(v){ const m=mat(v.materialId); return num(v.preco)>0?num(v.preco):num(m?m.preco:0); }
 /* custo real de uma entrada: preço + a parte do frete − a parte do desconto da nota, pelo valor de cada item */
@@ -3302,8 +3385,8 @@ async function leChaveEntrada(){
   /* frete e desconto: informados uma vez por nota */
   const irma=movs.find(v=>v.tipo==='entrada'&&soChave(v.chave)===c&&v.id!==editMov);
   if(irma&&(num(irma.freteNota)||num(irma.descNota))){
-    if(!$('#v_frete').value) $('#v_frete').value=num(irma.freteNota)||'';
-    if(!$('#v_desc').value) $('#v_desc').value=num(irma.descNota)||'';
+    if(!$('#v_frete').value){ $('#v_frete').value=num(irma.freteNota)?fmtDin(num(irma.freteNota)):''; ecoDinheiro($('#v_frete')); }
+    if(!$('#v_desc').value){ $('#v_desc').value=num(irma.descNota)?fmtDin(num(irma.descNota)):''; ecoDinheiro($('#v_desc')); }
   }
   /* o fornecedor, pelo CNPJ */
   const ja=fornecedorPorCnpj(cnpj);
@@ -3356,7 +3439,7 @@ async function load(){
   try{ usuarios=u?JSON.parse(u):[]; }catch(e){ usuarios=[]; }
   if(!usuarios.length) usuarios=SEED_USUARIOS.slice();
   /* o técnico de campo precisa existir para escolher o nome e entrar */
-  if(!usuarios.some(x=>x.perfil==='campo')) usuarios.push(Object.assign({},USUARIO_CAMPO));
+  garanteTecnicos();
   const tr=await store.get(K_TRO); try{ trocas=tr?JSON.parse(tr):[]; }catch(e){ trocas=[]; }
   const rt=await store.get(K_RET); try{ retornos=rt?JSON.parse(rt):[]; }catch(e){ retornos=[]; }
   /* datas no formato do sistema, venham de onde vierem */
@@ -3752,6 +3835,7 @@ function openMat(m){
     : 'A quantidade já existente vira uma entrada de inventário inicial. Se informar os números de série, a quantidade se ajusta a eles.';
   $('#matDel').style.display=(m&&pode('excluir'))?'':'none';
   MF.forEach(([el,k])=>{$('#'+el).value=m?(m[k]===0?'':m[k]||''):'';});
+  mostraDinheiro($('#m_preco'));
   campoDoUsuario('m_registrador', m?m.registrador:'');
   /* ao editar, o ajuste de contagem fica aqui mesmo */
   const bxA=$('#boxAjuste'), cA=$('#m_ajuste');
@@ -3789,6 +3873,13 @@ async function salvarMat(){
   guardaAnterior(editMat?'a edição do produto':'o cadastro do produto');
   const o={id:editMat||'m-'+Date.now()};
   MF.forEach(([el,k])=>{o[k]=$('#'+el).value.trim();});
+  if(isNaN(numBR($('#m_preco').value))){ toast('Não entendi o preço. Use 2.281 ou 2.281,50.'); $('#m_preco').focus(); return; }
+  o.preco=dinheiro($('#m_preco').value);
+  if(editMat){
+    const velho=mats.find(x=>x.id===editMat);
+    const certo=await conferePreco(o.preco,num(velho&&velho.preco),'do produto');
+    if(!certo){ $('#m_preco').focus(); return; }
+  }
   if(!o.nome){toast('Informe o nome do produto.');return;}
   if(!o.natureza){
     toast('Informe a natureza: material de consumo ou equipamento. É ela que diz para onde vai o valor quando o material sai.');
@@ -4153,6 +4244,7 @@ function openMov(tipo,materialId,mv){
   $('#movDel').style.display=(mv&&pode('excluir'))?'':'none';
   opcoesMat(mv?mv.materialId:materialId);
   VF.forEach(([el,k])=>{const e=$('#'+el);if(e)e.value=mv?(mv[k]===0?'':mv[k]||''):'';});
+  ['v_preco','v_frete','v_desc'].forEach(id=>mostraDinheiro($('#'+id)));
   if(!mv)$('#v_data').value=agora();
   montaLista('v_retiradoSel','v_retirado','requisitante',mv?mv.retirado:'');
   if(tipo==='entrada') campoDoUsuario('v_recebido', mv?mv.recebido:'');
@@ -4180,6 +4272,10 @@ async function salvarMov(){
   guardaAnterior(editMov||editReq?'edição de movimento':(tipoMov==='entrada'?'entrada de material':'saída de material'));
   const base={};
   VF.forEach(([el,k])=>{const e=$('#'+el);if(e)base[k]=e.value.trim?e.value.trim():e.value;});
+  for(const id of ['v_preco','v_frete','v_desc']){
+    if(isNaN(numBR($('#'+id).value))){ toast('Não entendi o valor digitado. Use 2.281 ou 2.281,50.'); $('#'+id).focus(); return null; }
+  }
+  base.preco=dinheiro($('#v_preco').value); base.freteNota=dinheiro($('#v_frete').value); base.descNota=dinheiro($('#v_desc').value);
 
   if(tipoMov==='entrada'){
     const o=Object.assign({},base,{id:editMov||'v-'+Date.now(),tipo:'entrada',materialId:$('#v_mat').value,usuario:(sessao?sessao.nome:'')});
@@ -4193,6 +4289,9 @@ async function salvarMov(){
       const erro=examinaChave(o.chave,o.materialId,o.data,editMov);
       if(erro){ travaNota=erro; pintaTravaNota(); toast(erro); return null; }
     }
+    { const mref=mat(o.materialId);
+      const certo=await conferePreco(num(o.preco),num(mref&&mref.preco),'desta entrada');
+      if(!certo){ const e=$('#v_preco'); if(e)e.focus(); return null; } }
     if(fornPendente&&fornPendente.cnpj===o.chave.slice(6,20)){
       const nome=String(($('#v_fornNome')||{}).value||o.origem||'').trim().toUpperCase();
       if(!nome){ toast('Informe o nome do fornecedor novo.'); const nm=$('#v_fornNome'); if(nm)nm.focus(); return null; }
