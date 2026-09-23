@@ -587,6 +587,26 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
 .bt-util.on{background:var(--ok)!important;color:#fff!important}
 .bt-baixa{border-color:var(--out)!important;color:var(--out)!important}
 .bt-baixa.on{background:var(--out)!important;color:#fff!important}
+
+/* ---------- nota fiscal na entrada ---------- */
+.lido-nf{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-top:8px}
+.lido-nf:empty{display:none}
+.lido-nf div{background:var(--panel2);border:1px solid var(--hair2);border-radius:10px;padding:7px 10px}
+.lido-nf small{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3)}
+.lido-nf b{font-family:var(--mono);font-size:13px;color:var(--num);font-weight:500}
+.forn-nf{border-radius:12px;padding:12px 14px;margin-top:10px;border:1px solid}
+.forn-nf.existe{background:var(--tn-ok);border-color:var(--ok)}
+.forn-nf.novo{background:var(--tn-low);border-color:var(--low)}
+.forn-nf.sem{background:var(--tn-out);border-color:var(--out)}
+.forn-nf h4{margin:0 0 6px;font-size:14px}
+.forn-nf.existe h4{color:var(--ok)} .forn-nf.novo h4{color:var(--low)} .forn-nf.sem h4{color:var(--out)}
+.forn-nf .dados{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:6px 14px;font-size:13px;margin:6px 0 8px}
+.forn-nf .dados small{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3)}
+.trava-nf{display:flex;gap:10px;align-items:flex-start;border-radius:10px;padding:10px 13px;margin-top:12px;font-size:13px;border:1px solid}
+.trava-nf:empty{display:none}
+.trava-nf.bloq{background:var(--tn-out);border-color:var(--out)} .trava-nf.bloq b{color:var(--out)}
+.trava-nf.livre{background:var(--tn-ok);border-color:var(--ok)} .trava-nf.livre b{color:var(--ok)}
+#movSalvar[disabled]{opacity:.35;cursor:not-allowed;filter:grayscale(.6)}
 </style>
 
 <div class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -599,7 +619,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
         <h1>Controle de estoque</h1>
         <p>Almoxarifado · Manutenção técnica</p>
         <div class="estado"><span class="ponto"></span><span id="estadoTxt">carregando…</span>
-          <span class="selo" title="versão deste programa">v90 · troca de equipamento</span></div>
+          <span class="selo" title="versão deste programa">v92 · fechamento do mês</span></div>
       </div>
       <div class="direita">
         <span class="cracha" id="cracha">—</span>
@@ -827,7 +847,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
     <span class="discreto">
       <button id="json">exportar backup</button><b>·</b><button id="import">importar</button>
     </span>
-    <span class="versao" title="versão deste programa">v90 · troca de equipamento</span>
+    <span class="versao" title="versão deste programa">v92 · fechamento do mês</span>
 </footer>
 </div>
 
@@ -854,6 +874,10 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
             <select id="m_unidade"><option>UN</option><option>PC</option><option>CX</option><option>M</option><option>RL</option><option>PAR</option><option>L</option><option>KG</option></select>
           </div>
           <div class="f"><label for="m_minimo">Estoque mínimo</label><input type="number" id="m_minimo" min="0" step="1" placeholder="0"></div>
+          <div class="f"><label for="m_natureza">Natureza *</label>
+            <select id="m_natureza"><option value="">— escolha —</option>
+              <option value="consumo">Material de consumo · vira despesa ao sair</option>
+              <option value="equipamento">Equipamento · vai para o patrimônio ao sair</option></select></div>
           <div class="f"><label for="m_preco">Preço unitário (R$) *</label>
             <input type="number" id="m_preco" min="0" step="0.01" placeholder="obrigatório"></div>
           <div class="f"><label for="m_local">Localização</label>
@@ -918,8 +942,15 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
       </fieldset>
 
       <fieldset id="fsEntrada">
-        <legend>Origem da entrada</legend>
-        <div class="fgrid">
+<legend>Origem da entrada</legend>
+<div class="fgrid">
+<div class="f wide"><label for="v_chave">Chave de acesso da NF-e · 44 dígitos</label>
+  <input id="v_chave" class="mono" inputmode="numeric" maxlength="60" placeholder="bipe o código de barras do DANFE ou cole a chave">
+  <p class="hint" id="v_chaveInfo" style="margin:6px 0 0"></p>
+  <div class="lido-nf" id="v_lido"></div>
+  <div id="v_fornBox"></div></div>
+<div class="f"><label for="v_frete">Frete e despesas da nota (R$)</label><input type="number" id="v_frete" min="0" step="0.01" placeholder="0,00"></div>
+<div class="f"><label for="v_desc">Desconto da nota (R$)</label><input type="number" id="v_desc" min="0" step="0.01" placeholder="0,00"></div>
           <div class="f"><label for="v_origem">Veio de</label><input id="v_origem" list="lista-fornecedor" placeholder="Fornecedor, compra, devolução de obra…"><datalist id="lista-fornecedor"></datalist></div>
           <div class="f"><label for="v_nf">Nº da nota fiscal</label><input id="v_nf" class="mono"></div>
           <div class="f"><label for="v_preco">Preço unitário (R$)</label><input type="number" id="v_preco" min="0" step="0.01"></div>
@@ -940,7 +971,8 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
             <textarea id="v_series" rows="3" class="mono" placeholder="bipe ou digite um por linha&#10;SN-0001&#10;SN-0002"></textarea>
             <p class="hint" id="contaSeries" style="margin:6px 0 0"></p></div>
         </div>
-        <p class="hint">Se informar o preço, ele atualiza o valor do material no estoque.</p>
+        <p class="hint">O custo que entra no estoque é o preço mais a parte do frete, menos a parte do desconto da nota.</p>
+        <div class="trava-nf" id="v_trava"></div>
       </fieldset>
 
       <fieldset id="fsSaida">
@@ -1338,7 +1370,7 @@ async function enviarParaPlanilha(){
   if(sessao&&sessao.perfil==='campo') return false;   /* o aparelho do campo só lê */
   if(!API) return false;
   const r=await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},
-    body:JSON.stringify({acao:'gravar',materiais:mats,movimentos:movs,cadastros:cads,usuarios:usuarios,series:listaSeries(),
+    body:JSON.stringify({acao:'gravar',materiais:mats.map(m=>Object.assign({},m,{custoMedio:Math.round(custoMedioAtual(m)*100)/100})),movimentos:movs,cadastros:cads,usuarios:usuarios,series:listaSeries(),
       trocas:trocas.map(t=>{const c=Object.assign({},t); delete c.pendente; return c;}),retornos:retornos})});
   const d=await r.json();
   if(!d||!d.ok) throw new Error(d&&d.erro?d.erro:'não foi possível gravar');
@@ -2599,7 +2631,7 @@ function desenhaBarras(){
 function desenhaRosca(){
   const alvo=$('#graficoRosca'); if(!alvo) return;
   const porForn={};
-  mats.forEach(m=>{ const v=saldo(m.id)*num(m.preco); if(v<=0)return;
+  mats.forEach(m=>{ const v=valorEstq(m); if(v<=0)return;
     const k=(m.fornecedor||'sem fornecedor').toUpperCase(); porForn[k]=(porForn[k]||0)+v; });
   const total=Object.values(porForn).reduce((a,b)=>a+b,0);
   if(!total){ alvo.innerHTML='<div class="empty"><p>Ainda não há valor em estoque para mostrar.</p></div>'; return; }
@@ -2686,7 +2718,7 @@ function pintaCompletar(){
         ${pode('excluir')?'<th class="ctr" style="width:38px"><input type="checkbox" id="loteTodos" title="marcar todos"></th>':''}
         <th class="esq">Produto</th><th class="ctr">Un</th><th class="ctr">Saldo</th>
         <th class="ctr">Mínimo</th><th class="ctr">Preço unitário</th>
-        <th class="ctr">Localização</th><th class="ctr">Fornecedor</th>
+        <th class="ctr">Natureza</th><th class="ctr">Localização</th><th class="ctr">Fornecedor</th>
         <th class="ctr">Contagem real</th><th class="ctr"></th>
       </tr></thead>
       <tbody>${L.map(m=>`<tr data-id="${m.id}" class="${num(m.preco)?'':'sem-preco'}">
@@ -2696,6 +2728,9 @@ function pintaCompletar(){
         <td class="ctr">${saldo(m.id)}</td>
         <td class="ctr"><input type="number" class="l-min" min="0" step="1" value="${num(m.minimo)||''}" placeholder="0"></td>
         <td class="ctr"><input type="number" class="l-preco" min="0" step="0.01" value="${num(m.preco)||''}" placeholder="0,00"></td>
+        <td class="ctr"><select class="l-nat"><option value=""${m.natureza?'':' selected'}>—</option>
+          <option value="consumo"${m.natureza==='consumo'?' selected':''}>Consumo</option>
+          <option value="equipamento"${m.natureza==='equipamento'?' selected':''}>Equipamento</option></select></td>
         <td class="ctr"><select class="l-local">${opcoes(locais,m.local)}</select></td>
         <td class="ctr"><select class="l-forn">${opcoes(forns,m.fornecedor)}</select></td>
         <td class="ctr"><input type="number" class="l-conta" min="0" step="1" placeholder="${saldo(m.id)}"></td>
@@ -2740,10 +2775,12 @@ function pintaCompletar(){
       const novo={ minimo:num(tr.querySelector('.l-min').value),
         preco:num(tr.querySelector('.l-preco').value),
         local:tr.querySelector('.l-local').value.trim(),
+        natureza:tr.querySelector('.l-nat').value,
         fornecedor:tr.querySelector('.l-forn').value.trim() };
       const antes=mats[i];
       if(num(antes.minimo)!==novo.minimo||num(antes.preco)!==novo.preco
-        ||String(antes.local||'')!==novo.local||String(antes.fornecedor||'')!==novo.fornecedor){
+        ||String(antes.local||'')!==novo.local||String(antes.fornecedor||'')!==novo.fornecedor
+        ||String(antes.natureza||'')!==novo.natureza){
         mats[i]=Object.assign({},antes,novo); mudou++;
       }
     });
@@ -3143,6 +3180,170 @@ async function decideRetorno(r,como){
   }
 }
 
+
+
+/* ================= custo médio ponderado: o valor do estoque nasce dos lançamentos ================= */
+function precoBase(v){ const m=mat(v.materialId); return num(v.preco)>0?num(v.preco):num(m?m.preco:0); }
+/* custo real de uma entrada: preço + a parte do frete − a parte do desconto da nota, pelo valor de cada item */
+function custoUnitEntrada(v){
+  const p=precoBase(v), c=soChave(v.chave), q=num(v.qtd);
+  if(!c||!q) return p;
+  const irmas=movs.filter(x=>x.tipo==='entrada'&&soChave(x.chave)===c);
+  const tot=irmas.reduce((t,x)=>t+num(x.qtd)*precoBase(x),0);
+  const frete=Math.max(0,...irmas.map(x=>num(x.freteNota))), desc=Math.max(0,...irmas.map(x=>num(x.descNota)));
+  if(!tot||(!frete&&!desc)) return p;
+  const parte=(q*p)/tot;
+  return (q*p+frete*parte-desc*parte)/q;
+}
+/* para onde vai cada lançamento, no fechamento */
+function classeMov(v){
+  const ajuste=/^Contagem física/.test(String(v.justifica||''))||v.retirado==='Ajuste de inventário'||v.origem==='Ajuste de inventário';
+  if(v.tipo==='entrada'){
+    if(v.retornoId||v.origem==='Retorno de campo') return 'retorno';
+    if(ajuste) return 'sobra';
+    return 'compra';
+  }
+  if(ajuste) return 'perda';
+  const m=mat(v.materialId), n=m&&m.natureza;
+  if(n==='equipamento') return 'imob';
+  if(n==='consumo') return 'consumo';
+  return 'aclassificar';
+}
+/* o motor: percorre os lançamentos em ordem e tira a foto do estoque no início e no fim do período */
+function fechamentoEstoque(ini,fim){
+  const L=movs.filter(v=>String(v.data||'').slice(0,10)<=fim).slice()
+    .sort((a,b)=>String(a.data||'').localeCompare(String(b.data||''))||(a.tipo==='entrada'?-1:1));
+  const est={}, R={};
+  mats.forEach(m=>{ est[m.id]={q:0,v:0};
+    R[m.id]={ei_q:0,ei_v:0,compra:0,retorno:0,sobra:0,consumo:0,imob:0,perda:0,aclassificar:0,notas:[],saidas:[]}; });
+  let foto=false;
+  const tira=()=>{ mats.forEach(m=>{ R[m.id].ei_q=est[m.id].q; R[m.id].ei_v=est[m.id].v; }); foto=true; };
+  L.forEach(v=>{
+    const d=String(v.data||'').slice(0,10);
+    if(!foto&&d>=ini) tira();
+    const s=est[v.materialId], r=R[v.materialId]; if(!s) return;
+    const q=num(v.qtd), dentro=d>=ini, cls=classeMov(v);
+    if(v.tipo==='entrada'){
+      const cu=custoUnitEntrada(v); s.q+=q; s.v+=q*cu;
+      if(dentro){ r[cls]+=q*cu; const nf=v.nf||(soChave(v.chave)?String(Number(soChave(v.chave).slice(25,34))):''); if(nf&&r.notas.indexOf(nf)<0) r.notas.push(nf); }
+    }else{
+      const medio=s.q>0?s.v/s.q:0, val=q*medio;
+      s.q-=q; s.v-=val;
+      if(Math.abs(s.q)<1e-9){ s.q=0; s.v=0; }
+      if(dentro){ r[cls]+=val; r.saidas.push({v,medio,val,cls}); }
+    }
+  });
+  if(!foto) tira();
+  mats.forEach(m=>{ const s=est[m.id]; R[m.id].ef_q=s.q; R[m.id].ef_v=s.v; R[m.id].medio=s.q>0?s.v/s.q:0; });
+  return R;
+}
+let cacheCusto=null;
+function custoAgora(){ if(!cacheCusto) cacheCusto=fechamentoEstoque('0000-01-01','9999-12-31'); return cacheCusto; }
+const valorEstq=m=>{ const r=custoAgora()[m.id]; return r?r.ef_v:0; };
+const custoMedioAtual=m=>{ const r=custoAgora()[m.id]; return r&&r.ef_q>0?r.medio:num(m.preco); };
+
+/* ================= nota fiscal na entrada: chave, fornecedor pelo CNPJ e trava ================= */
+const MOTIVOS_COM_NOTA=['minimo','zerado','os'];   /* compra exige nota; transferência, inventário, devolução e outro, não */
+function dvChaveNF(c43){ let s=0,p=2; for(let i=c43.length-1;i>=0;i--){ s+=Number(c43[i])*p; p=p===9?2:p+1; } const r=s%11; return r<2?0:11-r; }
+function dvCnpj(base){
+  const calc=(b,pesos)=>{ const s=b.split('').reduce((t,d,i)=>t+Number(d)*pesos[i],0); const r=s%11; return r<2?0:11-r; };
+  const d1=calc(base,[5,4,3,2,9,8,7,6,5,4,3,2]); return base+d1+calc(base+d1,[6,5,4,3,2,9,8,7,6,5,4,3,2]);
+}
+const cnpjValido=c=>c.length===14&&!/^(\d)\1+$/.test(c)&&dvCnpj(c.slice(0,12))===c;
+const fmtCnpj=c=>String(c).replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/,'$1.$2.$3/$4-$5');
+const soChave=t=>String(t||'').replace(/\D/g,'');
+function examinaChave(c,materialId,dataEntrada,editId){
+  if(!c) return 'Entrada de compra precisa da chave da nota. Bipe o código de barras do DANFE.';
+  if(c.length!==44) return 'A chave tem '+c.length+' dígito(s); precisa ter 44. Confira no DANFE.';
+  if(dvChaveNF(c.slice(0,43))!==Number(c[43])) return 'O último dígito não confere: algum número foi digitado errado. Confira a chave no DANFE.';
+  if(['55','65'].indexOf(c.slice(20,22))<0) return 'Esta chave não é de nota fiscal (modelo '+c.slice(20,22)+'). Só NF-e (55) e NFC-e (65) entram como compra.';
+  if(!cnpjValido(c.slice(6,20))) return 'O CNPJ do emitente dentro da chave não é válido. A chave foi digitada errada.';
+  const mes=Number(c.slice(4,6));
+  if(mes<1||mes>12) return 'O mês de emissão dentro da chave não existe ('+c.slice(4,6)+'). A chave foi digitada errada.';
+  const emit='20'+c.slice(2,4)+'-'+c.slice(4,6), ent=String(dataEntrada||'').slice(0,7);
+  if(ent&&emit>ent) return 'A nota diz que foi emitida em '+c.slice(4,6)+'/20'+c.slice(2,4)+', depois da data desta entrada. Uma das duas está errada.';
+  const ja=movs.find(v=>v.tipo==='entrada'&&soChave(v.chave)===c&&v.materialId===materialId&&v.id!==editId);
+  if(ja) return 'Este produto desta nota já entrou no estoque em '+dtBR(ja.data)+'. O mesmo item da mesma nota não entra duas vezes.';
+  return '';
+}
+function fornecedorPorCnpj(cnpj){
+  return doTipo('fornecedor').find(c=>{
+    const dig=String(c.detalhe||'').replace(/\D/g,'');
+    return dig.indexOf(cnpj)>=0||String(c.cnpj||'')===cnpj;
+  })||null;
+}
+let fornPendente=null, travaNota='', consultaSeq=0;
+function pintaTravaNota(){
+  const b=$('#v_trava'), sv=$('#movSalvar'); if(!b) return;
+  if(tipoMov!=='entrada'){ b.className='trava-nf'; b.innerHTML=''; if(sv) sv.disabled=false; return; }
+  const exige=MOTIVOS_COM_NOTA.indexOf($('#v_motivo').value)>=0;
+  if(!exige){
+    b.className='trava-nf livre'; b.innerHTML='<span>✓</span><div><b>Entrada sem nota.</b> Este motivo não exige nota fiscal.</div>';
+    if(sv) sv.disabled=false; return;
+  }
+  if(travaNota){ b.className='trava-nf bloq'; b.innerHTML='<span>⛔</span><div><b>Salvar travado.</b> '+esc(travaNota)+'</div>'; if(sv) sv.disabled=true; }
+  else{ b.className='trava-nf livre'; b.innerHTML='<span>✓</span><div><b>Nota conferida.</b> Pode salvar.</div>'; if(sv) sv.disabled=false; }
+}
+async function leChaveEntrada(){
+  if(tipoMov!=='entrada'){ travaNota=''; pintaTravaNota(); return; }
+  const c=soChave($('#v_chave').value);
+  const info=$('#v_chaveInfo'); $('#v_lido').innerHTML=''; $('#v_fornBox').innerHTML=''; fornPendente=null;
+  const exige=MOTIVOS_COM_NOTA.indexOf($('#v_motivo').value)>=0;
+  const erro=(exige||c)?examinaChave(c,$('#v_mat').value,$('#v_data').value,editMov):'';
+  travaNota=exige?erro:(c?erro:'');
+  pintaTravaNota();
+  if(!c){ info.textContent=exige?'Cole ou bipe a chave impressa no DANFE.':'Sem nota fiscal para este motivo — a chave é opcional.'; info.style.color=''; return; }
+  if(erro){ info.textContent=erro; info.style.color='var(--out)'; return; }
+  info.textContent='✓ chave válida'; info.style.color='var(--ok)';
+  const cnpj=c.slice(6,20), nf=String(Number(c.slice(25,34)));
+  $('#v_lido').innerHTML=[['Nota nº',nf],['Série',String(Number(c.slice(22,25)))],['Emissão',c.slice(4,6)+'/20'+c.slice(2,4)],['CNPJ do emitente',fmtCnpj(cnpj)]]
+    .map(([k,v])=>'<div><small>'+k+'</small><b>'+esc(v)+'</b></div>').join('');
+  if(!$('#v_nf').value.trim()) $('#v_nf').value=nf;
+  /* frete e desconto: informados uma vez por nota */
+  const irma=movs.find(v=>v.tipo==='entrada'&&soChave(v.chave)===c&&v.id!==editMov);
+  if(irma&&(num(irma.freteNota)||num(irma.descNota))){
+    if(!$('#v_frete').value) $('#v_frete').value=num(irma.freteNota)||'';
+    if(!$('#v_desc').value) $('#v_desc').value=num(irma.descNota)||'';
+  }
+  /* o fornecedor, pelo CNPJ */
+  const ja=fornecedorPorCnpj(cnpj);
+  if(ja){
+    $('#v_origem').value=ja.nome;
+    $('#v_fornBox').innerHTML='<div class="forn-nf existe"><h4>✓ '+esc(ja.nome)+' — já está no cadastro</h4><p class="hint" style="margin:0">O fornecedor da entrada foi preenchido. Nada novo será cadastrado.</p></div>';
+    return;
+  }
+  const seq=++consultaSeq;
+  $('#v_fornBox').innerHTML='<div class="forn-nf novo"><h4>Fornecedor novo — consultando o CNPJ…</h4></div>';
+  let r=null;
+  try{
+    const ctl=new AbortController(); const t=setTimeout(()=>ctl.abort(),7000);
+    const resp=await fetch('https://brasilapi.com.br/api/cnpj/v1/'+cnpj,{signal:ctl.signal});
+    clearTimeout(t);
+    if(resp.ok) r=await resp.json();
+  }catch(e){ r=null; }
+  if(seq!==consultaSeq) return;   /* a chave mudou enquanto consultava */
+  if(r&&(r.razao_social||r.nome_fantasia)){
+    const tel=r.ddd_telefone_1?('('+String(r.ddd_telefone_1).slice(0,2)+') '+String(r.ddd_telefone_1).slice(2,6)+'-'+String(r.ddd_telefone_1).slice(6)):'';
+    const cid=r.municipio?(String(r.municipio).charAt(0)+String(r.municipio).slice(1).toLowerCase()+'/'+(r.uf||'')):'';
+    fornPendente={cnpj,nf,razao:r.razao_social||'',contato:tel,cidade:cid};
+    $('#v_fornBox').innerHTML=`<div class="forn-nf novo"><h4>Fornecedor novo · encontrado na Receita</h4>
+      <div class="dados"><div><small>Razão social</small>${esc(r.razao_social||'—')}</div><div><small>CNPJ</small>${fmtCnpj(cnpj)}</div>
+        <div><small>Cidade</small>${esc(cid||'—')}</div><div><small>Telefone</small>${esc(tel||'—')}</div>
+        <div><small>Situação</small>${esc(r.descricao_situacao_cadastral||'—')}</div></div>
+      <div class="f" style="max-width:420px"><label for="v_fornNome">Nome no sistema</label><input id="v_fornNome" value="${esc(String(r.nome_fantasia||r.razao_social||'').toUpperCase())}"></div>
+      <p class="hint" style="margin:6px 0 0">Ele entra em Cadastrar fornecedor <b>quando você salvar esta entrada</b>. Se desistir, nada é cadastrado.</p></div>`;
+  }else{
+    fornPendente={cnpj,nf,razao:'',contato:'',cidade:''};
+    $('#v_fornBox').innerHTML=`<div class="forn-nf sem"><h4>Fornecedor novo · não consegui consultar o CNPJ agora</h4>
+      <p class="hint" style="margin:0 0 8px">Digite o nome uma vez: ele fica guardado com o CNPJ, e nas próximas notas o sistema já reconhece.</p>
+      <div class="f" style="max-width:420px"><label for="v_fornNome">Nome do fornecedor</label><input id="v_fornNome" placeholder="como aparece na nota"></div></div>`;
+  }
+  const nm=$('#v_fornNome'); if(nm) nm.addEventListener('input',()=>{ $('#v_origem').value=nm.value.trim().toUpperCase(); });
+  if(nm&&nm.value) $('#v_origem').value=nm.value.trim().toUpperCase();
+}
+['v_chave'].forEach(id=>{ const e=document.getElementById(id); if(e) e.addEventListener('input',leChaveEntrada); });
+['v_motivo','v_data','v_mat'].forEach(id=>{ const e=document.getElementById(id); if(e) e.addEventListener('change',leChaveEntrada); });
+
 /* ============ carregar e salvar ============ */
 async function load(){
   const a=await store.get(K_MAT), b=await store.get(K_MOV);
@@ -3254,6 +3455,7 @@ async function desfazer(){
   toast('Alteração desfeita.');
 }
 async function persist(quais){
+  cacheCusto=null;
   const q=quais||['mat','mov','cad','usu','tro','ret'];
   const tarefas=[];
   if(q.indexOf('tro')>=0) tarefas.push(store.set(K_TRO,JSON.stringify(trocas)));
@@ -3287,7 +3489,7 @@ function kpis(){
   const fim=hoje.getFullYear()+'-'+p(hoje.getMonth()+1)+'-'+p(new Date(hoje.getFullYear(),hoje.getMonth()+1,0).getDate());
   const mes=ini.slice(0,7);
   const doMes=t=>movs.filter(v=>v.tipo===t&&String(v.data||'').slice(0,7)===mes).length;
-  const valor=mats.reduce((s,m)=>s+saldo(m.id)*num(m.preco),0);
+  const valor=mats.reduce((s,m)=>s+valorEstq(m),0);
   const rows=[
     ['Produtos',mats.length,'','Ver a posição de estoque em tabela',{lado:'estoque',visao:'posicao',f:{}}],
     ['Abaixo do mínimo',baixos,'is-low','Ver o que está abaixo do mínimo',{lado:'estoque',visao:'posicao',f:{r_situacao:'baixo'}}],
@@ -3344,7 +3546,7 @@ function matHTML(m){
       <span style="width:${pct}%"></span>
       ${min>0?'<b style="left:50%"></b>':''}
     </div>
-    <div class="gauge-lb"><span>${min>0?'mínimo '+min:'mínimo não definido'}</span><span>${m.preco?brl(num(m.preco)*s):''}</span></div>
+    <div class="gauge-lb"><span>${min>0?'mínimo '+min:'mínimo não definido'}</span><span>${s>0?brl(valorEstq(m)):''}</span></div>
     <div class="meta">
       ${m.preco?`<span>Unitário <b>${brl(m.preco)}</b></span>`:''}
       ${m.local?`<span>Onde <b>${esc(m.local)}</b></span>`:''}
@@ -3411,6 +3613,7 @@ function movHTML(grupo){
 }
 
 function render(){
+  cacheCusto=null;
   kpis();
   if($('#panHist')&&!$('#panHist').hidden) setTimeout(pintaHistorico,0);
   if($('#panPainel')&&!$('#panPainel').hidden) setTimeout(pintaPainel,0);
@@ -3479,7 +3682,7 @@ $('#q').addEventListener('input',e=>{busca=e.target.value;render();});
 $('#clearMat').onclick=()=>{matFiltro=null;render();};
 
 /* ============ formulário de material ============ */
-const MF=[['m_nome','nome'],['m_patrimonio','patrimonio'],['m_ean','ean'],['m_sn','sn'],['m_unidade','unidade'],['m_minimo','minimo'],['m_preco','preco'],['m_local','local'],['m_fornecedor','fornecedor'],['m_link','link'],['m_registrador','registrador'],['m_obs','obs']];
+const MF=[['m_nome','nome'],['m_patrimonio','patrimonio'],['m_ean','ean'],['m_sn','sn'],['m_unidade','unidade'],['m_minimo','minimo'],['m_preco','preco'],['m_natureza','natureza'],['m_local','local'],['m_fornecedor','fornecedor'],['m_link','link'],['m_registrador','registrador'],['m_obs','obs']];
 function campoDoUsuario(id,valorGravado){
   const e=$('#'+id); if(!e) return;
   const souSenior=!!(sessao&&sessao.perfil==='senior');
@@ -3587,6 +3790,11 @@ async function salvarMat(){
   const o={id:editMat||'m-'+Date.now()};
   MF.forEach(([el,k])=>{o[k]=$('#'+el).value.trim();});
   if(!o.nome){toast('Informe o nome do produto.');return;}
+  if(!o.natureza){
+    toast('Informe a natureza: material de consumo ou equipamento. É ela que diz para onde vai o valor quando o material sai.');
+    const cn=$('#m_natureza'); if(cn)cn.focus();
+    return;
+  }
   if(!(num(o.preco)>0)){
     toast('Informe o preço unitário — sem ele o produto não entra na conta do estoque.');
     const cp=$('#m_preco'); if(cp)cp.focus();
@@ -3672,6 +3880,7 @@ $('#matDel').onclick=async()=>{
 
 /* ============ formulário de movimento ============ */
 const VF=[['v_qtd','qtd'],['v_data','data'],['v_origem','origem'],['v_nf','nf'],['v_preco','preco'],['v_series','series'],
+  ['v_chave','chave'],['v_frete','freteNota'],['v_desc','descNota'],
   ['v_motivo','motivo'],['v_justifica','justifica'],
   ['v_recebido','recebido'],['v_retirado','retirado'],['v_destino','destino'],['v_os','os'],
   ['v_autorizado','autorizado'],['v_entregue','entregue'],['v_obs','obs']];
@@ -3907,6 +4116,7 @@ function pintaTipo(){
     bs.style.color=ent?'#04231A':'#04121F';
     bs.style.borderColor=ent?'var(--in)':'var(--out)'; }
   if(ent){ mostraSaldo(); pintaMotivo(); contaSeries(); } else resumoItens();
+  leChaveEntrada();
 }
 function mostraSaldo(){
   const id=$('#v_mat').value, m=mat(id);
@@ -3978,13 +4188,35 @@ async function salvarMov(){
     o.qtd=num(o.qtd); o.preco=num(o.preco);
     if(!o.materialId){toast('Escolha o material.');return null;}
     if(o.qtd<=0){toast('Informe uma quantidade maior que zero.');return null;}
-    /* nada de preço congelado: ele é recalculado a partir das entradas */
+    o.chave=soChave(o.chave); o.freteNota=num(o.freteNota); o.descNota=num(o.descNota);
+    if(MOTIVOS_COM_NOTA.indexOf(o.motivo)>=0||o.chave){
+      const erro=examinaChave(o.chave,o.materialId,o.data,editMov);
+      if(erro){ travaNota=erro; pintaTravaNota(); toast(erro); return null; }
+    }
+    if(fornPendente&&fornPendente.cnpj===o.chave.slice(6,20)){
+      const nome=String(($('#v_fornNome')||{}).value||o.origem||'').trim().toUpperCase();
+      if(!nome){ toast('Informe o nome do fornecedor novo.'); const nm=$('#v_fornNome'); if(nm)nm.focus(); return null; }
+      if(!fornecedorPorCnpj(fornPendente.cnpj)){
+        cads.push({id:'c-'+Date.now(),tipo:'fornecedor',nome:nome,
+          detalhe:'CNPJ '+fmtCnpj(fornPendente.cnpj)+(fornPendente.razao?' · '+fornPendente.razao:''),
+          site:'',contato:fornPendente.contato||'',
+          obs:'cadastrado pela NF '+fornPendente.nf+(fornPendente.cidade?' · '+fornPendente.cidade:'')});
+        toast(nome+' cadastrado em Fornecedores.');
+      }
+      o.origem=nome; fornPendente=null;
+    }
+    /* frete e desconto valem para a nota inteira: todas as entradas dela ficam iguais */
+    if(o.chave) movs.forEach(v=>{ if(v.tipo==='entrada'&&soChave(v.chave)===o.chave&&v.id!==o.id){ v.freteNota=o.freteNota; v.descNota=o.descNota; } });
     const era=editMov;
     if(editMov){const i=movs.findIndex(x=>x.id===editMov);movs[i]=Object.assign({},movs[i],o);}
     else movs.push(o);
-    render();persist(['mov','mat']);
+    render();persist(['mov','mat','cad']);
     if(relAtual&&!$('#panRel').hidden)gerar();
     toast(era?'Entrada atualizada.':'Entrada registrada.');
+    /* continua na tela editando ESTA entrada: Salvar e depois Fechar não pode gravar duas vezes */
+    editMov=o.id;
+    const tt=$('#movTitle'); if(tt) tt.textContent='Editar entrada';
+    const bd=$('#movDel'); if(bd) bd.style.display=pode('excluir')?'':'none';
     return o;
   }
 
@@ -4182,7 +4414,7 @@ $('#csvSaldo').onclick=()=>{
   const linhas=lista.map(m=>{
     const s=saldo(m.id),n=nivel(m);
     return [m.patrimonio||'',m.nome,m.unidade,s,num(m.minimo),n==='ok'?'OK':(n==='baixo'?'ABAIXO DO MINIMO':'ZERADO'),
-      num(m.preco).toFixed(2).replace('.',','),(s*num(m.preco)).toFixed(2).replace('.',','),m.local,
+      custoMedioAtual(m).toFixed(2).replace('.',','),valorEstq(m).toFixed(2).replace('.',','),m.local,
       m.os||'',m.docfiscal||'',dtBR(m.emissao||''),m.registrador||'',dtBR(m.cadastradoEm||''),m.obs].map(q).join(';');
   });
   baixar('estoque-materiais.csv','\ufeff'+[cab.map(q).join(';')].concat(linhas).join('\r\n'),'text/csv;charset=utf-8');
@@ -4292,7 +4524,9 @@ const VISOES={
     ['compra','Pedido de compra','Agrupado por fornecedor, com link, preço unitário, subtotal e total.'],
     ['media','Consumo médio por mês','Base para definir o estoque mínimo de cada item.'],
     ['ficha','Ficha do material (saldo acumulado)','A vida de um material: cada entrada e saída com o saldo depois de cada uma. Escolha o material.'],
-    ['contagem','Folha de contagem','Para imprimir e levar à prateleira: anote o contado e confira a diferença.']
+    ['contagem','Folha de contagem','Para imprimir e levar à prateleira: anote o contado e confira a diferença.'],
+    ['fechamentoMes','Fechamento do mês','A mesma conta do estoque, para um mês: início + entradas − consumo − patrimônio − perdas = fim. Sem data, é o mês atual; para outro mês, preencha a data “de” com qualquer dia dele.'],
+    ['fechamento','Fechamento do ano (balanço)','A conta do estoque no período, pelo custo médio: início + entradas − consumo − patrimônio − perdas = fim. Use o período “de / até”; sem período, é o ano inteiro.']
   ]
 };
 
@@ -4531,7 +4765,7 @@ function montar(f){
         ['Destino que mais recebeu',{v:topo(conta(v=>(v.destino||'').toUpperCase()))}],
         ['Ordens de serviço atendidas',{v:String(new Set(L.map(v=>v.os).filter(Boolean)).size)}]);
     }
-    R.rows.push(['Valor em estoque hoje',{v:brl(mats.reduce((s,m)=>s+saldo(m.id)*num(m.preco),0))}],
+    R.rows.push(['Valor em estoque hoje',{v:brl(mats.reduce((s,m)=>s+valorEstq(m),0))}],
       ['Itens abaixo do mínimo',{v:String(mats.filter(m=>nivel(m)==='baixo').length)}],
       ['Itens zerados',{v:String(mats.filter(m=>nivel(m)==='zerado').length)}]);
     R.rows.forEach(()=>R.meta.push(null));
@@ -4564,7 +4798,7 @@ function montar(f){
         ['Sem estoque mínimo',matsFiltrados(f).filter(m=>!num(m.minimo)).length],
         ['Sem preço',matsFiltrados(f).filter(m=>!num(m.preco)).length],
         ['Sem fornecedor',matsFiltrados(f).filter(m=>!m.fornecedor).length],
-        ['Valor em estoque',brl(matsFiltrados(f).reduce((t,m)=>t+saldo(m.id)*num(m.preco),0))]];
+        ['Valor em estoque',brl(matsFiltrados(f).reduce((t,m)=>t+valorEstq(m),0))]];
     }
 
     const mapa={fornecedor:['fornecedor','origem','Fornecedores cadastrados','Fornecedor'],
@@ -4623,15 +4857,15 @@ function montar(f){
     R.totais=[['Produtos',R.lista.length],
       ['Abaixo do mínimo',R.lista.filter(m=>nivel(m)==='baixo').length],
       ['Zerados',R.lista.filter(m=>nivel(m)==='zerado').length],
-      ['Valor em estoque',brl(R.lista.reduce((t,m)=>t+saldo(m.id)*num(m.preco),0))]];
+      ['Valor em estoque',brl(R.lista.reduce((t,m)=>t+valorEstq(m),0))]];
   }
 
   if(f.lado==='estoque'&&f.visao==='posicao'){
     R.titulo='Posição de estoque';
-    R.cols=['Nº patrimônio','Material','Un','Saldo','Mínimo','Falta comprar','Custo da reposição','Situação','Localização','Registrado por','Unitário','Valor em estoque'];
+    R.cols=['Nº patrimônio','Material','Un','Saldo','Mínimo','Falta comprar','Custo da reposição','Situação','Localização','Registrado por','Custo médio','Valor em estoque'];
     let tv=0,tf=0,tc=0;
     matsFiltrados(f).forEach(m=>{
-      const s=saldo(m.id),n=nivel(m),v=s*num(m.preco);
+      const s=saldo(m.id),n=nivel(m),v=valorEstq(m);
       const min=num(m.minimo);
       const falta=min>0?Math.max(0,min-s):(s<=0?1:0);   /* sem mínimo definido, sugere 1 para não passar batido */
       const custo=falta*num(m.preco);
@@ -4639,7 +4873,7 @@ function montar(f){
       R.rows.push([m.patrimonio||'',m.nome,m.unidade||'',{v:s,n:true},{v:min||'—',n:true},
         {v:falta>0?falta:'—',n:true},{v:falta>0?brl(custo):'—',n:true},
         {v:n==='ok'?'OK':(n==='baixo'?'Abaixo':'Zerado'),pill:n==='ok'?'ok':(n==='baixo'?'baixo':'zerado')},
-        m.local||'',m.registrador||'',{v:brl(m.preco),n:true},{v:brl(v),n:true}]);
+        m.local||'',m.registrador||'',{v:brl(custoMedioAtual(m)),n:true},{v:brl(v),n:true}]);
       R.meta.push({matId:m.id});
     });
     R.totais=[['Materiais',R.rows.length],['Abaixo do mínimo',matsFiltrados(f).filter(m=>nivel(m)==='baixo').length],
@@ -4758,6 +4992,49 @@ function montar(f){
     }
   }
 
+
+  if(f.lado==='estoque'&&(f.visao==='fechamento'||f.visao==='fechamentoMes')){
+    const hoje=agora().slice(0,10);
+    const MESES=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+    let ini,fim,rotulo;
+    if(f.visao==='fechamentoMes'){
+      /* o mês da data "de" (ou "até"); sem data, o mês atual */
+      const ref=String(f.de||f.ate||hoje).slice(0,7), a4=Number(ref.slice(0,4)), m2=Number(ref.slice(5,7));
+      const ultimo=new Date(a4,m2,0).getDate();
+      ini=ref+'-01'; fim=ref+'-'+String(ultimo).padStart(2,'0');
+      rotulo=MESES[m2-1]+' de '+a4;
+      R.titulo='Fechamento do estoque · '+rotulo;
+    }else{
+      const ano=String(f.ate||f.de||hoje).slice(0,4);
+      ini=f.de||(ano+'-01-01'); fim=f.ate||(ano+'-12-31');
+      R.titulo='Fechamento do estoque · '+dtBR(ini)+' a '+dtBR(fim);
+    }
+    const F=fechamentoEstoque(ini,fim);
+    R.filtros=R.filtros.filter(x=>!/^Período:/.test(String(x)));
+    R.filtros.unshift('Período: '+dtBR(ini)+' a '+dtBR(fim)
+      +(f.visao==='fechamentoMes'?(f.de||f.ate?' ('+rotulo+')':' (o mês atual)'):(f.de||f.ate?'':' (o ano inteiro)')));
+    R.filtros.push('Custo médio ponderado, lançamento por lançamento, com frete e desconto de cada nota.');
+    R.cols=['Material','Natureza','Qtd no início','Valor no início','Entradas','Consumo','Ao patrimônio','Perdas','Qtd no fim','Custo médio','Valor no fim'];
+    const L=matsFiltrados(f).filter(m=>{const x=F[m.id]; return x&&(x.ei_q||x.ef_q||x.compra||x.retorno||x.sobra||x.consumo||x.imob||x.perda||x.aclassificar);});
+    let T={ei:0,en:0,co:0,im:0,pe:0,ac:0,ef:0};
+    L.forEach(m=>{
+      const x=F[m.id], en=x.compra+x.retorno+x.sobra;
+      T.ei+=x.ei_v; T.en+=en; T.co+=x.consumo; T.im+=x.imob; T.pe+=x.perda; T.ac+=x.aclassificar; T.ef+=x.ef_v;
+      R.rows.push([m.nome+(x.notas.length?'  ·  NF '+x.notas.join(', '):''),
+        m.natureza==='equipamento'?'Equipamento':(m.natureza==='consumo'?'Consumo':'sem natureza'),
+        {v:x.ei_q,n:true},{v:brl(x.ei_v),n:true},{v:brl(en),n:true},
+        {v:x.consumo?brl(x.consumo):'—',n:true},{v:x.imob?brl(x.imob):'—',n:true},
+        {v:x.perda?brl(x.perda):'—',n:true},{v:x.ef_q,n:true},{v:brl(x.medio),n:true},{v:brl(x.ef_v),n:true}]);
+      R.meta.push({matId:m.id});
+    });
+    const conta=T.ei+T.en-T.co-T.im-T.pe-T.ac, dif=Math.round((conta-T.ef)*100)/100;
+    R.totais=[['Estoque no início',brl(T.ei)],['+ Entradas',brl(T.en)],['− Consumo (despesa)',brl(T.co)],
+      ['− Ao patrimônio',brl(T.im)],['− Perdas e ajustes',brl(T.pe)]]
+      .concat(T.ac?[['− Saídas sem natureza',brl(T.ac)]]:[])
+      .concat([['= Estoque no fim',brl(T.ef)],['Conferência',dif===0?'a conta fecha · diferença R$ 0,00':'diferença '+brl(dif)]]);
+    if(T.ac) R.filtros.push('Há produtos sem natureza: as saídas deles aparecem em "sem natureza". Classifique em Completar cadastros.');
+  }
+
   if(f.lado==='estoque'&&f.visao==='contagem'){
     R.titulo='Folha de contagem do estoque';
     R.filtros.push('Imprima, conte na prateleira e anote nas duas últimas colunas.');
@@ -4808,6 +5085,7 @@ function barraAcoesRelatorio(){
   </div>`;
 }
 function gerar(){
+  cacheCusto=null;
   const f=fil();
   relAtual=montar(f);
   const temMov=relAtual.meta.some(m=>m&&m.movId), temMat=relAtual.meta.some(m=>m&&(m.matId||m.cadId||m.usuId)),
