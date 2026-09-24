@@ -610,6 +610,11 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
 
 .eco-din{display:block;font-family:var(--mono);font-size:11px;color:var(--ok);margin-top:4px;min-height:14px}
 .eco-din.mau{color:var(--out)}
+.so-dev{display:flex;gap:10px;align-items:center;cursor:pointer;background:var(--panel2);border:1px solid var(--hair);
+  border-radius:12px;padding:12px 14px;margin:0 0 14px;font-family:var(--sans);font-size:14.5px;text-transform:none;letter-spacing:0;color:var(--ink)}
+.so-dev input{width:22px;height:22px;min-height:0;accent-color:var(--marca);flex:0 0 auto}
+.so-dev:has(input:checked){border-color:var(--marca);background:var(--tn-marca)}
+.tag-t.dev{background:var(--tn-in);color:var(--in);border-color:var(--in)}
 </style>
 
 <div class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -622,7 +627,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
         <h1>Controle de estoque</h1>
         <p>Almoxarifado · Manutenção técnica</p>
         <div class="estado"><span class="ponto"></span><span id="estadoTxt">carregando…</span>
-          <span class="selo" title="versão deste programa">v94 · técnicos de campo</span></div>
+          <span class="selo" title="versão deste programa">v96 · desfazer troca</span></div>
       </div>
       <div class="direita">
         <span class="cracha" id="cracha">—</span>
@@ -796,8 +801,9 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
     <div id="tConfirma"></div>
     <div class="cx-troca">
       <p class="quem-troca">tela de <b id="tQuem">—</b> · só você vê esta tela</p>
-      <h2>Pedido de troca de equipamento</h2>
-      <p class="hint" style="margin:0 0 16px">Para cada peça que você vai tirar do campo, informe o S/N dela e o que precisa no lugar.</p>
+      <h2 id="tTitulo">Pedido de troca de equipamento</h2>
+      <p class="hint" id="tExplica" style="margin:0 0 12px">Para cada peça que você vai tirar do campo, informe o S/N dela e o que precisa no lugar.</p>
+      <label class="so-dev"><input type="checkbox" id="tSoDevolver"> <span>Só quero devolver, sem troca</span></label>
       <div id="linhasTroca"></div>
       <button class="btn ghost sm" id="tMais" type="button">+ outra troca</button>
       <div class="grid-troca">
@@ -850,7 +856,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
     <span class="discreto">
       <button id="json">exportar backup</button><b>·</b><button id="import">importar</button>
     </span>
-    <span class="versao" title="versão deste programa">v94 · técnicos de campo</span>
+    <span class="versao" title="versão deste programa">v96 · desfazer troca</span>
 </footer>
 </div>
 
@@ -2944,11 +2950,40 @@ function abreTroca(){
   $('#tOnde').onchange=()=>{ const o=$('#tOnde').value==='__outro'; $('#tOndeTxt').style.display=o?'':'none'; if(o) $('#tOndeTxt').focus(); };
   pintaListaSN();
 }
-$('#tMais').onclick=()=>$('#linhasTroca').appendChild(linhaTroca());
+function soDevolver(){ const c=$('#tSoDevolver'); return !!(c&&c.checked); }
+function ajustaModoTroca(){
+  const dev=soDevolver();
+  $('#tTitulo').textContent=dev?'Devolução de equipamento':'Pedido de troca de equipamento';
+  $('#tExplica').textContent=dev?'Para cada peça que você vai devolver, informe o S/N dela e que equipamento é. Nada sai do estoque para você.'
+                                :'Para cada peça que você vai tirar do campo, informe o S/N dela e o que precisa no lugar.';
+  $('#tEnviar').textContent=dev?'Enviar devolução pelo WhatsApp':'Enviar pedido pelo WhatsApp';
+  $('#tMais').textContent=dev?'+ outra peça':'+ outra troca';
+  document.querySelectorAll('#linhasTroca .troca').forEach(d=>{
+    d.querySelector('.lado-vol label').textContent=dev?'Peça que vou devolver · S/N':'Peça que volta · S/N';
+    const ls=d.querySelector('.lado-sai label');
+    ls.textContent=dev?'Que equipamento é':'O que precisa no lugar';
+    ls.style.color=dev?'var(--in)':'';                       /* na devolução nada sai do estoque */
+    d.querySelector('.seta').style.display=dev?'none':'';
+  });
+  const lo=document.querySelector('label[for="tOnde"]'); if(lo) lo.textContent=dev?'De onde vem a peça':'Onde é a troca';
+}
+$('#tSoDevolver').onchange=ajustaModoTroca;
+$('#tMais').onclick=()=>{ $('#linhasTroca').appendChild(linhaTroca()); ajustaModoTroca(); };
 
 function mensagemZap(t){
-  const L=['*PEDIDO DE TROCA · '+t.numero+'*','Técnico: '+t.quem,'Local: '+(t.onde||'—'),
+  const dev=t.tipo==='devolucao';
+  const L=[(dev?'*DEVOLUÇÃO DE EQUIPAMENTO · ':'*PEDIDO DE TROCA · ')+t.numero+'*','Técnico: '+t.quem,'Local: '+(t.onde||'—'),
            'OS: '+(t.os||'—'),'Data: '+dtBR(t.quando),''];
+  if(dev){
+    (t.itens||[]).forEach((it,i)=>{
+      const mv=mat(it.produtoVoltaId);
+      L.push('*Peça '+(i+1)+'*'); L.push('Devolvendo: '+it.volta+(mv?' ('+mv.nome+')':'')); L.push('');
+    });
+    L.push('Sem troca: não preciso de peça no lugar.'); L.push('');
+    if(t.obs){ L.push('O que aconteceu: '+t.obs); L.push(''); }
+    L.push('_Devolução registrada no sistema de estoque._');
+    return L.join('\n');
+  }
   (t.itens||[]).forEach((it,i)=>{
     const mv=mat(it.produtoVoltaId), mp=mat(it.precisaId);
     L.push('*Troca '+(i+1)+'*');
@@ -2965,14 +3000,18 @@ const linkZap=texto=>'https://wa.me/'+(ZAP_ALMOX||'')+'?text='+encodeURIComponen
 $('#tEnviar').onclick=()=>{
   const linhas=[...document.querySelectorAll('#linhasTroca .troca')];
   const conhecidas=seriesConhecidas();
+  const dev=soDevolver();
   const itens=linhas.map(d=>{
     const volta=d.querySelector('.t-sn').value.trim();
     const c=conhecidas.find(x=>x.sn.toUpperCase()===volta.toUpperCase());
-    const precisaId=d.querySelector('.t-prod').value;
-    return {volta:volta, produtoVoltaId:(c&&c.produtoId)||precisaId, precisaId:precisaId};
+    const escolhido=d.querySelector('.t-prod').value;
+    return dev
+      ? {volta:volta, produtoVoltaId:escolhido||(c&&c.produtoId)||'', precisaId:''}
+      : {volta:volta, produtoVoltaId:(c&&c.produtoId)||escolhido, precisaId:escolhido};
   }).filter(it=>it.volta);
-  if(!itens.length) return toast('Informe o S/N de pelo menos uma peça que volta.');
-  if(itens.some(it=>!it.precisaId)) return toast('Escolha o que precisa no lugar de cada peça.');
+  if(!itens.length) return toast(dev?'Informe o S/N de pelo menos uma peça que você vai devolver.':'Informe o S/N de pelo menos uma peça que volta.');
+  if(dev&&itens.some(it=>!it.produtoVoltaId)) return toast('Escolha que equipamento é cada peça.');
+  if(!dev&&itens.some(it=>!it.precisaId)) return toast('Escolha o que precisa no lugar de cada peça.');
   const vs=itens.map(it=>it.volta.toUpperCase());
   if(vs.some((x,i)=>vs.indexOf(x)!==i)) return toast('O mesmo S/N foi informado duas vezes.');
   const onde=$('#tOnde').value==='__outro'?$('#tOndeTxt').value.trim():$('#tOnde').value;
@@ -2980,7 +3019,7 @@ $('#tEnviar').onclick=()=>{
   const n=trocas.reduce((mx,t)=>Math.max(mx,parseInt(String(t.numero||'').replace(/\D/g,''),10)||0),0)+1;
   const t={id:'tr-'+Date.now(), numero:'PT-'+String(n).padStart(3,'0'), quando:agora(),
     quem:sessao?sessao.nome:'', onde:onde, os:$('#tOs').value.trim(), obs:$('#tObs').value.trim(),
-    status:'aguardando', itens:itens, reqId:'', atendidoPor:'', atendidoEm:'',
+    tipo:dev?'devolucao':'troca', status:'aguardando', itens:itens, reqId:'', atendidoPor:'', atendidoEm:'',
     atualizadoEm:new Date().toISOString(), pendente:true};
 
   /* 1º salva no sistema */
@@ -2995,7 +3034,7 @@ $('#tEnviar').onclick=()=>{
   let abriu=null; try{ abriu=window.open(link,'_blank','noopener'); }catch(e){}
   $('#tConfirma').innerHTML=`
     <div class="enviado">
-      <h3>Pedido ${esc(t.numero)} salvo no sistema</h3>
+      <h3>${t.tipo==='devolucao'?'Devolução':'Pedido'} ${esc(t.numero)} salvo no sistema</h3>
       <p>${abriu?'O WhatsApp abriu com a mensagem pronta — é só tocar em enviar.':'O WhatsApp não abriu sozinho. Toque em "Abrir o WhatsApp".'}
         <br><span id="tStatus">Gravando na planilha…</span></p>
       <div class="zap"><div class="topo-zap">Mensagem para o almoxarifado</div>
@@ -3009,6 +3048,7 @@ $('#tEnviar').onclick=()=>{
   /* formulário limpo para o próximo pedido */
   $('#linhasTroca').innerHTML=''; $('#linhasTroca').appendChild(linhaTroca());
   $('#tOs').value=''; $('#tObs').value='';
+  $('#tSoDevolver').checked=false; ajustaModoTroca();
   pintaListaSN();
   try{ window.scrollTo({top:0,behavior:'smooth'}); }catch(e){}
 };
@@ -3022,10 +3062,24 @@ function atualizaBadges(){
 }
 function pintaTrocas(){
   const pend=trocas.filter(t=>t.status==='aguardando').sort((a,b)=>String(a.quando).localeCompare(String(b.quando)));
-  const feitos=trocas.filter(t=>t.status==='atendido').sort((a,b)=>String(b.atendidoEm).localeCompare(String(a.atendidoEm))).slice(0,8);
+  const feitos=trocas.filter(t=>t.status==='atendido').sort((a,b)=>String(b.atendidoEm).localeCompare(String(a.atendidoEm))).slice(0,30);
   let h='';
   if(!pend.length) h+='<div class="empty"><p>Nenhum pedido de troca esperando atendimento.</p></div>';
   pend.forEach(t=>{
+    if(t.tipo==='devolucao'){
+      h+=`<div class="tr-card" data-t="${t.id}">
+        <div class="cab"><span class="tag-t pend">aguardando</span><span class="tag-t dev">devolução</span><b>${esc(t.numero)} · ${esc(t.onde)}</b>
+          <span>${dtBR(t.quando)} · devolvida por ${esc(t.quem)}${t.os?' · '+esc(t.os):''}</span></div>
+        ${t.obs?'<p class="hint" style="margin:0 0 6px">'+esc(t.obs)+'</p>':''}
+        ${(t.itens||[]).map(it=>{ const mv=mat(it.produtoVoltaId);
+          return `<div class="tr-linha"><div><div class="tr-rot vol">volta do campo</div><span class="tag-t vol">${esc(it.volta)}</span></div>
+            <div><div class="tr-rot vol">equipamento</div>${esc(mv?mv.nome:'—')}<div class="hint" style="margin:4px 0 0">sem troca · nada sai do estoque</div></div></div>`; }).join('')}
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+          ${pode('lancar')?`<button class="btn" data-receber="${t.id}" style="background:var(--marca);border-color:var(--marca);color:#fff">Receber devolução</button>`:''}
+          ${pode('excluir')?`<button class="btn ghost sm danger" data-cancelar="${t.id}">Cancelar</button>`:''}
+        </div></div>`;
+      return;
+    }
     const esc2=escolhaTroca[t.id]=escolhaTroca[t.id]||{};
     h+=`<div class="tr-card" data-t="${t.id}">
       <div class="cab"><span class="tag-t pend">aguardando</span><b>${esc(t.numero)} · ${esc(t.onde)}</b>
@@ -3052,8 +3106,12 @@ function pintaTrocas(){
   if(feitos.length){
     h+='<p class="hint" style="margin:18px 0 8px">Atendidos recentemente</p>'
       +feitos.map(t=>`<div class="tr-card"><div class="cab"><span class="tag-t ok">atendido</span>
+        ${t.tipo==='devolucao'?'<span class="tag-t dev">devolução</span>':''}
         <b>${esc(t.numero)} · ${esc(t.onde)}</b><span>${dtBR(t.atendidoEm)} · por ${esc(t.atendidoPor)}</span>
-        <button class="btn ghost sm" data-ver="${esc(t.reqId)}" style="margin-left:auto">Ver requisição</button></div></div>`).join('');
+        <span style="margin-left:auto;display:flex;gap:6px;flex-wrap:wrap">
+          ${t.reqId?`<button class="btn ghost sm" data-ver="${esc(t.reqId)}">Ver requisição</button>`:''}
+          ${pode('excluir')?`<button class="btn ghost sm danger" data-desfazer="${t.id}">Desfazer ${t.tipo==='devolucao'?'recebimento':'atendimento'}</button>`:''}
+        </span></div></div>`).join('');
   }
   $('#gridMat').innerHTML='<div class="pleno">'+h+'</div>';
   $('#gridMat').querySelectorAll('.tr-card[data-t]').forEach(box=>{
@@ -3066,13 +3124,18 @@ function pintaTrocas(){
       pintaTrocas();
     });
     const at=box.querySelector('[data-atender]'); if(at) at.onclick=()=>atenderTroca(t);
+    const rc=box.querySelector('[data-receber]'); if(rc) rc.onclick=()=>receberDevolucao(t);
     const ca=box.querySelector('[data-cancelar]'); if(ca) ca.onclick=()=>cancelarTroca(t);
+  });
+  $('#gridMat').querySelectorAll('[data-desfazer]').forEach(b=>b.onclick=()=>{
+    const t=trocas.find(x=>x.id===b.dataset.desfazer); if(t) desfazerAtendimento(t);
   });
   $('#gridMat').querySelectorAll('[data-ver]').forEach(b=>b.onclick=()=>{
     const v=movs.find(x=>x.reqId===b.dataset.ver); if(v) printMov(v); else toast('A requisição não foi encontrada.');
   });
 }
 async function atenderTroca(t){
+  if(t.tipo==='devolucao') return receberDevolucao(t);
   if(!pode('lancar')) return barra('Seu perfil não permite lançar.');
   const e=escolhaTroca[t.id]||{};
   const itens=t.itens||[];
@@ -3109,6 +3172,52 @@ async function atenderTroca(t){
   render();
   toast('Pedido '+t.numero+' atendido. As peças que voltam estão em Retornos.');
   printMov(novos[0]);
+}
+async function receberDevolucao(t){
+  if(!pode('lancar')) return barra('Seu perfil não permite lançar.');
+  const itens=t.itens||[];
+  const ok=await ask('Receber a devolução '+t.numero+' de '+t.quem+'? '+itens.length+' peça(s) vão para Retornos. Nada sai do estoque.','Receber');
+  if(!ok) return;
+  guardaAnterior('o recebimento da devolução '+t.numero);
+  const quando=agora(), iso=new Date().toISOString(), marca=Date.now();
+  t.status='atendido'; t.atendidoPor=sessao?sessao.nome:''; t.atendidoEm=quando; t.atualizadoEm=iso;
+  itens.forEach((it,i)=>{
+    const mv=mat(it.produtoVoltaId);
+    retornos.push({id:'rt-'+marca+'-'+i, sn:it.volta, produto:mv?mv.nome:'', produtoId:mv?mv.id:'',
+      onde:t.onde, os:t.os, trocaId:t.id, numero:t.numero, reqId:'', chegouEm:quando,
+      decisao:'', motivo:'', patrimonio:false, entradaId:'', decididoPor:'', decididoEm:'', atualizadoEm:iso});
+  });
+  await persist(['tro','ret']); render();
+  toast('Devolução '+t.numero+' recebida. As peças estão em Retornos para você decidir.');
+}
+/* desfaz um pedido já atendido: o estoque volta a ser como era antes dele */
+async function desfazerAtendimento(t){
+  if(!pode('excluir')) return barra('Seu perfil não permite desfazer.');
+  const dev=t.tipo==='devolucao';
+  const saidas=movs.filter(v=>v.trocaId===t.id);
+  const rets=retornos.filter(r=>r.trocaId===t.id&&r.decisao!=='anulado');
+  /* peça útil que já saiu de novo: desfazer deixaria o estoque negativo */
+  const presas=rets.filter(r=>r.decisao==='util'&&r.entradaId&&
+    seriesEmEstoque(r.produtoId).map(x=>String(x).toUpperCase()).indexOf(String(r.sn).toUpperCase())<0);
+  if(presas.length) return toast('Não dá para desfazer: '+presas.map(r=>r.sn).join(', ')+' já saiu de novo do estoque depois deste pedido.');
+  const qs=saidas.reduce((n,v)=>n+num(v.qtd),0), uteis=rets.filter(r=>r.decisao==='util').length;
+  const ok=await ask('Desfazer o '+(dev?'recebimento da devolução':'atendimento do pedido')+' '+t.numero+'?\n\n'
+    +(qs?'• '+qs+' peça(s) que saíram voltam ao estoque\n':'')
+    +(rets.length?'• '+rets.length+' peça(s) saem de Retornos'+(uteis?' ('+uteis+' já marcada(s) como útil também saem do estoque)':'')+'\n':'')
+    +'• o pedido volta para aguardando\n\nSe quiser tirá-lo de vez, clique depois em Cancelar pedido.',
+    'Desfazer','Manter');
+  if(!ok) return;
+  guardaAnterior('o desfazer do pedido '+t.numero);
+  const iso=new Date().toISOString();
+  movs=movs.filter(v=>v.trocaId!==t.id);
+  rets.forEach(r=>{
+    if(r.entradaId) movs=movs.filter(v=>v.id!==r.entradaId);
+    Object.assign(r,{decisao:'anulado',entradaId:'',patrimonio:false,atualizadoEm:iso});
+  });
+  (t.itens||[]).forEach(it=>{ it.sai=''; });
+  Object.assign(t,{status:'aguardando',reqId:'',atendidoPor:'',atendidoEm:'',atualizadoEm:iso});
+  await persist(['mov','tro','ret']); render();
+  toast(t.numero+' desfeito: o estoque voltou a ser como antes, e o pedido está aguardando de novo.');
 }
 async function cancelarTroca(t){
   if(!pode('excluir')) return;
