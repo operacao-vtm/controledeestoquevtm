@@ -640,7 +640,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
         <h1><img class="icone-app" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InRvcG8iIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNGN0I4NEEiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNFRTZCNTciLz48L2xpbmVhckdyYWRpZW50PjxsaW5lYXJHcmFkaWVudCBpZD0iZXNxIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRTgyMzdGIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjQjgxNDVGIi8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImRpciIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzZGQ0JFNiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzhFNkZCMCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iMTE2IiBmaWxsPSIjMEUwQjEyIi8+PHBvbHlnb24gcG9pbnRzPSIyNTYsMTAwIDQxMiwxODggMjU2LDI3NiAxMDAsMTg4IiBmaWxsPSJ1cmwoI3RvcG8pIi8+PHBvbHlnb24gcG9pbnRzPSIxMDAsMTg4IDI1NiwyNzYgMjU2LDQ0MCAxMDAsMzUyIiBmaWxsPSJ1cmwoI2VzcSkiLz48cG9seWdvbiBwb2ludHM9IjI1NiwyNzYgNDEyLDE4OCA0MTIsMzUyIDI1Niw0NDAiIGZpbGw9InVybCgjZGlyKSIvPjxwb2x5Z29uIHBvaW50cz0iMTkwLDEzNyAyMTIsMTI1IDM2OCwyMTMgMzQ2LDIyNSIgZmlsbD0iI0ZGRkZGRiIgZmlsbC1vcGFjaXR5PSIuODUiLz48cG9seWdvbiBwb2ludHM9IjM0NiwyMjUgMzY4LDIxMyAzNjgsMjY1IDM0NiwyNzciIGZpbGw9IiNGRkZGRkYiIGZpbGwtb3BhY2l0eT0iLjU1Ii8+PHBvbHlsaW5lIHBvaW50cz0iMTAwLDE4OCAyNTYsMjc2IDQxMiwxODgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGRkZGRiIgc3Ryb2tlLW9wYWNpdHk9Ii4zNSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGxpbmUgeDE9IjI1NiIgeTE9IjI3NiIgeDI9IjI1NiIgeTI9IjQ0MCIgc3Ryb2tlPSIjRkZGRkZGIiBzdHJva2Utb3BhY2l0eT0iLjI1IiBzdHJva2Utd2lkdGg9IjQiLz48L3N2Zz4=">Controle de estoque</h1>
         <p>Almoxarifado · Manutenção técnica</p>
         <div class="estado"><span class="ponto"></span><span id="estadoTxt">carregando…</span>
-          <span class="selo" title="versão deste programa">v98 · ícone no iPhone</span></div>
+          <span class="selo" title="versão deste programa">v99 · requisição alinhada</span></div>
       </div>
       <div class="direita">
         <span class="cracha" id="cracha">—</span>
@@ -869,7 +869,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
     <span class="discreto">
       <button id="json">exportar backup</button><b>·</b><button id="import">importar</button>
     </span>
-    <span class="versao" title="versão deste programa">v98 · ícone no iPhone</span>
+    <span class="versao" title="versão deste programa">v99 · requisição alinhada</span>
 </footer>
 </div>
 
@@ -5708,7 +5708,7 @@ function printMov(v){
   const tabelaItens=d.itens?`${d.troca?secao('SAINDO DO ESTOQUE','#A8321E'):''}
     <table style="margin-top:${d.troca?'0':'14px'}">
       <tr><th style="width:8%;text-align:center">Item</th><th style="width:46%;text-align:center">Material</th><th style="width:14%;text-align:center">Qtd</th><th style="width:10%;text-align:center">Un</th><th style="width:22%;text-align:center">Saldo após</th></tr>
-      ${d.itens.map(it=>`<tr><td style="text-align:center">${it.n}</td><td>${esc(it.nome)}</td><td style="text-align:center">${esc(it.qtd)}</td><td style="text-align:center">${esc(it.un)}</td><td style="text-align:center">${esc(it.saldo)}</td></tr>`).join('')}
+      ${d.itens.map(it=>`<tr><td style="text-align:center">${it.n}</td><td>${esc(String(it.nome||'').split('  ·  S/N:')[0])}${(it.series&&it.series.length)?'<br><span style="font-family:\'Courier New\',monospace;font-size:10.5px;color:#555">S/N: '+esc(it.series.join(' · '))+'</span>':''}</td><td style="text-align:center">${esc(it.qtd)}</td><td style="text-align:center">${esc(it.un)}</td><td style="text-align:center">${esc(it.saldo)}</td></tr>`).join('')}
     </table>`:'';
   previa(d.nome,`
     <img class="marca-doc" src="${LOGO_ESCURA}" alt="VTM mídia">
@@ -5808,15 +5808,25 @@ function pdfMovimento(v,modo){
     };
     cabecalhoTabela();
     d.itens.forEach(it=>{
-      const nome=doc.splitTextToSize(it.nome, C[1]-5);
-      const h=Math.max(8, nome.length*4.4+3.6);
+      /* a quebra de linha é medida no MESMO tamanho de letra em que o texto é escrito */
+      const base=String(it.nome||'').split('  ·  S/N:')[0];
+      doc.setFontSize(9);
+      const nome=doc.splitTextToSize(base, C[1]-5);
+      const sn=(it.series&&it.series.length)?'S/N: '+it.series.join(' · '):'';
+      doc.setFontSize(7.6);
+      const linhasSn=sn?doc.splitTextToSize(sn, C[1]-5):[];
+      const h=Math.max(8, nome.length*4.4+linhasSn.length*3.5+3.6);
       if(y+h>272){ doc.addPage(); y=M; cabecalhoTabela(); }
       let x=M;
       const cels=[String(it.n), null, it.qtd, it.un, it.saldo];
       C.forEach((w,i)=>{ doc.rect(x,y,w,h,'D'); x+=w; });
       x=M; doc.setFontSize(9); doc.setTextColor(20);
       cels.forEach((t,i)=>{
-        if(i===1) doc.text(nome, x+2.5, y+5.2);
+        if(i===1){
+          doc.setFontSize(9); doc.setTextColor(20); doc.text(nome, x+2.5, y+5.2);
+          if(linhasSn.length){ doc.setFontSize(7.6); doc.setTextColor(85); doc.text(linhasSn, x+2.5, y+5.2+nome.length*4.4); }
+          doc.setFontSize(9); doc.setTextColor(20);
+        }
         else doc.text(String(t), x+C[i]/2, y+5.2, {align:'center'});
         x+=C[i];
       });
@@ -5837,6 +5847,7 @@ function pdfMovimento(v,modo){
     cab2.forEach((t,i)=>{ doc.text(t, x+C2[i]/2, y+5.3, {align:'center'}); x+=C2[i]; });
     y+=8; doc.setDrawColor(70);
     d.troca.voltam.forEach(it=>{
+      doc.setFontSize(9);
       const nome=doc.splitTextToSize(it.nome, C2[1]-5);
       const h=Math.max(8, nome.length*4.4+3.6);
       if(y+h>272){ doc.addPage(); y=M; }
