@@ -690,13 +690,14 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
         <h1><img class="icone-app" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InRvcG8iIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNGN0I4NEEiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNFRTZCNTciLz48L2xpbmVhckdyYWRpZW50PjxsaW5lYXJHcmFkaWVudCBpZD0iZXNxIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRTgyMzdGIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjQjgxNDVGIi8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImRpciIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzZGQ0JFNiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzhFNkZCMCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iMTE2IiBmaWxsPSIjMEUwQjEyIi8+PHBvbHlnb24gcG9pbnRzPSIyNTYsMTAwIDQxMiwxODggMjU2LDI3NiAxMDAsMTg4IiBmaWxsPSJ1cmwoI3RvcG8pIi8+PHBvbHlnb24gcG9pbnRzPSIxMDAsMTg4IDI1NiwyNzYgMjU2LDQ0MCAxMDAsMzUyIiBmaWxsPSJ1cmwoI2VzcSkiLz48cG9seWdvbiBwb2ludHM9IjI1NiwyNzYgNDEyLDE4OCA0MTIsMzUyIDI1Niw0NDAiIGZpbGw9InVybCgjZGlyKSIvPjxwb2x5Z29uIHBvaW50cz0iMTkwLDEzNyAyMTIsMTI1IDM2OCwyMTMgMzQ2LDIyNSIgZmlsbD0iI0ZGRkZGRiIgZmlsbC1vcGFjaXR5PSIuODUiLz48cG9seWdvbiBwb2ludHM9IjM0NiwyMjUgMzY4LDIxMyAzNjgsMjY1IDM0NiwyNzciIGZpbGw9IiNGRkZGRkYiIGZpbGwtb3BhY2l0eT0iLjU1Ii8+PHBvbHlsaW5lIHBvaW50cz0iMTAwLDE4OCAyNTYsMjc2IDQxMiwxODgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGRkZGRiIgc3Ryb2tlLW9wYWNpdHk9Ii4zNSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGxpbmUgeDE9IjI1NiIgeTE9IjI3NiIgeDI9IjI1NiIgeTI9IjQ0MCIgc3Ryb2tlPSIjRkZGRkZGIiBzdHJva2Utb3BhY2l0eT0iLjI1IiBzdHJva2Utd2lkdGg9IjQiLz48L3N2Zz4=">Controle de estoque</h1>
         <p>Almoxarifado · Manutenção técnica</p>
         <div class="estado"><span class="ponto"></span><span id="estadoTxt">carregando…</span>
-          <span class="selo" title="versão deste programa">v103 · voltar e fechar</span></div>
+          <span class="selo" title="versão deste programa">v104 · pasta de documentos</span></div>
       </div>
       <div class="direita">
         <span class="cracha" id="cracha">—</span>
         <span class="tema"><button class="btn sm" id="temaEscuro" aria-pressed="true">Escuro</button><button class="btn sm" id="temaClaro" aria-pressed="false">Claro</button></span>
         <button class="btn sm" id="backupAgora" title="envia todos os produtos e lançamentos para a planilha agora">Enviar para a planilha</button>
         <button class="btn sm" id="irPlanilha" title="abre a planilha de backup no Google">Planilha</button>
+      <button class="btn ghost sm" id="irDocs" style="display:none" title="abre no Google Drive a pasta com todas as requisições e comprovantes">Pasta de documentos</button>
         <button class="btn sm" id="sair">Sair</button>
       </div>
     </header>
@@ -921,7 +922,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
     <span class="discreto">
       <button id="json">exportar backup</button><b>·</b><button id="import">importar</button>
     </span>
-    <span class="versao" title="versão deste programa">v103 · voltar e fechar</span>
+    <span class="versao" title="versão deste programa">v104 · pasta de documentos</span>
 </footer>
 </div>
 
@@ -1975,7 +1976,8 @@ const USUARIO_CAMPO={id:'u-campo-1',nome:'PACHECO',perfil:'campo',senha:'',obs:'
 /* os técnicos de campo: cada um precisa aparecer na lista, mesmo antes de a planilha conhecê-lo */
 const USUARIOS_CAMPO=[USUARIO_CAMPO,
   {id:'u-campo-2',nome:'ALEXANDRE',perfil:'campo',senha:'',obs:'Técnico de campo · pede troca de equipamento'},
-  {id:'u-joao',nome:'JOÃO',perfil:'senior',senha:'vtm-joao',obs:'Administrador sênior · mesmos acessos do Carlos'}];
+  {id:'u-joao',nome:'JOÃO',perfil:'senior',senha:'vtm-joao',obs:'Administrador sênior · mesmos acessos do Carlos'},
+  {id:'u-campo-3',nome:'MANUTENÇÃO',perfil:'campo',senha:'',obs:'Equipe de manutenção · pede troca e devolução'}];
 function garanteTecnicos(){
   USUARIOS_CAMPO.forEach(t=>{
     const semAcento=x=>String(x||'').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
@@ -2010,6 +2012,7 @@ function aplicaPermissoes(){
   b.classList.toggle('sem-exportar',!pode('exportar'));
   b.classList.toggle('sem-planilha',!pode('planilha'));
   b.classList.toggle('so-campo',sessao.perfil==='campo');
+  if(typeof mostraBotaoPasta==='function') setTimeout(mostraBotaoPasta,0);
   { const ch=$('#chipAtividades'); if(ch) ch.style.display=ehAdmin()?'':'none'; }
   const c=$('#cracha');
   if(c&&sessao) c.innerHTML=esc(sessao.nome)+' · <b>'+esc(PERFIS[sessao.perfil].rotulo)+'</b>';
@@ -3492,7 +3495,75 @@ window.addEventListener('popstate',async()=>{
   }
 });
 
+
+/* ================= pasta de documentos: cada requisição e comprovante vira um PDF no Google Drive ================= */
+const K_DOCS='alm:docsEnviados';
+let docsEnviados={}, pastaDocsUrl='', filaRodando=false;
+try{ docsEnviados=JSON.parse(localStorage.getItem(K_DOCS)||'{}')||{}; }catch(e){ docsEnviados={}; }
+try{ pastaDocsUrl=localStorage.getItem('alm:pastaDocs')||''; }catch(e){}
+const MESES_PASTA=['01 · janeiro','02 · fevereiro','03 · março','04 · abril','05 · maio','06 · junho','07 · julho','08 · agosto','09 · setembro','10 · outubro','11 · novembro','12 · dezembro'];
+const limpaNomeArq=t=>String(t||'').replace(/[\\/:*?"<>|#%]+/g,'-').replace(/\s+/g,' ').trim().slice(0,170);
+function dataDoc(v){ const d=new Date(v.data||v.lancadoEm||Date.now()); return isNaN(d)?new Date():d; }
+/* um documento por requisição (saída e troca) e um por nota (entrada) */
+function chaveDoc(v){ return v.tipo==='entrada'?(v.nf?'nf:'+v.nf:'e:'+v.id):'r:'+(v.reqId||v.id); }
+function grupoDoc(v){ return v.tipo==='entrada'?(v.nf?movs.filter(x=>x.tipo==='entrada'&&x.nf===v.nf):[v]):movs.filter(x=>(x.reqId||x.id)===(v.reqId||v.id)); }
+function nomeDoc(v){
+  const d=dataDoc(v), p=n=>String(n).padStart(2,'0');
+  const quando=d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+'h'+p(d.getMinutes());
+  if(v.tipo==='entrada')
+    return limpaNomeArq(quando+' · '+(v.nf?'NF '+v.nf:'sem nota')+' · '+(v.origem||'sem fornecedor')+' · Comprovante de entrada')+'.pdf';
+  const t=v.trocaId?trocas.find(x=>x.id===v.trocaId):null;
+  return limpaNomeArq(quando+' · '+(v.os||'sem OS')+' · '+(v.retirado||'sem responsável')+' · '
+    +(t?'Requisição de troca '+t.numero:'Requisição de saída'))+'.pdf';
+}
+function pastaDoc(v){ const d=dataDoc(v); return d.getFullYear()+'/'+MESES_PASTA[d.getMonth()]; }
+/* muda o documento? então vai de novo, no lugar do antigo */
+function assinaturaDoc(v){
+  const g=grupoDoc(v).map(x=>[x.id,x.materialId,x.qtd,x.preco,x.series,x.data,x.nf,x.origem,x.destino,x.os,x.retirado,x.recebido,x.entregue,x.obs].join('|')).sort().join('#');
+  let h=5381; for(let i=0;i<g.length;i++){ h=((h<<5)+h+g.charCodeAt(i))|0; }
+  return 'v1-'+(h>>>0).toString(36)+'-'+g.length;
+}
+function docsPendentes(){
+  const vistos={}, fila=[];
+  movs.slice().sort((a,b)=>String(b.data||'').localeCompare(String(a.data||''))).forEach(v=>{
+    if(v.retornoId) return;                                /* a volta de uma peça útil não tem documento próprio */
+    const k=chaveDoc(v); if(vistos[k]) return; vistos[k]=1;
+    const a=assinaturaDoc(v);
+    if(docsEnviados[k]!==a) fila.push({k,a,v});
+  });
+  return fila;
+}
+async function enviaDocumento(item){
+  const doc=pdfMovimento(item.v,'blob');
+  const base64=String(doc.output('datauristring')).split(',')[1];
+  const r=await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},
+    body:JSON.stringify({acao:'documento',nome:nomeDoc(item.v),pasta:pastaDoc(item.v),assinatura:item.a,base64})});
+  const d=await r.json();
+  if(!d||!d.ok) throw new Error((d&&d.erro)||'sem resposta');
+  docsEnviados[item.k]=item.a;
+  try{ localStorage.setItem(K_DOCS,JSON.stringify(docsEnviados)); }catch(e){}
+  if(d.pasta&&d.pasta!==pastaDocsUrl){ pastaDocsUrl=d.pasta; try{ localStorage.setItem('alm:pastaDocs',pastaDocsUrl); }catch(e){} mostraBotaoPasta(); }
+}
+/* um de cada vez, sem atrapalhar quem está usando; o que falhar fica para a próxima */
+async function rodaFilaDocs(){
+  if(filaRodando||!API||!ehAdmin()) return;
+  filaRodando=true;
+  try{
+    const fila=docsPendentes(); if(!fila.length) return;
+    await carregarPDF();
+    for(const item of fila){
+      try{ await enviaDocumento(item); }catch(e){ break; }
+      await new Promise(r=>setTimeout(r,1200));
+      if(!ehAdmin()) break;
+    }
+  }catch(e){}finally{ filaRodando=false; }
+}
+function mostraBotaoPasta(){ const b=$('#irDocs'); if(b) b.style.display=(pastaDocsUrl&&ehAdmin())?'':'none'; }
+setInterval(rodaFilaDocs,20000);
+setTimeout(rodaFilaDocs,6000);
+
 /* ================= registro de atividades: quem fez o quê, e quando ================= */
+$('#irDocs').onclick=()=>{ if(!pastaDocsUrl) return toast('A pasta aparece depois que o primeiro documento for gravado.'); let j=null; try{ j=window.open(pastaDocsUrl,'_blank','noopener'); }catch(e){} if(!j) toast('O endereço da pasta é '+pastaDocsUrl); };
 $('#planFechar').onclick=()=>{ $('#panPlan').hidden=true; try{ window.scrollTo({top:0,behavior:'smooth'}); }catch(e){} };
 /* o que não deixa carimbo no próprio registro (correção, exclusão, cancelamento, cadastro, desfazer)
    vai para esta lista, que só cresce: nada aqui é editado nem apagado */
@@ -3956,6 +4027,7 @@ async function desfazer(){
 }
 async function persist(quais){
   cacheCusto=null;
+  if(typeof rodaFilaDocs==='function') setTimeout(rodaFilaDocs,2500);
   const q=quais||['mat','mov','cad','usu','tro','ret','atv'];
   if(q.indexOf('atv')<0&&atividades.length) q.push('atv');
   const tarefas=[];
