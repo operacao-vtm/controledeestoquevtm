@@ -629,6 +629,17 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
 .tag-t.dev{background:var(--tn-in);color:var(--in);border-color:var(--in)}
 .icone-app{width:30px;height:30px;border-radius:8px;vertical-align:-5px;margin-right:10px}
 @media (max-width:560px){.icone-app{width:24px;height:24px;vertical-align:-4px;margin-right:8px}}
+
+.log-filtros{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+.log-filtros input,.log-filtros select{flex:1 1 200px;min-width:0}
+.log-corpo{background:var(--panel);border:1px solid var(--hair);border-radius:14px;padding:4px 14px 10px;max-height:62vh;overflow:auto}
+.log-dia{position:sticky;top:0;background:var(--panel);color:var(--ink3);font-family:var(--mono);font-size:10.5px;
+  font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:10px 2px 6px;border-bottom:1px solid var(--hair);margin-top:4px;z-index:1}
+.log-item{display:flex;gap:12px;align-items:baseline;padding:9px 2px;border-bottom:1px solid var(--hair2)}
+.log-hora{flex:0 0 44px;font-family:var(--mono);font-size:12px;color:var(--ink3)}
+.log-txt{font-size:13.5px;line-height:1.45;color:var(--ink2)}
+.log-txt b{color:var(--ink);font-weight:700}
+.log-txt em{display:block;font-style:normal;font-size:12px;color:var(--ink3)}
 </style>
 <style>
 /* ---------- tela de abertura: aparece no instante em que o aplicativo abre ---------- */
@@ -679,7 +690,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
         <h1><img class="icone-app" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InRvcG8iIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNGN0I4NEEiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNFRTZCNTciLz48L2xpbmVhckdyYWRpZW50PjxsaW5lYXJHcmFkaWVudCBpZD0iZXNxIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRTgyMzdGIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjQjgxNDVGIi8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImRpciIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzZGQ0JFNiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzhFNkZCMCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iMTE2IiBmaWxsPSIjMEUwQjEyIi8+PHBvbHlnb24gcG9pbnRzPSIyNTYsMTAwIDQxMiwxODggMjU2LDI3NiAxMDAsMTg4IiBmaWxsPSJ1cmwoI3RvcG8pIi8+PHBvbHlnb24gcG9pbnRzPSIxMDAsMTg4IDI1NiwyNzYgMjU2LDQ0MCAxMDAsMzUyIiBmaWxsPSJ1cmwoI2VzcSkiLz48cG9seWdvbiBwb2ludHM9IjI1NiwyNzYgNDEyLDE4OCA0MTIsMzUyIDI1Niw0NDAiIGZpbGw9InVybCgjZGlyKSIvPjxwb2x5Z29uIHBvaW50cz0iMTkwLDEzNyAyMTIsMTI1IDM2OCwyMTMgMzQ2LDIyNSIgZmlsbD0iI0ZGRkZGRiIgZmlsbC1vcGFjaXR5PSIuODUiLz48cG9seWdvbiBwb2ludHM9IjM0NiwyMjUgMzY4LDIxMyAzNjgsMjY1IDM0NiwyNzciIGZpbGw9IiNGRkZGRkYiIGZpbGwtb3BhY2l0eT0iLjU1Ii8+PHBvbHlsaW5lIHBvaW50cz0iMTAwLDE4OCAyNTYsMjc2IDQxMiwxODgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGRkZGRiIgc3Ryb2tlLW9wYWNpdHk9Ii4zNSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGxpbmUgeDE9IjI1NiIgeTE9IjI3NiIgeDI9IjI1NiIgeTI9IjQ0MCIgc3Ryb2tlPSIjRkZGRkZGIiBzdHJva2Utb3BhY2l0eT0iLjI1IiBzdHJva2Utd2lkdGg9IjQiLz48L3N2Zz4=">Controle de estoque</h1>
         <p>Almoxarifado · Manutenção técnica</p>
         <div class="estado"><span class="ponto"></span><span id="estadoTxt">carregando…</span>
-          <span class="selo" title="versão deste programa">v101 · tela de abertura</span></div>
+          <span class="selo" title="versão deste programa">v103 · voltar e fechar</span></div>
       </div>
       <div class="direita">
         <span class="cracha" id="cracha">—</span>
@@ -751,6 +762,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
         <button class="chip cad" data-cad="completar">Completar cadastros</button>
         <button class="chip cad" data-cad="trocas">Pedidos de troca<span class="badge" id="bTrocas"></span></button>
         <button class="chip cad" data-cad="retornos">Retornos<span class="badge" id="bRet"></span></button>
+        <button class="chip cad" data-cad="atividades" id="chipAtividades">Registro de atividades</button>
       </div>
     </div>
     <p class="hint" id="guiaRegistro" style="margin:12px 0 0"></p>
@@ -878,6 +890,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
         <label class="auto"><input type="checkbox" id="autoSinc" checked> Atualizar sozinho a cada 8 segundos</label>
       </div>
       <div class="rel-acts" style="border-top:0;padding-top:4px">
+ <button class="btn ghost" id="planFechar" type="button">Fechar</button>
         <a class="btn" id="planAbrir" target="_blank" rel="noopener">Abrir a planilha</a>
         <a class="btn ghost" id="planXlsx" target="_blank" rel="noopener">Baixar em Excel</a>
         <a class="btn ghost" id="planPdf" target="_blank" rel="noopener">Baixar em PDF</a>
@@ -908,7 +921,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
     <span class="discreto">
       <button id="json">exportar backup</button><b>·</b><button id="import">importar</button>
     </span>
-    <span class="versao" title="versão deste programa">v101 · tela de abertura</span>
+    <span class="versao" title="versão deste programa">v103 · voltar e fechar</span>
 </footer>
 </div>
 
@@ -1307,6 +1320,8 @@ const store={
 let mats=[], movs=[];
 const K_TRO='alm:trocas', K_RET='alm:retornos';
 let trocas=[], retornos=[];
+const K_ATV='alm:atividades';
+let atividades=[];
 let fMat='todos', fMov='todos', busca='', matFiltro=null;
 let editMat=null, editMov=null, editReq=null, tipoMov='entrada';
 
@@ -1379,7 +1394,8 @@ async function lerPlanilha(){
            cadastros:Array.isArray(d.cadastros)?d.cadastros:null,
            usuarios:Array.isArray(d.usuarios)?d.usuarios:null,
            trocas:Array.isArray(d.trocas)?d.trocas:null,
-           retornos:Array.isArray(d.retornos)?d.retornos:null };
+           retornos:Array.isArray(d.retornos)?d.retornos:null,
+           atividades:Array.isArray(d.atividades)?d.atividades:null };
 }
 /* ---- trocas e retornos: mescla por identificação, o mais recente vence, nada some ---- */
 function mesclaPorId(locais,remotos){
@@ -1404,8 +1420,12 @@ function recebeTrocas(d){
     const chegando=d.retornos.map(r=>Object.assign({},r,{patrimonio:r.patrimonio===true||String(r.patrimonio).toLowerCase()==='true'}));
     const x=mesclaPorId(retornos,chegando); retornos=x.lista; mudou=mudou||x.mudou;
   }
+  if(Array.isArray(d.atividades)){
+    const tem={}; atividades.forEach(a=>{ tem[a.id]=1; });
+    d.atividades.forEach(a=>{ if(a&&a.id&&!tem[a.id]){ atividades.push(a); tem[a.id]=1; mudou=true; } });
+  }
   if(mudou){
-    store.set(K_TRO,JSON.stringify(trocas)); store.set(K_RET,JSON.stringify(retornos));
+    store.set(K_TRO,JSON.stringify(trocas)); store.set(K_RET,JSON.stringify(retornos)); store.set(K_ATV,JSON.stringify(atividades));
     const novos=trocas.filter(t=>t.status==='aguardando'&&antes.indexOf(t.id)<0);
     if(novos.length&&sessao&&sessao.perfil!=='campo')
       toast('Chegou pedido de troca de '+novos[0].quem+' · '+novos[0].numero);
@@ -1432,7 +1452,7 @@ async function enviarParaPlanilha(){
   if(!API) return false;
   const r=await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},
     body:JSON.stringify({acao:'gravar',materiais:mats.map(m=>Object.assign({},m,{custoMedio:Math.round(custoMedioAtual(m)*100)/100})),movimentos:movs,cadastros:cads,usuarios:usuarios,series:listaSeries(),
-      trocas:trocas.map(t=>{const c=Object.assign({},t); delete c.pendente; return c;}),retornos:retornos})});
+      trocas:trocas.map(t=>{const c=Object.assign({},t); delete c.pendente; return c;}),retornos:retornos,atividades:atividades})});
   const d=await r.json();
   if(!d||!d.ok) throw new Error(d&&d.erro?d.erro:'não foi possível gravar');
   pendenteEnvio=false;
@@ -1814,6 +1834,7 @@ async function salvarCad(){
   if(editCad){ const i=cads.findIndex(x=>x.id===editCad); cads[i]=Object.assign({},cads[i],o); }
   else cads.push(o);
   const era=editCad;
+  registra((era?'Alterou ':'Cadastrou ')+String((TIPOS[o.tipo]||{}).titulo||'registro').toLowerCase(),o.nome,'');
   render(); pintaSugestoes(); montaLista('v_retiradoSel','v_retirado','requisitante',$('#v_retirado')?$('#v_retirado').value:''); persist(['cad']);
   toast(era?'Registro atualizado.':'Registro criado.');
   return o;
@@ -1840,8 +1861,9 @@ $('#cadDel').onclick=async()=>{
   const c=cads.find(x=>x.id===editCad); if(!c)return;
   const ok=await ask('Excluir o registro de '+c.nome+'? Os lançamentos antigos continuam com o nome digitado.','Excluir');
   if(!ok)return;
+  registra('Excluiu '+String((TIPOS[c.tipo]||{}).titulo||'registro').toLowerCase(),c.nome,'');
   cads=cads.filter(x=>x.id!==c.id);
-  closeCad(); render(); pintaSugestoes(); persist(['cad']);
+  closeCad(); render(); pintaSugestoes(); persist(['cad','atv']);
   toast('Registro excluído.');
 };
 $('#cadChips').addEventListener('click',e=>{
@@ -1952,10 +1974,12 @@ const PERFIS={
 const USUARIO_CAMPO={id:'u-campo-1',nome:'PACHECO',perfil:'campo',senha:'',obs:'Técnico de campo · pede troca de equipamento'};
 /* os técnicos de campo: cada um precisa aparecer na lista, mesmo antes de a planilha conhecê-lo */
 const USUARIOS_CAMPO=[USUARIO_CAMPO,
-  {id:'u-campo-2',nome:'ALEXANDRE',perfil:'campo',senha:'',obs:'Técnico de campo · pede troca de equipamento'}];
+  {id:'u-campo-2',nome:'ALEXANDRE',perfil:'campo',senha:'',obs:'Técnico de campo · pede troca de equipamento'},
+  {id:'u-joao',nome:'JOÃO',perfil:'senior',senha:'vtm-joao',obs:'Administrador sênior · mesmos acessos do Carlos'}];
 function garanteTecnicos(){
   USUARIOS_CAMPO.forEach(t=>{
-    const ja=usuarios.some(x=>x.id===t.id||String(x.nome||'').toUpperCase()===t.nome);
+    const semAcento=x=>String(x||'').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+    const ja=usuarios.some(x=>x.id===t.id||semAcento(x.nome)===semAcento(t.nome));
     if(!ja) usuarios.push(Object.assign({},t));
   });
 }
@@ -1986,6 +2010,7 @@ function aplicaPermissoes(){
   b.classList.toggle('sem-exportar',!pode('exportar'));
   b.classList.toggle('sem-planilha',!pode('planilha'));
   b.classList.toggle('so-campo',sessao.perfil==='campo');
+  { const ch=$('#chipAtividades'); if(ch) ch.style.display=ehAdmin()?'':'none'; }
   const c=$('#cracha');
   if(c&&sessao) c.innerHTML=esc(sessao.nome)+' · <b>'+esc(PERFIS[sessao.perfil].rotulo)+'</b>';
   const chipU=document.querySelector('#cadChips .chip[data-cad="usuario"]');
@@ -2102,11 +2127,15 @@ async function salvarUsu(){
   guardaAnterior(editUsu?'edição de usuário':'novo usuário');
   const nome=$('#u_nome').value.trim(), senha=$('#u_senha').value.trim(), perfil=$('#u_perfil').value;
   if(!nome){ toast('Informe o nome.'); return; }
-  if(!senha&&perfil!=='consulta'){ toast('Informe a senha.'); return; }
+  if(!senha&&perfil!=='consulta'&&perfil!=='campo'){ toast('Informe a senha.'); return; }
   if(perfil==='senior'&&sessao.perfil!=='senior'){ toast('Só um administrador sênior cria outro sênior.'); return; }
-  const admins=usuarios.filter(x=>x.id!==editUsu&&(x.perfil==='senior'||x.perfil==='junior'));
-  if((perfil==='senior'||perfil==='junior')&&admins.length>=3){
-    toast('O combinado são três administradores: um sênior e dois juniores. Rebaixe alguém antes de criar outro.');
+  const outros=usuarios.filter(x=>x.id!==editUsu);
+  if(perfil==='senior'&&outros.filter(x=>x.perfil==='senior').length>=2){
+    toast('O combinado são até dois administradores sêniores. Rebaixe um antes de criar outro.');
+    return;
+  }
+  if(perfil==='junior'&&outros.filter(x=>x.perfil==='junior').length>=2){
+    toast('O combinado são até dois administradores juniores. Rebaixe um antes de criar outro.');
     return;
   }
   const alvo=usuarios.find(x=>x.id===editUsu);
@@ -2115,6 +2144,7 @@ async function salvarUsu(){
   if(editUsu){ const i=usuarios.findIndex(x=>x.id===editUsu); usuarios[i]=Object.assign({},usuarios[i],o); }
   else usuarios.push(o);
   const era=editUsu;
+  registra((era?'Alterou':'Cadastrou')+' usuário',o.nome,(PERFIS[o.perfil]||{}).rotulo||'');
   render(); persist(['usu']);
   toast(era?'Usuário atualizado.':'Usuário criado.');
   return o;
@@ -2141,8 +2171,9 @@ $('#usuDel').onclick=async()=>{
     toast('Precisa existir ao menos um administrador sênior.'); return; }
   const ok=await ask('Excluir o acesso de '+u.nome+'? Ele não conseguirá mais entrar.','Excluir');
   if(!ok)return;
+  registra('Excluiu usuário',u.nome,(PERFIS[u.perfil]||{}).rotulo||'');
   usuarios=usuarios.filter(x=>x.id!==u.id);
-  closeUsu(); render(); persist(['usu']); toast('Usuário excluído.');
+  closeUsu(); render(); persist(['usu','atv']); toast('Usuário excluído.');
 };
 
 
@@ -2165,10 +2196,12 @@ const ACOES_REGISTRO={
     guia:'Pedidos que chegaram do campo. Escolha a peça que sai para cada troca e gere a requisição.'},
   retornos:{rotulo:'', abre:()=>{},
     guia:'Peças que voltaram do campo. Decida uma por uma: útil volta ao estoque; não útil fica baixada.'},
+  atividades:{rotulo:'', abre:()=>{},
+    guia:'Quem fez o quê, e quando. Só leitura, e só para administradores.'},
   completar:{rotulo:'', abre:()=>{},
     guia:'Preencha preço, mínimo, localização e fornecedor de todos os produtos numa tela só, e salve de uma vez.'}
 };
-const TEM_LISTA=['requisitante','almoxarife','destino','fornecedor','usuario','completar','trocas','retornos'];
+const TEM_LISTA=['requisitante','almoxarife','destino','fornecedor','usuario','completar','trocas','retornos','atividades'];
 
 
 /* ============ solicitação de compra ============ */
@@ -2416,7 +2449,8 @@ function ligarBarra(cfg){
   const salvar=async(depois)=>{
     const alvo=await cfg.salvar();          /* devolve o registro gravado, ou null se não deu */
     if(!alvo) return;
-    if(depois==='novo'){ cfg.limpar(); return; }
+    if(typeof marcaSalvo==='function') marcaSalvo(P);
+    if(depois==='novo'){ cfg.limpar(); if(typeof marcaSalvo==='function') marcaSalvo(P); return; }
     if(depois==='fechar'){ cfg.fechar(); return; }
     if(depois==='imprimir'||depois==='compartilhar'){
       const doc=cfg.documento(alvo);
@@ -2830,6 +2864,7 @@ function pintaCompletar(){
       '? O saldo deixa de existir. Se errar, use Desfazer no rodapé.','Excluir');
     if(!ok) return;
     guardaAnterior('a exclusão de '+m.nome);
+    registra('Excluiu produto',m.nome,n?n+' lançamento(s) junto':'');
     mats=mats.filter(x=>x.id!==m.id);
     movs=movs.filter(v=>v.materialId!==m.id);
     await persist(['mat','mov']);
@@ -2882,6 +2917,7 @@ function pintaCompletar(){
       ajustes++;
     });
     if(!mudou&&!ajustes){ toast('Nada mudou — não havia o que salvar.'); return; }
+    registra('Alterou produtos em lote',mudou+' produto(s)',ajustes?ajustes+' ajuste(s) de contagem':'');
     await persist(['mat','mov']);
     render(); pintaCompletar();
     toast([mudou?mudou+' produto(s) atualizado(s)':'',ajustes?ajustes+' ajuste(s) de estoque':'']
@@ -3267,6 +3303,7 @@ async function desfazerAtendimento(t){
     Object.assign(r,{decisao:'anulado',entradaId:'',patrimonio:false,atualizadoEm:iso});
   });
   (t.itens||[]).forEach(it=>{ it.sai=''; });
+  registra(dev?'Desfez o recebimento da devolução':'Desfez o atendimento do pedido',t.onde,t.numero);
   Object.assign(t,{status:'aguardando',reqId:'',atendidoPor:'',atendidoEm:'',atualizadoEm:iso});
   await persist(['mov','tro','ret']); render();
   toast(t.numero+' desfeito: o estoque voltou a ser como antes, e o pedido está aguardando de novo.');
@@ -3277,6 +3314,8 @@ async function cancelarTroca(t){
   if(!ok) return;
   guardaAnterior('o cancelamento do pedido '+t.numero);
   t.status='cancelado'; t.atualizadoEm=new Date().toISOString();
+  t.canceladoPor=sessao?sessao.nome:''; t.canceladoEm=t.atualizadoEm;
+  registra('Cancelou pedido',t.onde,t.numero);
   await persist(['tro']); render(); toast('Pedido '+t.numero+' cancelado.');
 }
 
@@ -3366,6 +3405,197 @@ async function decideRetorno(r,como){
 
 
 
+
+
+
+/* ================= sair de cada tela com segurança: X, tocar fora, Esc e o Voltar do celular ================= */
+const FORMULARIOS={scrimMat:()=>closeMat(), scrimMov:()=>closeMov(), scrimCad:()=>closeCad(), scrimUsu:()=>closeUsu(), scrimSol:()=>closeSol()};
+const PREFIXO_JANELA={mat:'scrimMat',mov:'scrimMov',cad:'scrimCad',usu:'scrimUsu',sol:'scrimSol'};
+const fotos={};
+function fotoFormulario(id){
+  const e=document.getElementById(id); if(!e) return '';
+  return [...e.querySelectorAll('input,select,textarea')].filter(x=>x.type!=='file')
+    .map(x=>(x.type==='checkbox'||x.type==='radio')?String(x.checked):String(x.value)).join('\u0001');
+}
+function tiraFoto(id){ setTimeout(()=>{ const e=document.getElementById(id); if(e&&e.classList.contains('on')) fotos[id]=fotoFormulario(id); },300); }
+function marcaSalvo(prefixo){ const id=PREFIXO_JANELA[prefixo]; if(id) tiraFoto(id); }
+/* fecha o formulário; se tiver algo preenchido e não salvo, pergunta antes */
+async function pedeParaFechar(id){
+  const e=document.getElementById(id);
+  if(!e||!e.classList.contains('on')) return true;
+  if(fotos[id]!==undefined&&fotoFormulario(id)!==fotos[id]){
+    const sair=await ask('Sair sem salvar? O que foi preenchido nesta janela se perde.','Sair sem salvar','Continuar editando');
+    if(!sair) return false;
+  }
+  delete fotos[id];
+  FORMULARIOS[id]();
+  return true;
+}
+/* o X do alto e o toque fora da janela passam a perguntar */
+Object.keys(FORMULARIOS).forEach(id=>{
+  const scrim=document.getElementById(id); if(!scrim) return;
+  /* depois de o sistema montar tudo, senão a regra antiga do botão é gravada por cima */
+  setTimeout(()=>{ const x=document.getElementById(id.replace('scrim','').toLowerCase()+'Close');
+    if(x) x.onclick=()=>pedeParaFechar(id); },0);
+  scrim.addEventListener('click',ev=>{ if(ev.target===scrim){ ev.stopImmediatePropagation(); pedeParaFechar(id); } },true);
+  let estava=scrim.classList.contains('on');
+  new MutationObserver(()=>{ const agora=scrim.classList.contains('on'); if(agora&&!estava) tiraFoto(id); if(!agora) delete fotos[id]; estava=agora; })
+    .observe(scrim,{attributes:true,attributeFilter:['class']});
+});
+function formularioAberto(){
+  /* do mais de cima para o de baixo */
+  for(const id of ['scrimSol','scrimUsu','scrimCad','scrimMov','scrimMat']){ const e=document.getElementById(id); if(e&&e.classList.contains('on')) return id; }
+  return null;
+}
+/* Esc: a mesma regra, e agora também no cadastro de usuário */
+window.addEventListener('keydown',ev=>{
+  if(ev.key!=='Escape') return;
+  if(askOpen||($('#previaScrim')&&$('#previaScrim').classList.contains('on'))) return;   /* esses o sistema já trata */
+  const id=formularioAberto(); if(!id) return;
+  ev.preventDefault(); ev.stopImmediatePropagation(); pedeParaFechar(id);
+},true);
+
+/* Voltar do celular: fecha a janela de cima, em vez de sair do aplicativo */
+let pilhaVoltar=0, ignorarPop=0, fechandoPeloVoltar=false;
+const OBSERVADAS=[['scrimMat','c'],['scrimMov','c'],['scrimCad','c'],['scrimUsu','c'],['scrimSol','c'],['previaScrim','c'],['panPlan','h']];
+const aberta=([id,modo])=>{ const e=document.getElementById(id); return !!e&&(modo==='h'?!e.hidden:e.classList.contains('on')); };
+function empilha(){ try{ history.pushState({estoque:Date.now()},''); pilhaVoltar++; }catch(e){} }
+function desempilha(){
+  if(fechandoPeloVoltar) return;              /* essa entrada já foi gasta pelo próprio Voltar */
+  if(pilhaVoltar<=0) return;
+  pilhaVoltar--;
+  ignorarPop++; try{ history.back(); }catch(e){ ignorarPop--; }
+}
+OBSERVADAS.forEach(o=>{
+  const e=document.getElementById(o[0]); if(!e) return;
+  let era=aberta(o);
+  new MutationObserver(()=>{ const ag=aberta(o); if(ag&&!era) empilha(); else if(!ag&&era) desempilha(); era=ag; })
+    .observe(e,{attributes:true,attributeFilter:['class','hidden']});
+});
+window.addEventListener('popstate',async()=>{
+  if(ignorarPop>0){ ignorarPop--; return; }
+  if(pilhaVoltar<=0) return;
+  pilhaVoltar--;                               /* o Voltar acabou de gastar uma entrada */
+  fechandoPeloVoltar=true;
+  try{
+    if(askOpen){ $('#askNo').click(); }
+    else if($('#previaScrim').classList.contains('on')){ fecharPrevia(); }
+    else if(formularioAberto()){ await pedeParaFechar(formularioAberto()); }
+    else if($('#panPlan')&&!$('#panPlan').hidden){ $('#panPlan').hidden=true; }
+  }finally{
+    setTimeout(()=>{
+      fechandoPeloVoltar=false;
+      /* o que continuou aberto (ex.: "continuar editando") ganha de novo a sua entrada no Voltar */
+      const abertas=OBSERVADAS.filter(aberta).length;
+      while(pilhaVoltar<abertas) empilha();       /* o que continuou aberto ganha de novo a sua entrada */
+    },60);
+  }
+});
+
+/* ================= registro de atividades: quem fez o quê, e quando ================= */
+$('#planFechar').onclick=()=>{ $('#panPlan').hidden=true; try{ window.scrollTo({top:0,behavior:'smooth'}); }catch(e){} };
+/* o que não deixa carimbo no próprio registro (correção, exclusão, cancelamento, cadastro, desfazer)
+   vai para esta lista, que só cresce: nada aqui é editado nem apagado */
+function registra(oque,onde,ref){
+  atividades.push({id:'at-'+Date.now()+'-'+Math.random().toString(36).slice(2,7),
+    quem:sessao?sessao.nome:'', quando:new Date().toISOString(), oque:oque, onde:onde||'', ref:ref||''});
+}
+const ehAdmin=()=>!!(sessao&&(sessao.perfil==='senior'||sessao.perfil==='junior'));
+const msQuando=q=>{ const t=new Date(q).getTime(); return isNaN(t)?0:t; };
+function quandoLegivel(q){
+  const d=new Date(q); if(isNaN(d)) return String(q||'—');
+  const p=n=>String(n).padStart(2,'0');
+  return p(d.getDate())+'/'+p(d.getMonth()+1)+'/'+d.getFullYear()+' · '+p(d.getHours())+':'+p(d.getMinutes());
+}
+/* monta-se a partir do que o sistema já grava: funciona para trás */
+function colherAtividades(){
+  const evs=[];
+  const por=(quem,quando,oque,onde,ref)=>{ if(!quem||!quando) return; evs.push({quem,quando,oque,onde:onde||'',ref:ref||''}); };
+  mats.forEach(m=>por(m.registrador,m.cadastradoEm,'Cadastrou produto',m.nome,m.patrimonio?'patrimônio '+m.patrimonio:''));
+  const reqs={};
+  movs.forEach(v=>{
+    if(v.trocaId||v.retornoId) return;                 /* aparecem pelo pedido e pela decisão do retorno */
+    const m=mat(v.materialId), nome=m?m.nome:'produto excluído', quando=v.lancadoEm||v.data;
+    const autor=v.usuario||(v.tipo==='entrada'?v.recebido:v.entregue)||'';
+    const ajuste=/^Contagem física/.test(String(v.justifica||''));
+    if(ajuste){ por(autor,quando,'Ajustou a contagem',nome,v.justifica); return; }
+    if(v.tipo==='entrada'){ por(autor,quando,'Lançou entrada',nome,(v.qtd?num(v.qtd)+' '+(m?m.unidade||'':''):'')+(v.nf?' · NF '+v.nf:'')); return; }
+    const k=v.reqId||v.id;
+    if(!reqs[k]) reqs[k]={quem:autor,quando,itens:[],os:v.os,destino:v.destino};
+    reqs[k].itens.push(nome);
+  });
+  Object.keys(reqs).forEach(k=>{ const r=reqs[k];
+    por(r.quem,r.quando,'Lançou saída',r.itens.length>2?r.itens.length+' materiais':r.itens.join(', '),[r.destino,r.os].filter(Boolean).join(' · ')); });
+  /* os números de série entram na linha: é por eles que se segue a história de cada equipamento */
+  const listaSN=v=>{ const L=v.filter(Boolean); return L.length>3?L.slice(0,3).join(', ')+' e mais '+(L.length-3):L.join(', '); };
+  trocas.forEach(t=>{
+    const dev=t.tipo==='devolucao', it=t.itens||[];
+    const voltam=listaSN(it.map(x=>x.volta)), sairam=listaSN(it.map(x=>x.sai));
+    por(t.quem,t.quando,dev?'Pediu devolução':'Pediu troca',t.onde,
+      t.numero+(voltam?(dev?' · devolve ':' · volta ')+voltam:''));
+    if(t.atendidoPor) por(t.atendidoPor,t.atendidoEm,dev?'Recebeu devolução':'Atendeu pedido de troca',t.onde,
+      t.numero+(!dev&&sairam?' · saiu '+sairam:'')+(dev&&voltam?' · recebeu '+voltam:''));
+    if(t.canceladoPor&&!atividades.some(a=>a.oque==='Cancelou pedido'&&a.ref===t.numero))
+      por(t.canceladoPor,t.canceladoEm,'Cancelou pedido',t.onde,t.numero);
+  });
+  retornos.forEach(r=>{ if(r.decisao==='util'||r.decisao==='baixa')
+    por(r.decididoPor,r.decididoEm,r.decisao==='util'?'Marcou peça como útil':'Baixou peça (não útil)',r.produto,
+      'S/N '+r.sn+(r.numero?' · '+r.numero:'')+(r.decisao==='baixa'&&r.motivo?' · '+r.motivo:'')); });
+  atividades.forEach(a=>por(a.quem,a.quando,a.oque,a.onde,a.ref));
+  evs.sort((a,z)=>msQuando(z.quando)-msQuando(a.quando));
+  return evs;
+}
+let logEventos=[];
+function filtraLog(){
+  const termo=(($('#logBusca')||{}).value||'').trim().toLowerCase(), quem=(($('#logQuem')||{}).value||'');
+  return {termo,quem,lista:logEventos.filter(e=>{
+    if(quem&&e.quem!==quem) return false;
+    if(!termo) return true;
+    return (e.quem+' '+e.oque+' '+e.onde+' '+e.ref).toLowerCase().indexOf(termo)>=0; })};
+}
+function desenhaLog(){
+  const {termo,quem,lista}=filtraLog(), corpo=$('#logCorpo'); if(!corpo) return;
+  if(!lista.length){
+    corpo.innerHTML='<p class="hint" style="padding:18px 4px">Nenhuma atividade registrada'+((termo||quem)?' com esse filtro':' ainda')+'.</p>';
+    return;
+  }
+  let h='', dia='';
+  lista.forEach(e=>{
+    const [d,hora]=quandoLegivel(e.quando).split(' · ');
+    if(d!==dia){ dia=d; h+='<div class="log-dia">'+esc(d)+'</div>'; }
+    h+='<div class="log-item"><span class="log-hora">'+esc(hora||'')+'</span><span class="log-txt"><b>'+esc(e.quem)+'</b> · '+esc(e.oque)
+      +'<em>'+esc(e.onde)+(e.ref&&e.ref!==e.onde?' · '+esc(e.ref):'')+'</em></span></div>';
+  });
+  corpo.innerHTML=h;
+}
+function pintaAtividades(){
+  if(!ehAdmin()){ $('#gridMat').innerHTML='<div class="empty"><p>O registro de atividades é só para administradores.</p></div>'; return; }
+  logEventos=colherAtividades();
+  const pessoas=[...new Set(logEventos.map(e=>e.quem))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
+  const desde=atividades.length?quandoLegivel(atividades.map(a=>a.quando).sort()[0]).split(' · ')[0]:'hoje';
+  $('#gridMat').innerHTML=`<div class="pleno">
+    <div class="log-filtros">
+      <input type="search" id="logBusca" placeholder="Filtrar por pessoa, produto, nota, OS…" autocomplete="off">
+      <select id="logQuem"><option value="">Todas as pessoas</option>${pessoas.map(p=>'<option value="'+esc(p)+'">'+esc(p)+'</option>').join('')}</select>
+      <button class="btn" id="logCSV" style="background:var(--marca);border-color:var(--marca);color:#fff">Exportar planilha</button>
+    </div>
+    <div class="log-corpo" id="logCorpo"></div>
+    <p class="hint" style="margin:12px 0 0">Só leitura: nada aqui é editado nem apagado. Não aparecem quem apenas consultou nem as entradas no sistema.
+      Correções, exclusões, cancelamentos, uso do Desfazer e cadastros de fornecedor, requisitante, destino e usuário aparecem a partir de ${esc(desde)}.</p>
+  </div>`;
+  $('#logBusca').addEventListener('input',desenhaLog);
+  $('#logQuem').addEventListener('change',desenhaLog);
+  $('#logCSV').onclick=()=>{
+    const {lista}=filtraLog();
+    if(!lista.length) return toast('Nada para exportar.');
+    const q=x=>'"'+String(x==null?'':x).replace(/"/g,'""')+'"';
+    const linhas=[['Data e hora','Pessoa','Atividade','Onde','Referência'].map(q).join(';')]
+      .concat(lista.map(e=>[quandoLegivel(e.quando),e.quem,e.oque,e.onde,e.ref].map(q).join(';')));
+    baixar('atividades_'+agora().slice(0,10)+'.csv','\ufeff'+linhas.join('\r\n'),'text/csv;charset=utf-8');
+    toast(lista.length+' atividade(s) exportada(s).');
+  };
+  desenhaLog();
+}
 
 /* ================= dinheiro do jeito brasileiro: 2.281 é dois mil; 45,90 tem centavos ================= */
 function numBR(t){
@@ -3627,6 +3857,7 @@ async function load(){
   garanteTecnicos();
   const tr=await store.get(K_TRO); try{ trocas=tr?JSON.parse(tr):[]; }catch(e){ trocas=[]; }
   const rt=await store.get(K_RET); try{ retornos=rt?JSON.parse(rt):[]; }catch(e){ retornos=[]; }
+  const at=await store.get(K_ATV); try{ atividades=at?JSON.parse(at):[]; }catch(e){ atividades=[]; }
   /* datas no formato do sistema, venham de onde vierem */
   mats=mats.map(normalizaMat);
   movs=movs.map(normalizaMov);
@@ -3715,6 +3946,7 @@ async function desfazer(){
       trocas=velhasTro; retornos=velhosRet;
     }
   }catch(e){ toast('Não consegui desfazer: '+e.message); return; }
+  registra('Usou o Desfazer',String(anterior.oquefoi||''),'');
   anterior=null;
   const b=$('#desfazer'); if(b){ b.disabled=true; b.textContent='Desfazer alteração'; }
   await persist();
@@ -3724,10 +3956,12 @@ async function desfazer(){
 }
 async function persist(quais){
   cacheCusto=null;
-  const q=quais||['mat','mov','cad','usu','tro','ret'];
+  const q=quais||['mat','mov','cad','usu','tro','ret','atv'];
+  if(q.indexOf('atv')<0&&atividades.length) q.push('atv');
   const tarefas=[];
   if(q.indexOf('tro')>=0) tarefas.push(store.set(K_TRO,JSON.stringify(trocas)));
   if(q.indexOf('ret')>=0) tarefas.push(store.set(K_RET,JSON.stringify(retornos)));
+  if(q.indexOf('atv')>=0) tarefas.push(store.set(K_ATV,JSON.stringify(atividades)));
   const ehCampo=!!(sessao&&sessao.perfil==='campo');
   if(q.indexOf('mat')>=0) tarefas.push(store.set(K_MAT,JSON.stringify(mats)));
   if(q.indexOf('mov')>=0) tarefas.push(store.set(K_MOV,JSON.stringify(movs)));
@@ -3893,6 +4127,7 @@ function render(){
     return;
   }
   atualizaBadges();
+  if(cadastroAtual==='atividades'){ pintaAtividades(); return; }
   if(cadastroAtual==='trocas'){ pintaTrocas(); return; }
   if(cadastroAtual==='retornos'){ pintaRetornos(); return; }
   if(cadastroAtual==='completar'){ pintaCompletar(); return; }
@@ -4121,6 +4356,7 @@ async function salvarMat(){
     }
   }
   const era=editMat;
+  if(era) registra('Alterou produto',o.nome,'');
   render(); persist(['mat','mov']);
   if(relAtual&&!$('#panRel').hidden)gerar();
   toast(era?'Produto atualizado.':(inicial>0?'Produto cadastrado com '+inicial+' em estoque.':'Produto cadastrado.'));
@@ -4150,8 +4386,9 @@ $('#matDel').onclick=async()=>{
   const n=movs.filter(v=>v.materialId===m.id).length;
   const ok=await ask('Excluir '+m.nome+(n?' e seus '+n+' movimento(s)':'')+'? Não é possível desfazer.','Excluir');
   if(!ok)return;
+  registra('Excluiu produto',m.nome,n?n+' lançamento(s) junto':'');
   mats=mats.filter(x=>x.id!==m.id);movs=movs.filter(v=>v.materialId!==m.id);
-  closeMat();render();persist(['mat','mov']);toast('Material excluído.');
+  closeMat();render();persist(['mat','mov','atv']);toast('Material excluído.');
 };
 
 /* ============ formulário de movimento ============ */
@@ -4486,14 +4723,22 @@ async function salvarMov(){
           site:'',contato:fornPendente.contato||'',
           obs:'cadastrado pela NF '+fornPendente.nf+(fornPendente.cidade?' · '+fornPendente.cidade:'')});
         toast(nome+' cadastrado em Fornecedores.');
+        registra('Cadastrou fornecedor pela nota',nome,'NF '+fornPendente.nf);
       }
       o.origem=nome; fornPendente=null;
     }
     /* frete e desconto valem para a nota inteira: todas as entradas dela ficam iguais */
     if(o.chave) movs.forEach(v=>{ if(v.tipo==='entrada'&&soChave(v.chave)===o.chave&&v.id!==o.id){ v.freteNota=o.freteNota; v.descNota=o.descNota; } });
     const era=editMov;
-    if(editMov){const i=movs.findIndex(x=>x.id===editMov);movs[i]=Object.assign({},movs[i],o);}
-    else movs.push(o);
+    if(editMov){
+      const i=movs.findIndex(x=>x.id===editMov), velho=movs[i]||{};
+      o.usuario=velho.usuario||velho.recebido||o.usuario;                              /* o autor continua sendo quem lançou */
+      o.lancadoEm=velho.lancadoEm||velho.data||'';
+      o.corrigidoPor=sessao?sessao.nome:''; o.corrigidoEm=new Date().toISOString();
+      const mm=mat(o.materialId); registra('Corrigiu entrada',mm?mm.nome:'produto',o.nf?'NF '+o.nf:'');
+      movs[i]=Object.assign({},velho,o);
+    }
+    else{ o.lancadoEm=new Date().toISOString(); movs.push(o); }
     render();persist(['mov','mat','cad']);
     if(relAtual&&!$('#panRel').hidden)gerar();
     toast(era?'Entrada atualizada.':'Entrada registrada.');
@@ -4550,12 +4795,17 @@ async function salvarMov(){
   }
   const req=editReq||('req-'+Date.now());
   const eraEdicao=!!editReq;
+  const antigos=editReq?movs.filter(v=>(v.reqId||v.id)===editReq):[];
   if(editReq) movs=movs.filter(v=>(v.reqId||v.id)!==editReq);
-  const marca=Date.now();
+  const marca=Date.now(), agoraIso=new Date().toISOString();
+  const autor=(antigos[0]&&(antigos[0].usuario||antigos[0].entregue))||(sessao?sessao.nome:'');
+  const lancado=(antigos[0]&&(antigos[0].lancadoEm||antigos[0].data))||agoraIso;
   const criados=Object.keys(soma).map((id,i)=>Object.assign({},base,{
     id:'v-'+marca+'-'+i, reqId:req, tipo:'saida', materialId:id, qtd:soma[id], preco:0,
-    series:(seriesPorMat[id]||[]).join('\n'), usuario:(sessao?sessao.nome:'')
-  }));
+    series:(seriesPorMat[id]||[]).join('\n'), usuario:autor, lancadoEm:lancado},
+    eraEdicao?{corrigidoPor:sessao?sessao.nome:'',corrigidoEm:agoraIso}:{}));
+  if(eraEdicao) registra('Corrigiu saída',criados.map(c=>{const mm=mat(c.materialId); return mm?mm.nome:'produto';}).slice(0,3).join(', '),
+    [base.destino,base.os].filter(Boolean).join(' · '));
   movs=movs.concat(criados);
   render();persist(['mov']);
   if(relAtual&&!$('#panRel').hidden)gerar();
@@ -4588,6 +4838,9 @@ async function removeMov(v){
   const ok=await ask('Excluir '+desc+'? O saldo será recalculado.','Excluir');
   if(!ok)return false;
   const afetados=[...new Set(movs.filter(x=>(x.reqId||x.id)===chave).map(x=>x.materialId))];
+  registra('Excluiu '+(grupo.length>1?'requisição':(v.tipo==='entrada'?'entrada':'saída')),
+    grupo.map(x=>{const mm=mat(x.materialId); return mm?mm.nome:'produto';}).slice(0,3).join(', '),
+    [v.nf?'NF '+v.nf:'',v.os||'',v.destino||''].filter(Boolean).join(' · '));
   movs=movs.filter(x=>(x.reqId||x.id)!==chave);
   render();persist(['mov','mat']);
   if(relAtual&&!$('#panRel').hidden)gerar();
