@@ -646,6 +646,8 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
 .log-txt{font-size:13.5px;line-height:1.45;color:var(--ink2)}
 .log-txt b{color:var(--ink);font-weight:700}
 .log-txt em{display:block;font-style:normal;font-size:12px;color:var(--ink3)}
+.troca.nt-linha{grid-template-columns:1fr 1fr}
+@media (max-width:700px){ .troca.nt-linha{grid-template-columns:1fr} }
 </style>
 <style>
 /* ---------- tela de abertura: aparece no instante em que o aplicativo abre ---------- */
@@ -696,7 +698,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
         <h1><img class="icone-app" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InRvcG8iIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNGN0I4NEEiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNFRTZCNTciLz48L2xpbmVhckdyYWRpZW50PjxsaW5lYXJHcmFkaWVudCBpZD0iZXNxIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRTgyMzdGIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjQjgxNDVGIi8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImRpciIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzZGQ0JFNiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzhFNkZCMCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iMTE2IiBmaWxsPSIjMEUwQjEyIi8+PHBvbHlnb24gcG9pbnRzPSIyNTYsMTAwIDQxMiwxODggMjU2LDI3NiAxMDAsMTg4IiBmaWxsPSJ1cmwoI3RvcG8pIi8+PHBvbHlnb24gcG9pbnRzPSIxMDAsMTg4IDI1NiwyNzYgMjU2LDQ0MCAxMDAsMzUyIiBmaWxsPSJ1cmwoI2VzcSkiLz48cG9seWdvbiBwb2ludHM9IjI1NiwyNzYgNDEyLDE4OCA0MTIsMzUyIDI1Niw0NDAiIGZpbGw9InVybCgjZGlyKSIvPjxwb2x5Z29uIHBvaW50cz0iMTkwLDEzNyAyMTIsMTI1IDM2OCwyMTMgMzQ2LDIyNSIgZmlsbD0iI0ZGRkZGRiIgZmlsbC1vcGFjaXR5PSIuODUiLz48cG9seWdvbiBwb2ludHM9IjM0NiwyMjUgMzY4LDIxMyAzNjgsMjY1IDM0NiwyNzciIGZpbGw9IiNGRkZGRkYiIGZpbGwtb3BhY2l0eT0iLjU1Ii8+PHBvbHlsaW5lIHBvaW50cz0iMTAwLDE4OCAyNTYsMjc2IDQxMiwxODgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGRkZGRiIgc3Ryb2tlLW9wYWNpdHk9Ii4zNSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGxpbmUgeDE9IjI1NiIgeTE9IjI3NiIgeDI9IjI1NiIgeTI9IjQ0MCIgc3Ryb2tlPSIjRkZGRkZGIiBzdHJva2Utb3BhY2l0eT0iLjI1IiBzdHJva2Utd2lkdGg9IjQiLz48L3N2Zz4=">Controle de estoque</h1>
         <p>Almoxarifado · Manutenção técnica</p>
         <div class="estado"><span class="ponto"></span><span id="estadoTxt">carregando…</span>
-          <span class="selo" title="versão deste programa">v104 · pasta de documentos</span></div>
+          <span class="selo" title="versão deste programa">v105 · registrar troca</span></div>
       </div>
       <div class="direita">
         <span class="cracha" id="cracha">—</span>
@@ -767,6 +769,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
         <button class="chip cad" data-cad="fornecedor">Cadastrar fornecedor</button>
         <button class="chip cad" data-cad="usuario">Cadastrar usuário</button>
         <button class="chip cad" data-cad="completar">Completar cadastros</button>
+        <button class="chip cad" data-cad="novatroca">Registrar troca</button>
         <button class="chip cad" data-cad="trocas">Pedidos de troca<span class="badge" id="bTrocas"></span></button>
         <button class="chip cad" data-cad="retornos">Retornos<span class="badge" id="bRet"></span></button>
         <button class="chip cad" data-cad="atividades" id="chipAtividades">Registro de atividades</button>
@@ -928,7 +931,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
     <span class="discreto">
       <button id="json">exportar backup</button><b>·</b><button id="import">importar</button>
     </span>
-    <span class="versao" title="versão deste programa">v104 · pasta de documentos</span>
+    <span class="versao" title="versão deste programa">v105 · registrar troca</span>
 </footer>
 </div>
 
@@ -2203,6 +2206,8 @@ const ACOES_REGISTRO={
   destino:{rotulo:'+ Destino', abre:()=>openCad(null), guia:''},
   fornecedor:{rotulo:'+ Fornecedor', abre:()=>openCad(null), guia:''},
   usuario:{rotulo:'+ Usuário', abre:()=>openUsu(null), guia:'Quem entra no sistema e o que cada um pode fazer.'},
+  novatroca:{rotulo:'', abre:()=>{},
+    guia:'Registre aqui a troca combinada direto com o almoxarifado: ela já sai atendida, com a requisição.'},
   trocas:{rotulo:'', abre:()=>{},
     guia:'Pedidos que chegaram do campo. Escolha a peça que sai para cada troca e gere a requisição.'},
   retornos:{rotulo:'', abre:()=>{},
@@ -2212,7 +2217,7 @@ const ACOES_REGISTRO={
   completar:{rotulo:'', abre:()=>{},
     guia:'Preencha preço, mínimo, localização e fornecedor de todos os produtos numa tela só, e salve de uma vez.'}
 };
-const TEM_LISTA=['requisitante','almoxarife','destino','fornecedor','usuario','completar','trocas','retornos','atividades'];
+const TEM_LISTA=['requisitante','almoxarife','destino','fornecedor','usuario','completar','trocas','retornos','atividades','novatroca'];
 
 
 /* ============ solicitação de compra ============ */
@@ -3570,6 +3575,140 @@ function mostraBotaoPasta(){ const b=$('#irDocs'); if(b) b.style.display=(pastaD
 setInterval(rodaFilaDocs,20000);
 setTimeout(rodaFilaDocs,6000);
 
+
+/* ================= Registrar troca: o administrador registra a troca e ela já sai atendida ================= */
+let ntLinhas=[];
+function ntNovaLinha(){ return {id:'l'+Date.now()+Math.random().toString(36).slice(2,5),volta:'',voltaProd:'',saiProd:'',sai:''}; }
+function ntPessoas(){
+  const tec=usuarios.filter(u=>u.perfil==='campo').map(u=>u.nome);
+  const req=doTipo('requisitante').map(c=>c.nome);
+  return [...new Set(tec.concat(req))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
+}
+function ntUsadas(exceto){ return ntLinhas.filter(l=>l.id!==exceto&&l.sai).map(l=>l.sai); }
+function ntPintaPecas(l){
+  const box=document.querySelector('.nt-linha[data-l="'+l.id+'"] .nt-pecas'); if(!box) return;
+  if(!l.saiProd){ box.innerHTML='<span class="hint" style="margin:0">escolha o produto que sai</span>'; return; }
+  const disp=seriesEmEstoque(l.saiProd), usadas=ntUsadas(l.id);
+  if(l.sai&&disp.indexOf(l.sai)<0) l.sai='';
+  box.innerHTML=disp.length
+    ? disp.map(sn=>'<button type="button" class="peca-t'+(l.sai===sn?' on':'')+'" data-sn="'+esc(sn)+'"'+(usadas.indexOf(sn)>=0?' disabled title="já escolhida em outra troca"':'')+'>'+esc(sn)+'</button>').join('')
+    : '<span class="hint" style="margin:0">sem peça com S/N em estoque · sai 1 unidade · saldo '+saldo(l.saiProd)+'</span>';
+  box.querySelectorAll('.peca-t').forEach(b=>b.onclick=()=>{
+    if(b.disabled) return;
+    l.sai=l.sai===b.dataset.sn?'':b.dataset.sn;
+    ntLinhas.forEach(ntPintaPecas);
+  });
+}
+function ntLinhaHTML(l,i){
+  return `<div class="troca nt-linha" data-l="${l.id}">
+    <div class="f lado-vol"><label>Peça que volta · S/N</label>
+      <input class="nt-volta mono" list="listaSNcampo" placeholder="escolha ou digite" value="${esc(l.volta)}">
+      <span class="info nt-info"></span>
+      <select class="nt-voltaProd" style="margin-top:6px"><option value="">— que equipamento é —</option>${opcoesProdutoTroca(l.voltaProd)}</select></div>
+    <div class="f lado-sai"><label>Sai do estoque</label>
+      <select class="nt-saiProd"><option value="">— escolha o produto —</option>${opcoesProdutoTroca(l.saiProd)}</select>
+      <div class="nt-pecas" style="margin-top:8px"></div>
+      ${ntLinhas.length>1?'<button class="x nt-remove" type="button" style="align-self:flex-start;padding:6px 0 0">remover esta troca</button>':''}</div>
+  </div>`;
+}
+function pintaNovaTroca(){
+  if(!pode('lancar')){ $('#gridMat').innerHTML='<div class="empty"><p>Seu perfil não permite registrar troca.</p></div>'; return; }
+  if(!ntLinhas.length) ntLinhas=[ntNovaLinha()];
+  const pessoas=ntPessoas(), dest=doTipo('destino');
+  $('#gridMat').innerHTML=`<div class="pleno"><div class="cx-troca" style="margin-top:0">
+    <h2>Registrar troca de equipamento</h2>
+    <p class="hint" style="margin:0 0 14px">Para quando a troca é combinada direto com o almoxarifado. Ao registrar, sai a requisição de troca e as peças que voltam vão para Retornos.</p>
+    <div class="grid-troca" style="margin-top:0;margin-bottom:14px">
+      <div class="f"><label for="ntQuem">Quem retirou</label>
+        <select id="ntQuem"><option value="">— escolha —</option>${pessoas.map(p=>'<option>'+esc(p)+'</option>').join('')}<option value="__outro">— outro, digitar —</option></select>
+        <input id="ntQuemTxt" style="display:none;margin-top:8px" placeholder="nome de quem retirou"></div>
+      <div class="f"><label for="ntOnde">Onde é a troca</label>
+        <select id="ntOnde"><option value="">— escolha —</option>${dest.map(c=>'<option>'+esc(c.nome)+'</option>').join('')}<option value="__outro">— outro, digitar —</option></select>
+        <input id="ntOndeTxt" style="display:none;margin-top:8px" placeholder="digite o local"></div>
+      <div class="f"><label for="ntOs">Nº da OS</label><input id="ntOs" class="mono" placeholder="OS-0091"></div>
+      <div class="f wide"><label for="ntObs">O que aconteceu</label><input id="ntObs" placeholder="tela sem imagem, box travando…"></div>
+    </div>
+    <div id="ntLinhas">${ntLinhas.map(ntLinhaHTML).join('')}</div>
+    <button class="btn ghost sm" id="ntMais" type="button">+ outra troca</button>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px">
+      <button class="btn" id="ntSalvar" type="button" style="background:var(--marca);border-color:var(--marca);color:#fff">Registrar troca e gerar requisição</button>
+      <button class="btn ghost" id="ntLimpar" type="button">Limpar</button>
+    </div></div></div>`;
+  pintaListaSN();
+  const outro=(sel,txt)=>{ $(sel).onchange=()=>{ const o=$(sel).value==='__outro'; $(txt).style.display=o?'':'none'; if(o) $(txt).focus(); }; };
+  outro('#ntQuem','#ntQuemTxt'); outro('#ntOnde','#ntOndeTxt');
+  ntLinhas.forEach(l=>{
+    const d=document.querySelector('.nt-linha[data-l="'+l.id+'"]');
+    const inp=d.querySelector('.nt-volta'), info=d.querySelector('.nt-info'), vp=d.querySelector('.nt-voltaProd'), sp=d.querySelector('.nt-saiProd');
+    const reconhece=()=>{
+      l.volta=inp.value.trim();
+      const k=l.volta.toUpperCase(), c=seriesConhecidas().find(x=>x.sn.toUpperCase()===k);
+      info.innerHTML=!k?'':(c?'<b>já conhecido</b> · '+esc(c.produto||'produto')+(c.onde?' · '+esc(c.onde):''):'S/N novo — fica guardado para as próximas trocas');
+      if(c&&c.produtoId&&!vp.value){ vp.value=c.produtoId; l.voltaProd=c.produtoId; if(!sp.value){ sp.value=c.produtoId; l.saiProd=c.produtoId; ntPintaPecas(l); } }
+    };
+    inp.addEventListener('input',reconhece); reconhece();
+    vp.onchange=()=>{ l.voltaProd=vp.value; if(!sp.value&&vp.value){ sp.value=vp.value; l.saiProd=vp.value; ntPintaPecas(l); } };
+    sp.onchange=()=>{ l.saiProd=sp.value; l.sai=''; ntLinhas.forEach(ntPintaPecas); };
+    const rm=d.querySelector('.nt-remove'); if(rm) rm.onclick=()=>{ ntLinhas=ntLinhas.filter(x=>x.id!==l.id); pintaNovaTroca(); };
+    ntPintaPecas(l);
+  });
+  $('#ntMais').onclick=()=>{ guardaCampos(); ntLinhas.push(ntNovaLinha()); pintaNovaTroca(); restauraCampos(); };
+  $('#ntLimpar').onclick=()=>{ ntLinhas=[ntNovaLinha()]; ntCampos=null; pintaNovaTroca(); };
+  $('#ntSalvar').onclick=registrarTrocaAdm;
+}
+/* o que foi digitado no topo não se perde ao acrescentar uma linha */
+let ntCampos=null;
+function guardaCampos(){ ntCampos={}; ['ntQuem','ntQuemTxt','ntOnde','ntOndeTxt','ntOs','ntObs'].forEach(id=>{ const e=$('#'+id); if(e) ntCampos[id]=e.value; }); }
+function restauraCampos(){ if(!ntCampos) return; Object.keys(ntCampos).forEach(id=>{ const e=$('#'+id); if(e) e.value=ntCampos[id]; });
+  ['ntQuem','ntOnde'].forEach(id=>{ const t=$('#'+id+'Txt'); if(t) t.style.display=$('#'+id).value==='__outro'?'':'none'; }); }
+async function registrarTrocaAdm(){
+  if(!pode('lancar')) return barra('Seu perfil não permite lançar.');
+  const quem=($('#ntQuem').value==='__outro'?$('#ntQuemTxt').value:$('#ntQuem').value).trim().toUpperCase();
+  const onde=($('#ntOnde').value==='__outro'?$('#ntOndeTxt').value:$('#ntOnde').value).trim();
+  if(!quem) return toast('Informe quem retirou as peças.');
+  if(!onde) return toast('Informe onde é a troca.');
+  const L=ntLinhas.filter(l=>l.volta||l.saiProd);
+  if(!L.length) return toast('Informe pelo menos uma troca.');
+  for(let i=0;i<L.length;i++){
+    const l=L[i], n=L.length>1?' na troca '+(i+1):'';
+    if(!l.volta) return toast('Informe o S/N da peça que volta'+n+'.');
+    if(!l.voltaProd) return toast('Escolha que equipamento é a peça que volta'+n+'.');
+    if(!l.saiProd||!mat(l.saiProd)) return toast('Escolha o produto que sai'+n+'.');
+    if(seriesEmEstoque(l.saiProd).length&&!l.sai) return toast('Escolha a peça que sai'+n+'.');
+  }
+  const vs=L.map(l=>l.volta.toUpperCase());
+  if(vs.some((x,i)=>vs.indexOf(x)!==i)) return toast('O mesmo S/N foi informado duas vezes na peça que volta.');
+  const soma={}; L.forEach(l=>{ soma[l.saiProd]=(soma[l.saiProd]||0)+1; });
+  const falta=Object.keys(soma).filter(id=>soma[id]>saldoBase(id));
+  if(falta.length) return toast('Sem saldo para '+falta.map(id=>mat(id).nome).join(', ')+'. Dê entrada antes.');
+  const ok=await ask('Registrar a troca? Sai '+L.length+' peça(s) do estoque para '+onde+', retirada(s) por '+quem+', e as que voltam ficam em Retornos.','Registrar');
+  if(!ok) return;
+  guardaAnterior('o registro da troca');
+  const nNum=trocas.reduce((mx,t)=>Math.max(mx,parseInt(String(t.numero||'').replace(/\D/g,''),10)||0),0)+1;
+  const quando=agora(), iso=new Date().toISOString(), marca=Date.now(), req='req-'+marca;
+  const t={id:'tr-'+marca, numero:'PT-'+String(nNum).padStart(3,'0'), tipo:'troca', quando:quando, quem:quem, onde:onde,
+    os:$('#ntOs').value.trim(), obs:$('#ntObs').value.trim(), status:'atendido',
+    itens:L.map(l=>({volta:l.volta, produtoVoltaId:l.voltaProd, precisaId:l.saiProd, sai:l.sai||''})),
+    reqId:req, atendidoPor:sessao?sessao.nome:'', atendidoEm:quando, registradaPor:sessao?sessao.nome:'', atualizadoEm:iso};
+  const porMat={};
+  t.itens.forEach(it=>{ const g=porMat[it.precisaId]=porMat[it.precisaId]||{qtd:0,series:[]}; g.qtd++; if(it.sai) g.series.push(it.sai); });
+  const novos=Object.keys(porMat).map((id,k)=>({
+    id:'v-'+marca+'-'+k, reqId:req, tipo:'saida', materialId:id, qtd:porMat[id].qtd, preco:0,
+    series:porMat[id].series.join('\n'), data:quando, retirado:quem, destino:onde, os:t.os, autorizado:'',
+    entregue:sessao?sessao.nome:'', obs:'Troca '+t.numero+(t.obs?' · '+t.obs:''), trocaId:t.id,
+    usuario:sessao?sessao.nome:'', lancadoEm:iso}));
+  trocas.push(t); movs=movs.concat(novos);
+  t.itens.forEach((it,i)=>{ const mv=mat(it.produtoVoltaId);
+    retornos.push({id:'rt-'+marca+'-'+i, sn:it.volta, produto:mv?mv.nome:'', produtoId:mv?mv.id:'', onde:onde, os:t.os,
+      trocaId:t.id, numero:t.numero, reqId:req, chegouEm:quando, decisao:'', motivo:'', patrimonio:false, entradaId:'',
+      decididoPor:'', decididoEm:'', atualizadoEm:iso}); });
+  ntLinhas=[ntNovaLinha()]; ntCampos=null;
+  await persist(['mov','tro','ret']); render();
+  if(cadastroAtual==='novatroca') pintaNovaTroca();       /* o formulário volta limpo */
+  toast('Troca '+t.numero+' registrada. As peças que voltam estão em Retornos.');
+  printMov(novos[0]);
+}
+
 /* ================= registro de atividades: quem fez o quê, e quando ================= */
 $('#irDocs').onclick=()=>{ if(!pastaDocsUrl) return toast('A pasta aparece depois que o primeiro documento for gravado.'); let j=null; try{ j=window.open(pastaDocsUrl,'_blank','noopener'); }catch(e){} if(!j) toast('O endereço da pasta é '+pastaDocsUrl); };
 $('#planFechar').onclick=()=>{ $('#panPlan').hidden=true; try{ window.scrollTo({top:0,behavior:'smooth'}); }catch(e){} };
@@ -3610,6 +3749,12 @@ function colherAtividades(){
   trocas.forEach(t=>{
     const dev=t.tipo==='devolucao', it=t.itens||[];
     const voltam=listaSN(it.map(x=>x.volta)), sairam=listaSN(it.map(x=>x.sai));
+    if(t.registradaPor){
+      por(t.registradaPor,t.atendidoEm||t.quando,'Registrou troca',t.onde,
+        t.numero+' · retirou '+t.quem+(voltam?' · volta '+voltam:'')+(sairam?' · saiu '+sairam:''));
+      if(t.canceladoPor&&!atividades.some(a=>a.oque==='Cancelou pedido'&&a.ref===t.numero)) por(t.canceladoPor,t.canceladoEm,'Cancelou pedido',t.onde,t.numero);
+      return;
+    }
     por(t.quem,t.quando,dev?'Pediu devolução':'Pediu troca',t.onde,
       t.numero+(voltam?(dev?' · devolve ':' · volta ')+voltam:''));
     if(t.atendidoPor) por(t.atendidoPor,t.atendidoEm,dev?'Recebeu devolução':'Atendeu pedido de troca',t.onde,
@@ -4208,6 +4353,7 @@ function render(){
   }
   atualizaBadges();
   if(cadastroAtual==='atividades'){ pintaAtividades(); return; }
+  if(cadastroAtual==='novatroca'){ if(!$('#ntSalvar')) pintaNovaTroca(); return; }
   if(cadastroAtual==='trocas'){ pintaTrocas(); return; }
   if(cadastroAtual==='retornos'){ pintaRetornos(); return; }
   if(cadastroAtual==='completar'){ pintaCompletar(); return; }
