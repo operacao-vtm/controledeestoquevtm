@@ -648,6 +648,8 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
 .log-txt em{display:block;font-style:normal;font-size:12px;color:var(--ink3)}
 .troca.nt-linha{grid-template-columns:1fr 1fr}
 @media (max-width:700px){ .troca.nt-linha{grid-template-columns:1fr} }
+.aviso-licenca{background:var(--tn-low,#2E2415);color:var(--low,#F2A93B);border-bottom:1px solid var(--low,#F2A93B);padding:10px 16px;font-size:13.5px;text-align:center;position:sticky;top:0;z-index:50}
+.aviso-licenca b{font-weight:700}
 </style>
 <style>
 /* ---------- tela de abertura: aparece no instante em que o aplicativo abre ---------- */
@@ -698,7 +700,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
         <h1><img class="icone-app" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InRvcG8iIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNGN0I4NEEiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNFRTZCNTciLz48L2xpbmVhckdyYWRpZW50PjxsaW5lYXJHcmFkaWVudCBpZD0iZXNxIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRTgyMzdGIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjQjgxNDVGIi8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImRpciIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzZGQ0JFNiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzhFNkZCMCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iMTE2IiBmaWxsPSIjMEUwQjEyIi8+PHBvbHlnb24gcG9pbnRzPSIyNTYsMTAwIDQxMiwxODggMjU2LDI3NiAxMDAsMTg4IiBmaWxsPSJ1cmwoI3RvcG8pIi8+PHBvbHlnb24gcG9pbnRzPSIxMDAsMTg4IDI1NiwyNzYgMjU2LDQ0MCAxMDAsMzUyIiBmaWxsPSJ1cmwoI2VzcSkiLz48cG9seWdvbiBwb2ludHM9IjI1NiwyNzYgNDEyLDE4OCA0MTIsMzUyIDI1Niw0NDAiIGZpbGw9InVybCgjZGlyKSIvPjxwb2x5Z29uIHBvaW50cz0iMTkwLDEzNyAyMTIsMTI1IDM2OCwyMTMgMzQ2LDIyNSIgZmlsbD0iI0ZGRkZGRiIgZmlsbC1vcGFjaXR5PSIuODUiLz48cG9seWdvbiBwb2ludHM9IjM0NiwyMjUgMzY4LDIxMyAzNjgsMjY1IDM0NiwyNzciIGZpbGw9IiNGRkZGRkYiIGZpbGwtb3BhY2l0eT0iLjU1Ii8+PHBvbHlsaW5lIHBvaW50cz0iMTAwLDE4OCAyNTYsMjc2IDQxMiwxODgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGRkZGRiIgc3Ryb2tlLW9wYWNpdHk9Ii4zNSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGxpbmUgeDE9IjI1NiIgeTE9IjI3NiIgeDI9IjI1NiIgeTI9IjQ0MCIgc3Ryb2tlPSIjRkZGRkZGIiBzdHJva2Utb3BhY2l0eT0iLjI1IiBzdHJva2Utd2lkdGg9IjQiLz48L3N2Zz4=">Controle de estoque</h1>
         <p>Almoxarifado · Manutenção técnica</p>
         <div class="estado"><span class="ponto"></span><span id="estadoTxt">carregando…</span>
-          <span class="selo" title="versão deste programa">v105 · registrar troca</span></div>
+          <span class="selo" title="versão deste programa">v106 · licença mensal</span></div>
       </div>
       <div class="direita">
         <span class="cracha" id="cracha">—</span>
@@ -931,7 +933,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
     <span class="discreto">
       <button id="json">exportar backup</button><b>·</b><button id="import">importar</button>
     </span>
-    <span class="versao" title="versão deste programa">v105 · registrar troca</span>
+    <span class="versao" title="versão deste programa">v106 · licença mensal</span>
 </footer>
 </div>
 
@@ -1407,7 +1409,8 @@ async function lerPlanilha(){
            usuarios:Array.isArray(d.usuarios)?d.usuarios:null,
            trocas:Array.isArray(d.trocas)?d.trocas:null,
            retornos:Array.isArray(d.retornos)?d.retornos:null,
-           atividades:Array.isArray(d.atividades)?d.atividades:null };
+           atividades:Array.isArray(d.atividades)?d.atividades:null,
+           licenca:(d.licenca&&typeof d.licenca==='object')?d.licenca:null };
 }
 /* ---- trocas e retornos: mescla por identificação, o mais recente vence, nada some ---- */
 function mesclaPorId(locais,remotos){
@@ -1554,6 +1557,7 @@ async function puxarDaPlanilha(){
   if(sessao&&sessao.perfil==='campo'){
     for(const t of trocas.filter(x=>x.pendente)) await enviarTroca(t);   /* reenvia o que não subiu */
     const dc=await lerPlanilha();
+    if(dc.licenca){ licenca=dc.licenca; aplicaLicenca(); }
     recebeTrocas(dc);
     if(dc.materiais&&dc.materiais.length) mats=dc.materiais.map(normalizaMat);
     if(dc.movimentos&&dc.movimentos.length) movs=dc.movimentos;
@@ -1568,6 +1572,7 @@ async function puxarDaPlanilha(){
     return true;
   }
   const d=await lerPlanilha();
+  if(d.licenca){ licenca=d.licenca; aplicaLicenca(); }
   recebeTrocas(d);
   if(versaoLocal!==marca || pendenteEnvio){
     await enviarParaPlanilha();     /* mexeram aqui enquanto eu lia: o daqui manda */
@@ -2003,7 +2008,11 @@ const SEED_USUARIOS=[...USUARIOS_CAMPO,
   {id:'u-4',nome:'DIRETORIA',perfil:'diretoria',senha:'vtm-diretoria',obs:'emite e compartilha relatórios'},
   {id:'u-5',nome:'CONSULTA',perfil:'consulta',senha:'vtm-consulta',obs:'senha que pode ser divulgada na equipe'}
 ];
-function pode(o){ return !!(sessao && PERFIS[sessao.perfil] && PERFIS[sessao.perfil][o]); }
+const ACOES_LICENCA=['lancar','cadastrar','excluir','usuarios'];   /* travadas quando a licença vence; consulta e impressão seguem */
+function pode(o){
+  if(!licencaOk() && ACOES_LICENCA.indexOf(o)>=0) return false;
+  return !!(sessao && PERFIS[sessao.perfil] && PERFIS[sessao.perfil][o]);
+}
 function barra(msg){ toast(msg||'Seu perfil não permite esta ação.'); return false; }
 
 function escondeSe(seletor,esconder){
@@ -3709,6 +3718,27 @@ async function registrarTrocaAdm(){
   printMov(novos[0]);
 }
 
+
+/* ================= licença mensal: a data mora na planilha, não no código ================= */
+let licenca={liberado:true,ate:'',recado:''};
+/* na dúvida (planilha fora de alcance, primeira carga), mantém liberado — nunca trava por falha de conexão */
+function licencaOk(){ return licenca.liberado!==false; }
+const RECADO_PADRAO='Licença a renovar. Fale com João Victor: (92) 98431-1798.';
+function aplicaLicenca(){
+  const trava=!licencaOk();
+  document.body.classList.toggle('licenca-vencida',trava);
+  let faixa=document.getElementById('avisoLicenca');
+  if(trava){
+    if(!faixa){
+      faixa=document.createElement('div'); faixa.id='avisoLicenca'; faixa.className='aviso-licenca';
+      document.body.insertBefore(faixa,document.body.firstChild);
+    }
+    faixa.innerHTML='<b>Somente leitura.</b> '+esc(licenca.recado||RECADO_PADRAO)+' Os dados estão a salvo; ao renovar, tudo volta.';
+    faixa.style.display='';
+  }else if(faixa){ faixa.style.display='none'; }
+  if(typeof aplicaPermissoes==='function'&&sessao) aplicaPermissoes();   /* esconde/mostra Registros e Histórico conforme a licença */
+}
+
 /* ================= registro de atividades: quem fez o quê, e quando ================= */
 $('#irDocs').onclick=()=>{ if(!pastaDocsUrl) return toast('A pasta aparece depois que o primeiro documento for gravado.'); let j=null; try{ j=window.open(pastaDocsUrl,'_blank','noopener'); }catch(e){} if(!j) toast('O endereço da pasta é '+pastaDocsUrl); };
 $('#planFechar').onclick=()=>{ $('#panPlan').hidden=true; try{ window.scrollTo({top:0,behavior:'smooth'}); }catch(e){} };
@@ -4341,6 +4371,7 @@ function movHTML(grupo){
 
 function render(){
   cacheCusto=null;
+  if(typeof aplicaLicenca==='function') aplicaLicenca();
   kpis();
   if($('#panHist')&&!$('#panHist').hidden) setTimeout(pintaHistorico,0);
   if($('#panPainel')&&!$('#panPainel').hidden) setTimeout(pintaPainel,0);
