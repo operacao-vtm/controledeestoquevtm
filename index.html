@@ -700,7 +700,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
         <h1><img class="icone-app" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InRvcG8iIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNGN0I4NEEiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNFRTZCNTciLz48L2xpbmVhckdyYWRpZW50PjxsaW5lYXJHcmFkaWVudCBpZD0iZXNxIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRTgyMzdGIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjQjgxNDVGIi8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImRpciIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzZGQ0JFNiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzhFNkZCMCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iMTE2IiBmaWxsPSIjMEUwQjEyIi8+PHBvbHlnb24gcG9pbnRzPSIyNTYsMTAwIDQxMiwxODggMjU2LDI3NiAxMDAsMTg4IiBmaWxsPSJ1cmwoI3RvcG8pIi8+PHBvbHlnb24gcG9pbnRzPSIxMDAsMTg4IDI1NiwyNzYgMjU2LDQ0MCAxMDAsMzUyIiBmaWxsPSJ1cmwoI2VzcSkiLz48cG9seWdvbiBwb2ludHM9IjI1NiwyNzYgNDEyLDE4OCA0MTIsMzUyIDI1Niw0NDAiIGZpbGw9InVybCgjZGlyKSIvPjxwb2x5Z29uIHBvaW50cz0iMTkwLDEzNyAyMTIsMTI1IDM2OCwyMTMgMzQ2LDIyNSIgZmlsbD0iI0ZGRkZGRiIgZmlsbC1vcGFjaXR5PSIuODUiLz48cG9seWdvbiBwb2ludHM9IjM0NiwyMjUgMzY4LDIxMyAzNjgsMjY1IDM0NiwyNzciIGZpbGw9IiNGRkZGRkYiIGZpbGwtb3BhY2l0eT0iLjU1Ii8+PHBvbHlsaW5lIHBvaW50cz0iMTAwLDE4OCAyNTYsMjc2IDQxMiwxODgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGRkZGRiIgc3Ryb2tlLW9wYWNpdHk9Ii4zNSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGxpbmUgeDE9IjI1NiIgeTE9IjI3NiIgeDI9IjI1NiIgeTI9IjQ0MCIgc3Ryb2tlPSIjRkZGRkZGIiBzdHJva2Utb3BhY2l0eT0iLjI1IiBzdHJva2Utd2lkdGg9IjQiLz48L3N2Zz4=">Controle de estoque</h1>
         <p>Almoxarifado · Manutenção técnica</p>
         <div class="estado"><span class="ponto"></span><span id="estadoTxt">carregando…</span>
-          <span class="selo" title="versão deste programa">v106 · licença mensal</span></div>
+          <span class="selo" title="versão deste programa">v107 · entrada por XML</span></div>
       </div>
       <div class="direita">
         <span class="cracha" id="cracha">—</span>
@@ -933,7 +933,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
     <span class="discreto">
       <button id="json">exportar backup</button><b>·</b><button id="import">importar</button>
     </span>
-    <span class="versao" title="versão deste programa">v106 · licença mensal</span>
+    <span class="versao" title="versão deste programa">v107 · entrada por XML</span>
 </footer>
 </div>
 
@@ -1000,6 +1000,26 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
 </div>
 
 <!-- formulário de movimento -->
+
+<div class="scrim" id="scrimXML" style="z-index:80">
+  <div class="sheet" role="dialog" aria-modal="true" style="max-width:860px">
+    <div class="sheet-head"><h3 id="xmlTitle">Entrada pela nota fiscal (XML)</h3>
+      <button class="x" id="xmlClose" aria-label="Fechar">✕</button></div>
+    <div class="sheet-body">
+      <p class="hint">Confira o que foi lido e ligue cada item da nota ao seu produto. O IPI já entra no custo.</p>
+      <div class="lido-nf" id="xmlCab" style="margin:12px 0"></div>
+      <div id="xmlForn"></div>
+      <div class="tblbox" style="margin-top:4px"><table class="tbl">
+        <thead><tr><th class="esq">Item na nota</th><th class="ctr">Qtd</th><th class="ctr">Unit.</th><th class="ctr">IPI</th><th class="ctr">Custo real</th><th class="esq">Seu produto</th></tr></thead>
+        <tbody id="xmlItens"></tbody></table></div>
+      <p class="hint" id="xmlResumo" style="margin:12px 0 0"></p>
+    </div>
+    <div class="sheet-foot">
+      <button class="btn" id="xmlCancela">Cancelar</button>
+      <button class="btn forte" id="xmlSalvar">Dar entrada em tudo</button>
+    </div>
+  </div>
+</div>
 <div class="scrim" id="scrimMov">
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="movTitle">
     <div class="sheet-head">
@@ -1034,7 +1054,9 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
   <input id="v_chave" class="mono" inputmode="numeric" maxlength="60" placeholder="bipe o código de barras do DANFE ou cole a chave">
   <p class="hint" id="v_chaveInfo" style="margin:6px 0 0"></p>
   <div class="lido-nf" id="v_lido"></div>
-  <div id="v_fornBox"></div></div>
+  <div id="v_fornBox"></div>
+  <div style="margin-top:10px"><button type="button" class="btn ghost sm" id="btXML">📄 Ou ler o XML da nota (cadastra tudo de uma vez)</button>
+    <input type="file" id="xmlArq" accept=".xml,text/xml" style="display:none"></div></div>
 <div class="f"><label for="v_frete">Frete e despesas da nota (R$)</label><input type="text" inputmode="decimal" id="v_frete" placeholder="0,00"></div>
 <div class="f"><label for="v_desc">Desconto da nota (R$)</label><input type="text" inputmode="decimal" id="v_desc" placeholder="0,00"></div>
           <div class="f"><label for="v_origem">Veio de</label><input id="v_origem" list="lista-fornecedor" placeholder="Fornecedor, compra, devolução de obra…"><datalist id="lista-fornecedor"></datalist></div>
@@ -4095,6 +4117,137 @@ function fechaAbertura(){
   }, Math.max(0,minimo-passou));
 }
 setTimeout(fechaAbertura,8000);   /* nunca fica presa, mesmo se algo falhar no carregamento */
+
+
+/* ================= entrada pela nota fiscal em XML ================= */
+let xmlNota=null;
+function xmlTexto(el,tag){ const n=el.getElementsByTagName(tag); return n.length?n[0].textContent.trim():''; }
+function lerXMLnota(txt){
+  let doc; try{ doc=new DOMParser().parseFromString(txt,'text/xml'); }catch(e){ throw new Error('arquivo inválido'); }
+  if(doc.getElementsByTagName('parsererror').length) throw new Error('este arquivo não é um XML válido');
+  const inf=doc.getElementsByTagName('infNFe')[0]; if(!inf) throw new Error('não parece um XML de NF-e');
+  const emit=doc.getElementsByTagName('emit')[0]||inf, tot=doc.getElementsByTagName('ICMSTot')[0]||inf;
+  const ide=doc.getElementsByTagName('ide')[0]||inf;
+  const chave=(inf.getAttribute('Id')||'').replace(/\D/g,'');
+  const itens=[...doc.getElementsByTagName('det')].map((d,i)=>{ const p=d.getElementsByTagName('prod')[0]||d;
+    return {n:i+1, desc:xmlTexto(p,'xProd'), cod:xmlTexto(p,'cProd'), un:xmlTexto(p,'uCom'),
+      qtd:parseFloat(xmlTexto(p,'qCom'))||0, unit:parseFloat(xmlTexto(p,'vUnCom'))||0,
+      ipi:parseFloat(xmlTexto(d,'vIPI'))||0, aliqIpi:parseFloat(xmlTexto(d,'pIPI'))||0}; });
+  if(!itens.length) throw new Error('a nota não tem itens que eu consiga ler');
+  return { numero:xmlTexto(ide,'nNF'), serie:xmlTexto(ide,'serie'), emissao:(xmlTexto(ide,'dhEmi')||'').slice(0,10),
+    chave:chave.length===44?chave:'', cnpj:xmlTexto(emit,'CNPJ'), fornecedor:xmlTexto(emit,'xNome')||xmlTexto(emit,'xFant'),
+    razao:xmlTexto(emit,'xNome'), cidade:(xmlTexto(emit,'xMun')?xmlTexto(emit,'xMun').charAt(0)+xmlTexto(emit,'xMun').slice(1).toLowerCase()+'/'+xmlTexto(emit,'UF'):''),
+    frete:parseFloat(xmlTexto(tot,'vFrete'))||0, desconto:parseFloat(xmlTexto(tot,'vDesc'))||0,
+    vIpi:parseFloat(xmlTexto(tot,'vIPI'))||0, vIcms:parseFloat(xmlTexto(tot,'vICMS'))||0, itens };
+}
+function xmlPalpite(desc){
+  const limpa=x=>String(x).toUpperCase().replace(/[^A-Z0-9 ]/g,' ').split(/\s+/).filter(w=>w.length>2);
+  const alvo=limpa(desc); let melhor=null,pts=0;
+  mats.forEach(m=>{ const meu=limpa(m.nome); let c=0; meu.forEach(w=>{ if(alvo.indexOf(w)>=0)c++; });
+    const sc=c/Math.max(meu.length,1); if(sc>pts){pts=sc;melhor=m;} });
+  return pts>=0.5?melhor:null;
+}
+function abreXML(){
+  if(!pode('lancar')) return barra('Seu perfil não permite lançar.');
+  if(xmlNota.chave){ const erro=examinaChave(xmlNota.chave,'',($('#v_data')&&$('#v_data').value)||agora(),null);
+    if(erro&&/já entrou/.test(erro)){ /* deixa passar: a checagem fina é por item ao salvar */ } }
+  $('#xmlCab').innerHTML=[['Nota',xmlNota.numero],['Série',xmlNota.serie],['Emissão',xmlNota.emissao?xmlNota.emissao.split('-').reverse().join('/'):'—'],['Frete',brl(xmlNota.frete)],['Desconto',xmlNota.desconto?'− '+brl(xmlNota.desconto):'—'],['IPI (no custo)',brl(xmlNota.vIpi)],['ICMS (conferência)',brl(xmlNota.vIcms)]]
+    .map(([k,v])=>'<div><small>'+esc(k)+'</small><b>'+esc(v)+'</b></div>').join('');
+  const ja=fornecedorPorCnpj(xmlNota.cnpj);
+  $('#xmlForn').innerHTML='<div class="forn-nf '+(ja?'existe':'novo')+'">'
+    +'<h4>'+(ja?'✓ '+esc(ja.nome)+' — já cadastrado':'Fornecedor novo · será cadastrado ao dar entrada')+'</h4>'
+    +'<p class="hint" style="margin:0">'+esc(xmlNota.fornecedor)+' · CNPJ '+fmtCnpj(xmlNota.cnpj)+'</p></div>';
+  pintaXMLitens();
+  $('#scrimXML').classList.add('on'); document.body.style.overflow='hidden';
+}
+function pintaXMLitens(){
+  const base=xmlNota.itens.reduce((s,it)=>s+it.qtd*it.unit,0);
+  const opc=sel=>'<option value="">— ligar a um produto —</option>'
+    +mats.slice().sort((a,b)=>a.nome.localeCompare(b.nome,'pt-BR')).map(m=>'<option value="'+m.id+'"'+(sel===m.id?' selected':'')+'>'+esc(m.nome)+'</option>').join('')
+    +'<option value="__novo">+ cadastrar como novo produto</option>';
+  $('#xmlItens').innerHTML=xmlNota.itens.map(it=>{
+    const v=it.qtd*it.unit, pf=base?xmlNota.frete*v/base:0, pd=base?xmlNota.desconto*v/base:0;
+    const custo=(v+it.ipi+pf-pd)/(it.qtd||1); const p=xmlPalpite(it.desc);
+    return '<tr><td class="esq">'+esc(it.desc)+'<br><span class="hint" style="margin:0">cód. '+esc(it.cod||'—')+' · un. nota: '+esc(it.un||'—')+'</span></td>'
+      +'<td class="ctr mono">'+it.qtd.toLocaleString('pt-BR')+'</td><td class="ctr mono">'+brl(it.unit)+'</td>'
+      +'<td class="ctr mono">'+(it.ipi?brl(it.ipi):'—')+'</td><td class="ctr mono" style="color:var(--ok)">'+brl(custo)+'</td>'
+      +'<td class="esq"><select class="xml-lig" data-n="'+it.n+'">'+opc(p&&p.id)+'</select>'
+      +'<input class="xml-nome" data-n="'+it.n+'" value="'+esc(it.desc)+'" style="margin-top:5px;display:none" placeholder="nome do novo produto"></td></tr>';
+  }).join('');
+  $('#xmlItens').querySelectorAll('.xml-lig').forEach(sel=>{
+    const nome=$('#xmlItens').querySelector('.xml-nome[data-n="'+sel.dataset.n+'"]');
+    const ver=()=>{ nome.style.display=sel.value==='__novo'?'':'none'; contaXML(); };
+    sel.onchange=ver; ver();
+  });
+  contaXML();
+}
+function contaXML(){
+  const ligados=[...document.querySelectorAll('.xml-lig')].filter(s=>s.value).length;
+  const falta=xmlNota.itens.length-ligados;
+  $('#xmlResumo').innerHTML=falta>0?'Faltam ligar <b>'+falta+'</b> item(ns). Todo item precisa apontar para um produto, ou ser cadastrado como novo.'
+    :'Tudo pronto: <b>'+ligados+'</b> item(ns). O IPI já está somado no custo real.';
+  const b=$('#xmlSalvar'); if(b) b.disabled=falta>0;
+}
+function recebeXML(file){
+  if(!/\.xml$/i.test(file.name)) return toast('Esse não é um .xml. Anexe o XML da nota, não o PDF.');
+  const r=new FileReader();
+  r.onload=()=>{ try{ xmlNota=lerXMLnota(r.result); abreXML(); }catch(e){ toast('Não consegui ler: '+e.message); } };
+  r.readAsText(file);
+}
+function fechaXML(){ $('#scrimXML').classList.remove('on'); document.body.style.overflow=''; xmlNota=null; const a=$('#xmlArq'); if(a)a.value=''; }
+async function salvarXML(){
+  if(!pode('lancar')) return barra('Seu perfil não permite lançar.');
+  const base=xmlNota.itens.reduce((s,it)=>s+it.qtd*it.unit,0);
+  const ligas=xmlNota.itens.map(it=>{ const sel=document.querySelector('.xml-lig[data-n="'+it.n+'"]'); return {it, val:sel.value,
+    nome:(document.querySelector('.xml-nome[data-n="'+it.n+'"]')||{}).value}; });
+  if(ligas.some(l=>!l.val)) return toast('Ligue todos os itens antes de dar entrada.');
+  /* nota já lançada? (mesma chave + algum item já existe) */
+  if(xmlNota.chave&&movs.some(v=>v.tipo==='entrada'&&soChave(v.chave)===xmlNota.chave))
+    { if(!await ask('Esta nota ('+xmlNota.numero+') já tem entradas no sistema. Lançar mesmo assim pode duplicar. Continuar?','Continuar','Cancelar')) return; }
+  const ok=await ask('Dar entrada em '+xmlNota.itens.length+' item(ns) da nota '+xmlNota.numero+'? Cria as entradas e cadastra o que for novo.','Dar entrada');
+  if(!ok) return;
+  guardaAnterior('a entrada pela nota '+xmlNota.numero);
+  const quando=($('#v_data')&&$('#v_data').value)||agora(), iso=new Date().toISOString(), marca=Date.now();
+  /* fornecedor novo */
+  let origem=xmlNota.fornecedor;
+  const jaF=fornecedorPorCnpj(xmlNota.cnpj);
+  if(jaF) origem=jaF.nome;
+  else{ cads.push({id:'c-'+marca+'-f',tipo:'fornecedor',nome:xmlNota.fornecedor.toUpperCase(),
+      detalhe:'CNPJ '+fmtCnpj(xmlNota.cnpj)+(xmlNota.razao?' · '+xmlNota.razao:''),site:'',contato:'',
+      obs:'cadastrado pela NF '+xmlNota.numero+(xmlNota.cidade?' · '+xmlNota.cidade:'')});
+    origem=xmlNota.fornecedor.toUpperCase();
+    registra('Cadastrou fornecedor pela nota',origem,'NF '+xmlNota.numero); }
+  let criados=0, novos=0;
+  ligas.forEach((l,k)=>{
+    let matId=l.val;
+    if(matId==='__novo'){
+      const nome=(l.nome||l.it.desc).trim().toUpperCase();
+      const novo={id:'m-'+marca+'-'+k, nome:nome, unidade:(l.it.un||'UN').toUpperCase(), minimo:0,
+        preco:0, natureza:'', fornecedor:origem, registrador:(sessao?sessao.nome:''), cadastradoEm:iso,
+        obs:'criado pela NF '+xmlNota.numero};
+      mats.push(novo); matId=novo.id; novos++;
+      registra('Cadastrou produto pela nota',nome,'NF '+xmlNota.numero);
+    }
+    const it=l.it, v=it.qtd*it.unit, pf=base?xmlNota.frete*v/base:0, pd=base?xmlNota.desconto*v/base:0;
+    const custoUnit=(v+it.ipi+pf-pd)/(it.qtd||1);
+    movs.push({id:'v-'+marca+'-'+k, tipo:'entrada', materialId:matId, qtd:it.qtd, preco:custoUnit,
+      data:quando, lancadoEm:iso, chave:xmlNota.chave, nf:xmlNota.numero, emissao:xmlNota.emissao,
+      origem:origem, freteNota:xmlNota.frete, descNota:xmlNota.desconto, motivo:'minimo',
+      recebido:(sessao?sessao.nome:''), usuario:(sessao?sessao.nome:''),
+      obs:'NF '+xmlNota.numero+' · item '+(k+1)+(it.ipi?' · IPI '+brl(it.ipi):'')});
+    criados++;
+  });
+  const numNota=xmlNota.numero;
+  await persist(['mov','mat','cad']); render();
+  if(relAtual&&!$('#panRel').hidden)gerar();
+  fechaXML();
+  toast(criados+' entrada(s) da NF '+numNota+(novos?' · '+novos+' produto(s) novo(s)':'')+'.');
+}
+
+$('#btXML').onclick=()=>$('#xmlArq').click();
+$('#xmlArq').onchange=e=>{ if(e.target.files[0]) recebeXML(e.target.files[0]); };
+$('#xmlClose').onclick=fechaXML; $('#xmlCancela').onclick=fechaXML; $('#xmlSalvar').onclick=salvarXML;
+$('#scrimXML').addEventListener('click',e=>{ if(e.target===$('#scrimXML')) fechaXML(); });
 
 /* ============ carregar e salvar ============ */
 async function load(){
