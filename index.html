@@ -650,6 +650,37 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
 @media (max-width:700px){ .troca.nt-linha{grid-template-columns:1fr} }
 .aviso-licenca{background:var(--tn-low,#2E2415);color:var(--low,#F2A93B);border-bottom:1px solid var(--low,#F2A93B);padding:10px 16px;font-size:13.5px;text-align:center;position:sticky;top:0;z-index:50}
 .aviso-licenca b{font-weight:700}
+
+#modoTV{position:fixed;inset:0;z-index:9000;background:radial-gradient(130% 100% at 50% -10%,#1A1422 0,#0C0A0F 60%);color:var(--ink);display:flex;flex-direction:column;padding:3vmin 4vmin;gap:2.4vmin;overflow:hidden}
+#modoTV.on{display:flex}
+.tv-topo{display:flex;align-items:center;justify-content:space-between;gap:2vmin}
+.tv-marca{display:flex;align-items:center;gap:2vmin}
+.tv-marca img{height:5vmin}
+.tv-tit{font-size:3.4vmin;font-weight:700;line-height:1}
+.tv-sub{font-size:1.7vmin;color:var(--ink2);margin-top:.6vmin}
+.tv-rel{text-align:right}
+#tvHora{font-family:var(--mono);font-size:4vmin;font-weight:600;color:#fff;line-height:1}
+.tv-at{font-family:var(--mono);font-size:1.5vmin;color:var(--ink3);margin-top:.5vmin}
+.tv-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:2.4vmin}
+.tv-k{background:#151219;border:1px solid #2a2432;border-radius:2vmin;padding:2.6vmin 3vmin;position:relative;overflow:hidden}
+.tv-k::before{content:"";position:absolute;inset:0 0 auto 0;height:.6vmin;background:var(--cor,#E0187B)}
+.tv-k b{display:block;font-family:var(--mono);font-size:7vmin;font-weight:600;color:#fff;line-height:1}
+.tv-k small{display:block;font-family:var(--mono);font-size:1.7vmin;letter-spacing:.1em;text-transform:uppercase;color:var(--ink2);margin-top:1vmin}
+.tv-k.val b{font-size:5.2vmin}
+.tv-baixo{flex:1;background:#151219;border:1px solid #2a2432;border-radius:2vmin;padding:2.4vmin 3vmin;display:flex;flex-direction:column;min-height:0}
+.tv-baixo-cab{display:flex;align-items:center;gap:1.6vmin;font-size:2.2vmin;font-weight:700;margin-bottom:1.6vmin;color:var(--low)}
+.tv-pulso{width:1.4vmin;height:1.4vmin;border-radius:50%;background:var(--ok);box-shadow:0 0 0 0 rgba(63,208,138,.6);animation:tvp 2s infinite}
+@keyframes tvp{0%{box-shadow:0 0 0 0 rgba(63,208,138,.5)}70%{box-shadow:0 0 0 1.4vmin rgba(63,208,138,0)}100%{box-shadow:0 0 0 0 rgba(63,208,138,0)}}
+.tv-lista{flex:1;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:min-content;gap:.6vmin 3vmin;align-content:start}
+.tv-row{display:flex;justify-content:space-between;align-items:baseline;padding:1.1vmin 0;border-bottom:1px solid #221d29;font-size:2vmin}
+.tv-row .nm{color:#F0ECF2}
+.tv-row .sd{font-family:var(--mono)}
+.tv-row .sd.z{color:var(--out)} .tv-row .sd.b{color:var(--low)}
+.tv-row .mn{font-family:var(--mono);font-size:1.5vmin;color:var(--ink3);margin-left:1.5vmin}
+.tv-vazio{color:var(--ink2);font-size:2.2vmin;text-align:center;margin-top:3vmin}
+.tv-sair{position:absolute;top:3vmin;right:4vmin;background:transparent;border:1px solid #2a2432;color:var(--ink2);border-radius:999px;padding:1vmin 2vmin;font-family:var(--mono);font-size:1.5vmin;cursor:pointer;opacity:.4;transition:.2s}
+.tv-sair:hover{opacity:1;border-color:var(--marca);color:var(--marca)}
+@media(max-width:700px){.tv-kpis{grid-template-columns:repeat(2,1fr)}.tv-lista{grid-template-columns:1fr}}
 </style>
 <style>
 /* ---------- tela de abertura: aparece no instante em que o aplicativo abre ---------- */
@@ -700,7 +731,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
         <h1><img class="icone-app" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InRvcG8iIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNGN0I4NEEiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNFRTZCNTciLz48L2xpbmVhckdyYWRpZW50PjxsaW5lYXJHcmFkaWVudCBpZD0iZXNxIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRTgyMzdGIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjQjgxNDVGIi8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImRpciIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzZGQ0JFNiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzhFNkZCMCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iMTE2IiBmaWxsPSIjMEUwQjEyIi8+PHBvbHlnb24gcG9pbnRzPSIyNTYsMTAwIDQxMiwxODggMjU2LDI3NiAxMDAsMTg4IiBmaWxsPSJ1cmwoI3RvcG8pIi8+PHBvbHlnb24gcG9pbnRzPSIxMDAsMTg4IDI1NiwyNzYgMjU2LDQ0MCAxMDAsMzUyIiBmaWxsPSJ1cmwoI2VzcSkiLz48cG9seWdvbiBwb2ludHM9IjI1NiwyNzYgNDEyLDE4OCA0MTIsMzUyIDI1Niw0NDAiIGZpbGw9InVybCgjZGlyKSIvPjxwb2x5Z29uIHBvaW50cz0iMTkwLDEzNyAyMTIsMTI1IDM2OCwyMTMgMzQ2LDIyNSIgZmlsbD0iI0ZGRkZGRiIgZmlsbC1vcGFjaXR5PSIuODUiLz48cG9seWdvbiBwb2ludHM9IjM0NiwyMjUgMzY4LDIxMyAzNjgsMjY1IDM0NiwyNzciIGZpbGw9IiNGRkZGRkYiIGZpbGwtb3BhY2l0eT0iLjU1Ii8+PHBvbHlsaW5lIHBvaW50cz0iMTAwLDE4OCAyNTYsMjc2IDQxMiwxODgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGRkZGRiIgc3Ryb2tlLW9wYWNpdHk9Ii4zNSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGxpbmUgeDE9IjI1NiIgeTE9IjI3NiIgeDI9IjI1NiIgeTI9IjQ0MCIgc3Ryb2tlPSIjRkZGRkZGIiBzdHJva2Utb3BhY2l0eT0iLjI1IiBzdHJva2Utd2lkdGg9IjQiLz48L3N2Zz4=">Controle de estoque</h1>
         <p>Almoxarifado · Manutenção técnica</p>
         <div class="estado"><span class="ponto"></span><span id="estadoTxt">carregando…</span>
-          <span class="selo" title="versão deste programa">v107 · entrada por XML</span></div>
+          <span class="selo" title="versão deste programa">v108 · modo TV</span></div>
       </div>
       <div class="direita">
         <span class="cracha" id="cracha">—</span>
@@ -708,6 +739,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
         <button class="btn sm" id="backupAgora" title="envia todos os produtos e lançamentos para a planilha agora">Enviar para a planilha</button>
         <button class="btn sm" id="irPlanilha" title="abre a planilha de backup no Google">Planilha</button>
       <button class="btn ghost sm" id="irDocs" style="display:none" title="abre no Google Drive a pasta com todas as requisições e comprovantes">Pasta de documentos</button>
+        <button class="btn sm" id="irTV" title="tela cheia para TV/monitor, atualiza sozinha">Modo TV</button>
         <button class="btn sm" id="sair">Sair</button>
       </div>
     </header>
@@ -933,7 +965,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
     <span class="discreto">
       <button id="json">exportar backup</button><b>·</b><button id="import">importar</button>
     </span>
-    <span class="versao" title="versão deste programa">v107 · entrada por XML</span>
+    <span class="versao" title="versão deste programa">v108 · modo TV</span>
 </footer>
 </div>
 
@@ -1001,6 +1033,19 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
 
 <!-- formulário de movimento -->
 
+
+<div id="modoTV" style="display:none">
+  <div class="tv-topo">
+    <div class="tv-marca"><img id="tvLogo" alt="VTM"><div><div class="tv-tit">Controle de estoque</div><div class="tv-sub">Almoxarifado · Manutenção técnica</div></div></div>
+    <div class="tv-rel"><div id="tvHora">--:--</div><div class="tv-at" id="tvAt">atualiza sozinho</div></div>
+  </div>
+  <div class="tv-kpis" id="tvKpis"></div>
+  <div class="tv-baixo">
+    <div class="tv-baixo-cab"><span id="tvBaixoTit">Abaixo do mínimo</span><span class="tv-pulso" id="tvPulso"></span></div>
+    <div class="tv-lista" id="tvLista"></div>
+  </div>
+  <button class="tv-sair" id="tvSair" title="sair (Esc)">✕ sair</button>
+</div>
 <div class="scrim" id="scrimXML" style="z-index:80">
   <div class="sheet" role="dialog" aria-modal="true" style="max-width:860px">
     <div class="sheet-head"><h3 id="xmlTitle">Entrada pela nota fiscal (XML)</h3>
@@ -4118,6 +4163,57 @@ function fechaAbertura(){
 }
 setTimeout(fechaAbertura,8000);   /* nunca fica presa, mesmo se algo falhar no carregamento */
 
+
+
+/* ================= modo TV: painel em tela cheia, atualiza sozinho ================= */
+let tvTimer=null, tvRelogio=null;
+function tvNumeros(){
+  const baixos=mats.filter(m=>nivel(m)==='baixo').length;
+  const zerados=mats.filter(m=>nivel(m)==='zerado').length;
+  const hoje=new Date(),p=n=>String(n).padStart(2,'0');
+  const mes=hoje.getFullYear()+'-'+p(hoje.getMonth()+1);
+  const doMes=t=>movs.filter(v=>v.tipo===t&&String(v.data||'').slice(0,7)===mes).length;
+  const valor=mats.reduce((s,m)=>s+valorEstq(m),0);
+  return [['Produtos',mats.length,'#5BC0DE',''],['Abaixo do mínimo',baixos,'#F2A93B',''],['Zerados',zerados,'#E0187B',''],
+    ['Entradas no mês',doMes('entrada'),'#5BC0DE',''],['Saídas no mês',doMes('saida'),'#EE6B57',''],['Valor em estoque',brl(valor),'#A87BB8','val']];
+}
+function pintaTV(){
+  if(!$('#modoTV').classList.contains('on')) return;
+  $('#tvKpis').innerHTML=tvNumeros().map(([l,v,c,cl])=>
+    '<div class="tv-k '+cl+'" style="--cor:'+c+'"><b>'+v+'</b><small>'+esc(l)+'</small></div>').join('');
+  /* a lista mostra o que precisa de atenção: zerados primeiro, depois abaixo do mínimo */
+  const alerta=mats.filter(m=>nivel(m)!=='ok').sort((a,b)=>{
+    const o={zerado:0,baixo:1}; return (o[nivel(a)]-o[nivel(b)])||a.nome.localeCompare(b.nome,'pt-BR'); });
+  $('#tvBaixoTit').textContent=alerta.length?('Precisa de atenção · '+alerta.length+' item(ns)'):'Estoque em dia';
+  if(!alerta.length){ $('#tvLista').innerHTML='<div class="tv-vazio">✓ Nenhum item zerado ou abaixo do mínimo.</div>'; }
+  else $('#tvLista').innerHTML=alerta.slice(0,24).map(m=>{
+    const s=saldo(m.id),z=nivel(m)==='zerado';
+    return '<div class="tv-row"><span class="nm">'+esc(m.nome)+'</span><span><span class="sd '+(z?'z':'b')+'">'+s+' '+esc(m.unidade||'')+'</span><span class="mn">mín '+num(m.minimo)+'</span></span></div>';
+  }).join('');
+}
+async function tvAtualiza(){
+  const at=$('#tvAt');
+  if(API){ try{ at.textContent='atualizando…'; await sincronizar('baixar'); }catch(e){} }
+  pintaTV();
+  const ag=new Date(); at.textContent='atualizado '+String(ag.getHours()).padStart(2,'0')+':'+String(ag.getMinutes()).padStart(2,'0')+':'+String(ag.getSeconds()).padStart(2,'0');
+}
+function tvRelogioTick(){ const d=new Date(),p=n=>String(n).padStart(2,'0'); const e=$('#tvHora'); if(e) e.textContent=p(d.getHours())+':'+p(d.getMinutes()); }
+function abreTV(){
+  const lg=$('#tvLogo'); if(lg&&!lg.src){ const src=(document.querySelector('.marca-top img')||{}).src; if(src) lg.src=src; }
+  $('#modoTV').classList.add('on'); $('#modoTV').style.display='flex'; document.body.style.overflow='hidden';
+  pintaTV(); tvRelogioTick();
+  try{ if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen(); }catch(e){}
+  clearInterval(tvTimer); tvTimer=setInterval(tvAtualiza,30000);
+  clearInterval(tvRelogio); tvRelogio=setInterval(tvRelogioTick,10000);
+  tvAtualiza();
+}
+function fechaTV(){
+  $('#modoTV').classList.remove('on'); $('#modoTV').style.display='none'; document.body.style.overflow='';
+  clearInterval(tvTimer); clearInterval(tvRelogio); tvTimer=tvRelogio=null;
+  try{ if(document.fullscreenElement) document.exitFullscreen(); }catch(e){}
+}
+$('#irTV').onclick=abreTV; $('#tvSair').onclick=fechaTV;
+window.addEventListener('keydown',e=>{ if(e.key==='Escape'&&$('#modoTV').classList.contains('on')){ fechaTV(); } });
 
 /* ================= entrada pela nota fiscal em XML ================= */
 let xmlNota=null;
