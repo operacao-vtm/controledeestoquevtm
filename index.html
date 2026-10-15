@@ -727,7 +727,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
         <h1><img class="icone-app" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InRvcG8iIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNGN0I4NEEiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNFRTZCNTciLz48L2xpbmVhckdyYWRpZW50PjxsaW5lYXJHcmFkaWVudCBpZD0iZXNxIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRTgyMzdGIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjQjgxNDVGIi8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImRpciIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzZGQ0JFNiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzhFNkZCMCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iMTE2IiBmaWxsPSIjMEUwQjEyIi8+PHBvbHlnb24gcG9pbnRzPSIyNTYsMTAwIDQxMiwxODggMjU2LDI3NiAxMDAsMTg4IiBmaWxsPSJ1cmwoI3RvcG8pIi8+PHBvbHlnb24gcG9pbnRzPSIxMDAsMTg4IDI1NiwyNzYgMjU2LDQ0MCAxMDAsMzUyIiBmaWxsPSJ1cmwoI2VzcSkiLz48cG9seWdvbiBwb2ludHM9IjI1NiwyNzYgNDEyLDE4OCA0MTIsMzUyIDI1Niw0NDAiIGZpbGw9InVybCgjZGlyKSIvPjxwb2x5Z29uIHBvaW50cz0iMTkwLDEzNyAyMTIsMTI1IDM2OCwyMTMgMzQ2LDIyNSIgZmlsbD0iI0ZGRkZGRiIgZmlsbC1vcGFjaXR5PSIuODUiLz48cG9seWdvbiBwb2ludHM9IjM0NiwyMjUgMzY4LDIxMyAzNjgsMjY1IDM0NiwyNzciIGZpbGw9IiNGRkZGRkYiIGZpbGwtb3BhY2l0eT0iLjU1Ii8+PHBvbHlsaW5lIHBvaW50cz0iMTAwLDE4OCAyNTYsMjc2IDQxMiwxODgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGRkZGRiIgc3Ryb2tlLW9wYWNpdHk9Ii4zNSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGxpbmUgeDE9IjI1NiIgeTE9IjI3NiIgeDI9IjI1NiIgeTI9IjQ0MCIgc3Ryb2tlPSIjRkZGRkZGIiBzdHJva2Utb3BhY2l0eT0iLjI1IiBzdHJva2Utd2lkdGg9IjQiLz48L3N2Zz4=">Controle de estoque</h1>
         <p>Almoxarifado · Manutenção técnica</p>
         <div class="estado"><span class="ponto"></span><span id="estadoTxt">carregando…</span>
-          <span class="selo" title="versão deste programa">v112 · modo TV sem logo</span></div>
+          <span class="selo" title="versão deste programa">v114 · xml da nota guardado</span></div>
       </div>
       <div class="direita">
         <span class="cracha" id="cracha">—</span>
@@ -962,7 +962,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
     <span class="discreto">
       <button id="json">exportar backup</button><b>·</b><button id="import">importar</button>
     </span>
-    <span class="versao" title="versão deste programa">v112 · modo TV sem logo</span>
+    <span class="versao" title="versão deste programa">v114 · xml da nota guardado</span>
 </footer>
 </div>
 
@@ -2722,6 +2722,47 @@ let histFiltro='todos';
 function movimentosOrdenados(){
   return movs.slice().sort((a,b)=>String(b.data||'').localeCompare(String(a.data||'')));
 }
+
+/* ================= protocolo de saída: ver o PDF gerado e anexar o assinado ================= */
+function docAssinado(v){ return v.assinadoUrl||''; }
+/* abre o PDF gerado da saída (o mesmo que vai para a pasta de documentos) */
+async function verComprovanteSaida(v){
+  try{ await carregarPDF(); printMov(v); }
+  catch(e){ toast('Não consegui gerar o comprovante agora.'); }
+}
+/* anexa o PDF/foto assinado: sobe para o Drive e guarda o link no lançamento */
+function anexarAssinado(v){
+  if(!pode('lancar')) return barra('Seu perfil não permite anexar.');
+  if(!API) return toast('Sem conexão com a planilha — tente quando estiver online.');
+  const inp=document.createElement('input');
+  inp.type='file'; inp.accept='application/pdf,image/*';
+  inp.onchange=()=>{
+    const f=inp.files[0]; if(!f) return;
+    if(f.size>12*1024*1024) return toast('Arquivo muito grande (máx. 12 MB).');
+    const r=new FileReader();
+    r.onload=async()=>{
+      const base64=String(r.result).split(',')[1];
+      const ext=/pdf$/i.test(f.type)?'pdf':(f.name.split('.').pop()||'jpg').toLowerCase();
+      const m=mat(v.materialId);
+      const quem=(v.retirado||'sem-responsavel');
+      const nome=limpaNomeArq(dtBR(v.data).replace(/\//g,'-')+' · '+(v.os||'sem OS')+' · '+quem+' · ASSINADO')+'.'+ext;
+      toast('Enviando o assinado…');
+      try{
+        const resp=await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},
+          body:JSON.stringify({acao:'documento',nome:nome,pasta:pastaDoc(v)+'/assinados',assinatura:'assinado-'+v.id+'-'+f.size,base64:base64})});
+        const d=await resp.json();
+        if(!d||!d.ok||!d.url) throw new Error((d&&d.erro)||'sem resposta');
+        const alvo=movs.find(x=>x.id===v.id); if(alvo){ alvo.assinadoUrl=d.url; alvo.assinadoEm=new Date().toISOString(); }
+        if(typeof registra==='function') registra('Anexou comprovante assinado',(m?m.nome:'saída'),(v.os||'')+' · '+quem);
+        await persist(['mov']); pintaHistorico();
+        toast('Comprovante assinado anexado.');
+      }catch(e){ toast('Não consegui enviar: '+e.message); }
+    };
+    r.readAsDataURL(f);
+  };
+  inp.click();
+}
+
 function pintaHistorico(){
   const q=($('#histBusca')?$('#histBusca').value:'').trim().toLowerCase();
   const L=movimentosOrdenados().filter(v=>{
@@ -2754,12 +2795,16 @@ function pintaHistorico(){
       <td class="esq">${esc(m?m.nome:'(produto excluído)')}</td>
       <td class="ctr">${ent?'+':'−'}${num(v.qtd)}</td>
       <td class="ctr">${esc(m?m.unidade||'':'')}</td>
-      <td class="esq">${esc(ent?(v.origem||'—'):(v.retirado||'—'))}${v.series?'<br><small style="font-family:var(--mono);font-size:10px;color:var(--ink3)">'+String(v.series).split(/[\n;,]+/).filter(x=>x.trim()).length+' série(s)</small>':''}</td>
+      <td class="esq">${esc(ent?(v.origem||'—'):(v.retirado||'—'))}${v.series?'<br><small style="font-family:var(--mono);font-size:10px;color:var(--ink3)">'+String(v.series).split(/[\n;,]+/).filter(x=>x.trim()).length+' série(s)</small>':''}${(!ent&&!v.assinadoUrl)?'<br><small style="font-family:var(--mono);font-size:9.5px;color:var(--low)">sem assinado</small>':''}</td>
       <td class="esq">${esc(ent?(v.nf||'—'):(v.destino||'—'))}</td>
       <td class="ctr">${esc(v.os||'—')}</td>
       <td class="fin">${ent?brl(num(v.qtd)*num(v.preco)):'—'}</td>
       <td class="esq">${esc(v.usuario||'—')}</td>
-      <td class="ctr"><button class="btn ghost sm" data-act="corrigir">Corrigir</button>
+      <td class="ctr">${ent&&v.xmlUrl?('<a class="btn ghost sm" style="color:var(--c5);border-color:var(--c5);text-decoration:none" href="'+esc(v.xmlUrl)+'" target="_blank" rel="noopener" title="ver o XML da nota">Ver XML</a> '):''}${!ent?('<button class="btn ghost sm" data-act="comprov" title="ver o PDF gerado desta saída">Comprovante</button> '
+          +(v.assinadoUrl
+            ? '<a class="btn ghost sm" style="color:var(--ok);border-color:var(--ok);text-decoration:none" href="'+esc(v.assinadoUrl)+'" target="_blank" rel="noopener" title="ver o PDF assinado anexado">✓ Assinado</a> '
+            : '<button class="btn ghost sm" data-act="anexar" title="anexar o PDF/foto assinado pelo retirador">Anexar assinado</button> ')):''}
+        <button class="btn ghost sm" data-act="corrigir">Corrigir</button>
         <button class="btn ghost sm danger" data-act="del">Excluir</button></td>
     </tr>`;
   }).join('');
@@ -2793,6 +2838,9 @@ $('#histOut').addEventListener('click',async e=>{
   const tr=e.target.closest('tr[data-id]'); if(!tr)return;
   const v=movs.find(x=>x.id===tr.dataset.id); if(!v){ toast('Este lançamento não existe mais.'); return; }
   const b=e.target.closest('button[data-act]');
+  if(b&&b.dataset.act==='comprov'){ e.stopPropagation(); verComprovanteSaida(v); return; }
+  if(b&&b.dataset.act==='anexar'){ e.stopPropagation(); anexarAssinado(v); return; }
+  if(e.target.closest('a')){ e.stopPropagation(); return; }
   if(b&&b.dataset.act==='del'){ await removeMov(v); pintaHistorico(); return; }
   if(v.tipo==='saida'&&v.reqId){ editReq=v.reqId; openMov('saida',null,v); }
   else openMov(v.tipo,v.materialId,v);
@@ -4312,7 +4360,7 @@ function contaXML(){
 function recebeXML(file){
   if(!/\.xml$/i.test(file.name)) return toast('Esse não é um .xml. Anexe o XML da nota, não o PDF.');
   const r=new FileReader();
-  r.onload=()=>{ try{ xmlNota=lerXMLnota(r.result); abreXML(); }catch(e){ toast('Não consegui ler: '+e.message); } };
+  r.onload=()=>{ try{ xmlNota=lerXMLnota(r.result); xmlNota.bruto=r.result; abreXML(); }catch(e){ toast('Não consegui ler: '+e.message); } };
   r.readAsText(file);
 }
 function fechaXML(){ $('#scrimXML').classList.remove('on'); document.body.style.overflow=''; xmlNota=null; const a=$('#xmlArq'); if(a)a.value=''; }
@@ -4361,6 +4409,18 @@ async function salvarXML(){
     criados++;
   });
   const numNota=xmlNota.numero;
+  /* guarda o XML da nota no Drive (prova) e o link em cada entrada desta nota */
+  let xmlUrl='';
+  if(API&&xmlNota.bruto){
+    try{
+      const nomeXml=limpaNomeArq((xmlNota.emissao||'').split('-').reverse().join('-')+' · NF '+numNota+' · '+(origem||'')+' · nota')+'.xml';
+      const base64xml=btoa(unescape(encodeURIComponent(xmlNota.bruto)));
+      const resp=await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},
+        body:JSON.stringify({acao:'documento',nome:nomeXml,pasta:pastaDoc({data:quando})+'/notas-xml',assinatura:'xml-'+(xmlNota.chave||numNota),base64:base64xml})});
+      const dx=await resp.json(); if(dx&&dx.ok&&dx.url) xmlUrl=dx.url;
+    }catch(e){}
+  }
+  if(xmlUrl) movs.forEach(v=>{ if(v.chave&&xmlNota.chave&&soChave(v.chave)===xmlNota.chave&&!v.xmlUrl) v.xmlUrl=xmlUrl; });
   await persist(['mov','mat','cad']); render();
   if(relAtual&&!$('#panRel').hidden)gerar();
   fechaXML();
@@ -5246,6 +5306,11 @@ async function salvarMov(){
     if(MOTIVOS_COM_NOTA.indexOf(o.motivo)>=0||o.chave){
       const erro=examinaChave(o.chave,o.materialId,o.data,editMov);
       if(erro){ travaNota=erro; pintaTravaNota(); toast(erro); return null; }
+    }
+    /* compra tem que ter nota: XML ou chave digitada (editar lançamento antigo é liberado) */
+    if(MOTIVOS_COM_NOTA.indexOf(o.motivo)>=0 && !o.chave && !editMov){
+      toast('Compra precisa da nota: leia o XML ou digite a chave da NF-e. Sem nota, use outro motivo (inventário, transferência…).');
+      const e=$('#v_chave'); if(e) e.focus(); return null;
     }
     { const mref=mat(o.materialId);
       const certo=await conferePreco(num(o.preco),num(mref&&mref.preco),'desta entrada');
