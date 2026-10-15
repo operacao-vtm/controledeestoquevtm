@@ -677,6 +677,20 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
 .tv-sair{position:absolute;top:3vmin;right:4vmin;background:transparent;border:1px solid #2a2432;color:var(--ink2);border-radius:999px;padding:1vmin 2vmin;font-family:var(--mono);font-size:1.5vmin;cursor:pointer;opacity:.4;transition:.2s}
 .tv-sair:hover{opacity:1;border-color:var(--marca);color:var(--marca)}
 @media(max-width:700px){.tv-kpis{grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(3,1fr)}}
+
+.hist-resumo{font-family:var(--mono);font-size:12.5px;color:var(--ink2);margin:14px 0 10px}
+.hist-resumo b{color:var(--num)}
+.hist-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.hist-card{background:var(--panel);border:1px solid var(--hair);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.hist-card .hc-topo{display:flex;align-items:center;gap:10px}
+.hist-card .hc-data{font-family:var(--mono);font-size:12px;color:var(--ink2)}
+.hist-card .hc-alerta{margin-left:auto;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--low);border:1px solid var(--low);border-radius:999px;padding:2px 8px}
+.hist-card .hc-prod{font-size:15.5px;font-weight:700;line-height:1.2}
+.hc-grade{display:grid;grid-template-columns:1fr 1fr;gap:7px 14px}
+.hc-par small{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3)}
+.hc-par span{font-size:13.5px;color:var(--ink)}
+.hc-acoes{display:flex;flex-wrap:wrap;gap:6px;border-top:1px solid var(--hair2);padding-top:10px;margin-top:2px}
+@media(max-width:560px){ .hist-cards{grid-template-columns:1fr} }
 </style>
 <style>
 /* ---------- tela de abertura: aparece no instante em que o aplicativo abre ---------- */
@@ -727,7 +741,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
         <h1><img class="icone-app" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InRvcG8iIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNGN0I4NEEiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNFRTZCNTciLz48L2xpbmVhckdyYWRpZW50PjxsaW5lYXJHcmFkaWVudCBpZD0iZXNxIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRTgyMzdGIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjQjgxNDVGIi8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImRpciIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzZGQ0JFNiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzhFNkZCMCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iMTE2IiBmaWxsPSIjMEUwQjEyIi8+PHBvbHlnb24gcG9pbnRzPSIyNTYsMTAwIDQxMiwxODggMjU2LDI3NiAxMDAsMTg4IiBmaWxsPSJ1cmwoI3RvcG8pIi8+PHBvbHlnb24gcG9pbnRzPSIxMDAsMTg4IDI1NiwyNzYgMjU2LDQ0MCAxMDAsMzUyIiBmaWxsPSJ1cmwoI2VzcSkiLz48cG9seWdvbiBwb2ludHM9IjI1NiwyNzYgNDEyLDE4OCA0MTIsMzUyIDI1Niw0NDAiIGZpbGw9InVybCgjZGlyKSIvPjxwb2x5Z29uIHBvaW50cz0iMTkwLDEzNyAyMTIsMTI1IDM2OCwyMTMgMzQ2LDIyNSIgZmlsbD0iI0ZGRkZGRiIgZmlsbC1vcGFjaXR5PSIuODUiLz48cG9seWdvbiBwb2ludHM9IjM0NiwyMjUgMzY4LDIxMyAzNjgsMjY1IDM0NiwyNzciIGZpbGw9IiNGRkZGRkYiIGZpbGwtb3BhY2l0eT0iLjU1Ii8+PHBvbHlsaW5lIHBvaW50cz0iMTAwLDE4OCAyNTYsMjc2IDQxMiwxODgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGRkZGRiIgc3Ryb2tlLW9wYWNpdHk9Ii4zNSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGxpbmUgeDE9IjI1NiIgeTE9IjI3NiIgeDI9IjI1NiIgeTI9IjQ0MCIgc3Ryb2tlPSIjRkZGRkZGIiBzdHJva2Utb3BhY2l0eT0iLjI1IiBzdHJva2Utd2lkdGg9IjQiLz48L3N2Zz4=">Controle de estoque</h1>
         <p>Almoxarifado · Manutenção técnica</p>
         <div class="estado"><span class="ponto"></span><span id="estadoTxt">carregando…</span>
-          <span class="selo" title="versão deste programa">v114 · xml da nota guardado</span></div>
+          <span class="selo" title="versão deste programa">v115 · histórico em cartões</span></div>
       </div>
       <div class="direita">
         <span class="cracha" id="cracha">—</span>
@@ -962,7 +976,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
     <span class="discreto">
       <button id="json">exportar backup</button><b>·</b><button id="import">importar</button>
     </span>
-    <span class="versao" title="versão deste programa">v114 · xml da nota guardado</span>
+    <span class="versao" title="versão deste programa">v115 · histórico em cartões</span>
 </footer>
 </div>
 
@@ -2789,33 +2803,43 @@ function pintaHistorico(){
   const linhas=L.map(v=>{
     const m=mat(v.materialId);
     const ent=v.tipo==='entrada';
-    return `<tr data-id="${v.id}" class="clicavel" title="Clique para corrigir este lançamento">
-      <td class="ctr">${dtBR(v.data)}</td>
-      <td class="ctr"><span class="pill ${ent?'entrada':'saida'}">${ent?'entrada':'saída'}</span></td>
-      <td class="esq">${esc(m?m.nome:'(produto excluído)')}</td>
-      <td class="ctr">${ent?'+':'−'}${num(v.qtd)}</td>
-      <td class="ctr">${esc(m?m.unidade||'':'')}</td>
-      <td class="esq">${esc(ent?(v.origem||'—'):(v.retirado||'—'))}${v.series?'<br><small style="font-family:var(--mono);font-size:10px;color:var(--ink3)">'+String(v.series).split(/[\n;,]+/).filter(x=>x.trim()).length+' série(s)</small>':''}${(!ent&&!v.assinadoUrl)?'<br><small style="font-family:var(--mono);font-size:9.5px;color:var(--low)">sem assinado</small>':''}</td>
-      <td class="esq">${esc(ent?(v.nf||'—'):(v.destino||'—'))}</td>
-      <td class="ctr">${esc(v.os||'—')}</td>
-      <td class="fin">${ent?brl(num(v.qtd)*num(v.preco)):'—'}</td>
-      <td class="esq">${esc(v.usuario||'—')}</td>
-      <td class="ctr">${ent&&v.xmlUrl?('<a class="btn ghost sm" style="color:var(--c5);border-color:var(--c5);text-decoration:none" href="'+esc(v.xmlUrl)+'" target="_blank" rel="noopener" title="ver o XML da nota">Ver XML</a> '):''}${!ent?('<button class="btn ghost sm" data-act="comprov" title="ver o PDF gerado desta saída">Comprovante</button> '
-          +(v.assinadoUrl
-            ? '<a class="btn ghost sm" style="color:var(--ok);border-color:var(--ok);text-decoration:none" href="'+esc(v.assinadoUrl)+'" target="_blank" rel="noopener" title="ver o PDF assinado anexado">✓ Assinado</a> '
-            : '<button class="btn ghost sm" data-act="anexar" title="anexar o PDF/foto assinado pelo retirador">Anexar assinado</button> ')):''}
-        <button class="btn ghost sm" data-act="corrigir">Corrigir</button>
-        <button class="btn ghost sm danger" data-act="del">Excluir</button></td>
-    </tr>`;
+    const qtd=(ent?'+':'−')+num(v.qtd)+' '+esc(m?m.unidade||'':'');
+    const quem=esc(ent?(v.origem||'—'):(v.retirado||'—'));
+    const doc=esc(ent?(v.nf?'NF '+v.nf:'—'):(v.destino||'—'));
+    const series=v.series?String(v.series).split(/[\n;,]+/).filter(x=>x.trim()).length:0;
+    const campos=[];
+    campos.push(['Quantidade',qtd]);
+    campos.push([ent?'Fornecedor / origem':'Retirado por',quem]);
+    campos.push([ent?'Nota fiscal':'Destino',doc]);
+    if(v.os) campos.push(['OS',esc(v.os)]);
+    if(ent&&v.centro) campos.push(['Centro de custo',esc(v.centro)]);
+    if(ent) campos.push(['Valor',brl(num(v.qtd)*num(v.preco))]);
+    if(series) campos.push(['Séries',series+' série(s)']);
+    campos.push(['Lançado por',esc(v.usuario||'—')]);
+    const detalhes=campos.map(([r,val])=>'<div class="hc-par"><small>'+r+'</small><span>'+val+'</span></div>').join('');
+    /* os mesmos botões de antes */
+    const botoes=(ent&&v.xmlUrl?('<a class="btn ghost sm" style="color:var(--c5);border-color:var(--c5);text-decoration:none" href="'+esc(v.xmlUrl)+'" target="_blank" rel="noopener" title="ver o XML da nota">Ver XML</a> '):'')
+      +(!ent?('<button class="btn ghost sm" data-act="comprov" title="ver o PDF gerado desta saída">Comprovante</button> '
+        +(v.assinadoUrl
+          ? '<a class="btn ghost sm" style="color:var(--ok);border-color:var(--ok);text-decoration:none" href="'+esc(v.assinadoUrl)+'" target="_blank" rel="noopener" title="ver o PDF assinado anexado">✓ Assinado</a> '
+          : '<button class="btn ghost sm" data-act="anexar" title="anexar o PDF/foto assinado pelo retirador">Anexar assinado</button> ')):'')
+      +'<button class="btn ghost sm" data-act="corrigir">Corrigir</button> '
+      +'<button class="btn ghost sm danger" data-act="del">Excluir</button>';
+    const alerta=(!ent&&!v.assinadoUrl)?'<span class="hc-alerta">sem assinado</span>':'';
+    return `<div class="hist-card" data-id="${v.id}">
+      <div class="hc-topo"><span class="pill ${ent?'entrada':'saida'}">${ent?'entrada':'saída'}</span>
+        <span class="hc-data">${dtBR(v.data)}</span>${alerta}</div>
+      <div class="hc-prod">${esc(m?m.nome:'(produto excluído)')}</div>
+      <div class="hc-grade">${detalhes}</div>
+      <div class="hc-acoes">${botoes}</div>
+    </div>`;
   }).join('');
   const totalEnt=L.filter(v=>v.tipo==='entrada').reduce((t,v)=>t+num(v.qtd),0);
   const totalSai=L.filter(v=>v.tipo==='saida').reduce((t,v)=>t+num(v.qtd),0);
   const valorEnt=L.filter(v=>v.tipo==='entrada').reduce((t,v)=>t+num(v.qtd)*num(v.preco),0);
-  $('#histOut').innerHTML=avisoFiltro+`<div class="tblbox" style="margin-top:14px"><table class="tbl">
-    <thead><tr>${['Data','Tipo','Produto','Qtd','Un','De quem / para quem','Documento / destino','OS','Valor','Lançado por',''].map(c=>'<th class="ctr">'+c+'</th>').join('')}</tr></thead>
-    <tbody>${linhas}</tbody>
-    <tfoot><tr><td colspan="11">${L.length} lançamento(s) &nbsp;·&nbsp; entrou <b>${totalEnt}</b> &nbsp;·&nbsp; saiu <b>${totalSai}</b> &nbsp;·&nbsp; valor das entradas <b>${brl(valorEnt)}</b></td></tr></tfoot>
-  </table></div>`;
+  $('#histOut').innerHTML=avisoFiltro
+    +'<div class="hist-resumo">'+L.length+' lançamento(s) · entrou <b>'+totalEnt+'</b> · saiu <b>'+totalSai+'</b> · valor das entradas <b>'+brl(valorEnt)+'</b></div>'
+    +'<div class="hist-cards">'+linhas+'</div>';
   ligaMostrarTudo();
 }
 function ligaMostrarTudo(){
@@ -2835,15 +2859,17 @@ $('#histChips').addEventListener('click',e=>{
 });
 $('#histBusca').addEventListener('input',pintaHistorico);
 $('#histOut').addEventListener('click',async e=>{
-  const tr=e.target.closest('tr[data-id]'); if(!tr)return;
-  const v=movs.find(x=>x.id===tr.dataset.id); if(!v){ toast('Este lançamento não existe mais.'); return; }
-  const b=e.target.closest('button[data-act]');
-  if(b&&b.dataset.act==='comprov'){ e.stopPropagation(); verComprovanteSaida(v); return; }
-  if(b&&b.dataset.act==='anexar'){ e.stopPropagation(); anexarAssinado(v); return; }
-  if(e.target.closest('a')){ e.stopPropagation(); return; }
-  if(b&&b.dataset.act==='del'){ await removeMov(v); pintaHistorico(); return; }
-  if(v.tipo==='saida'&&v.reqId){ editReq=v.reqId; openMov('saida',null,v); }
-  else openMov(v.tipo,v.materialId,v);
+  const cartao=e.target.closest('[data-id]'); if(!cartao)return;
+  const v=movs.find(x=>x.id===cartao.dataset.id); if(!v){ toast('Este lançamento não existe mais.'); return; }
+  if(e.target.closest('a')) return;   /* links (Ver XML, Assinado) abrem sozinhos */
+  const b=e.target.closest('button[data-act]'); if(!b) return;   /* nos cartões, só os botões agem */
+  if(b.dataset.act==='comprov'){ verComprovanteSaida(v); return; }
+  if(b.dataset.act==='anexar'){ anexarAssinado(v); return; }
+  if(b.dataset.act==='del'){ await removeMov(v); pintaHistorico(); return; }
+  if(b.dataset.act==='corrigir'){
+    if(v.tipo==='saida'&&v.reqId){ editReq=v.reqId; openMov('saida',null,v); }
+    else openMov(v.tipo,v.materialId,v);
+  }
 });
 
 
