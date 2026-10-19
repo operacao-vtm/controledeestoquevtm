@@ -691,6 +691,11 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
 .hc-par span{font-size:13.5px;color:var(--ink)}
 .hc-acoes{display:flex;flex-wrap:wrap;gap:6px;border-top:1px solid var(--hair2);padding-top:10px;margin-top:2px}
 @media(max-width:560px){ .hist-cards{grid-template-columns:1fr} }
+.foto-mat{display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap}
+.foto-prev{width:92px;height:92px;border-radius:12px;border:1px solid var(--hair);background:var(--panel2);display:grid;place-items:center;overflow:hidden;flex:0 0 auto}
+.foto-prev img{width:100%;height:100%;object-fit:cover}
+.foto-bts{display:flex;flex-direction:column;gap:6px}
+.mat-foto{width:100%;height:120px;object-fit:cover;border-radius:10px;margin-bottom:8px;border:1px solid var(--hair2)}
 </style>
 <style>
 /* ---------- tela de abertura: aparece no instante em que o aplicativo abre ---------- */
@@ -741,7 +746,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
         <h1><img class="icone-app" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InRvcG8iIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNGN0I4NEEiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNFRTZCNTciLz48L2xpbmVhckdyYWRpZW50PjxsaW5lYXJHcmFkaWVudCBpZD0iZXNxIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRTgyMzdGIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjQjgxNDVGIi8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImRpciIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzZGQ0JFNiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzhFNkZCMCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iMTE2IiBmaWxsPSIjMEUwQjEyIi8+PHBvbHlnb24gcG9pbnRzPSIyNTYsMTAwIDQxMiwxODggMjU2LDI3NiAxMDAsMTg4IiBmaWxsPSJ1cmwoI3RvcG8pIi8+PHBvbHlnb24gcG9pbnRzPSIxMDAsMTg4IDI1NiwyNzYgMjU2LDQ0MCAxMDAsMzUyIiBmaWxsPSJ1cmwoI2VzcSkiLz48cG9seWdvbiBwb2ludHM9IjI1NiwyNzYgNDEyLDE4OCA0MTIsMzUyIDI1Niw0NDAiIGZpbGw9InVybCgjZGlyKSIvPjxwb2x5Z29uIHBvaW50cz0iMTkwLDEzNyAyMTIsMTI1IDM2OCwyMTMgMzQ2LDIyNSIgZmlsbD0iI0ZGRkZGRiIgZmlsbC1vcGFjaXR5PSIuODUiLz48cG9seWdvbiBwb2ludHM9IjM0NiwyMjUgMzY4LDIxMyAzNjgsMjY1IDM0NiwyNzciIGZpbGw9IiNGRkZGRkYiIGZpbGwtb3BhY2l0eT0iLjU1Ii8+PHBvbHlsaW5lIHBvaW50cz0iMTAwLDE4OCAyNTYsMjc2IDQxMiwxODgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGRkZGRiIgc3Ryb2tlLW9wYWNpdHk9Ii4zNSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGxpbmUgeDE9IjI1NiIgeTE9IjI3NiIgeDI9IjI1NiIgeTI9IjQ0MCIgc3Ryb2tlPSIjRkZGRkZGIiBzdHJva2Utb3BhY2l0eT0iLjI1IiBzdHJva2Utd2lkdGg9IjQiLz48L3N2Zz4=">Controle de estoque</h1>
         <p>Almoxarifado · Manutenção técnica</p>
         <div class="estado"><span class="ponto"></span><span id="estadoTxt">carregando…</span>
-          <span class="selo" title="versão deste programa">v116 · nota corrigida no cartão</span></div>
+          <span class="selo" title="versão deste programa">v117 · foto do material</span></div>
       </div>
       <div class="direita">
         <span class="cracha" id="cracha">—</span>
@@ -976,7 +981,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
     <span class="discreto">
       <button id="json">exportar backup</button><b>·</b><button id="import">importar</button>
     </span>
-    <span class="versao" title="versão deste programa">v116 · nota corrigida no cartão</span>
+    <span class="versao" title="versão deste programa">v117 · foto do material</span>
 </footer>
 </div>
 
@@ -1016,6 +1021,11 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
         <div class="f wide"><label for="m_fornecedorSel">Fornecedor</label>
           <select id="m_fornecedorSel"></select>
           <input id="m_fornecedor" style="display:none;margin-top:8px" placeholder="digite o nome do fornecedor"></div>
+        <div class="f wide"><label>Foto do material</label>
+          <input type="hidden" id="m_fotoUrl">
+          <div class="foto-mat"><div class="foto-prev" id="m_fotoPrev"></div>
+            <div class="foto-bts"><button type="button" class="btn ghost sm" id="m_fotoGaleria">Enviar foto</button>
+              <button type="button" class="btn ghost sm" id="m_fotoCam">Tirar foto</button></div></div></div>
         <div class="f wide"><label for="m_link">Link do produto na loja</label>
           <input id="m_link" class="mono" placeholder="https://…"></div>
         <div class="f wide dupla">
@@ -4668,6 +4678,7 @@ function matHTML(m){
   const s=saldo(m.id), n=nivel(m), min=num(m.minimo);
   const pct=min>0?Math.min(100,Math.round(s/(min*2)*100)):(s>0?100:0);
   return `<article class="mat" data-n="${n}" data-id="${m.id}" tabindex="0" title="Clique para abrir o cadastro deste material">
+    ${m.fotoUrl?'<img class="mat-foto" src="'+esc(m.fotoUrl)+'" alt="" loading="lazy">':''}
     <div class="mat-top">
       <h3>${esc(m.nome)}</h3>
       <div class="saldo">${s}<em>${esc(m.unidade||'')}</em></div>
@@ -4815,7 +4826,7 @@ $('#q').addEventListener('input',e=>{busca=e.target.value;render();});
 $('#clearMat').onclick=()=>{matFiltro=null;render();};
 
 /* ============ formulário de material ============ */
-const MF=[['m_nome','nome'],['m_patrimonio','patrimonio'],['m_ean','ean'],['m_sn','sn'],['m_unidade','unidade'],['m_minimo','minimo'],['m_preco','preco'],['m_natureza','natureza'],['m_local','local'],['m_fornecedor','fornecedor'],['m_link','link'],['m_registrador','registrador'],['m_obs','obs']];
+const MF=[['m_nome','nome'],['m_patrimonio','patrimonio'],['m_ean','ean'],['m_sn','sn'],['m_unidade','unidade'],['m_minimo','minimo'],['m_preco','preco'],['m_natureza','natureza'],['m_local','local'],['m_fornecedor','fornecedor'],['m_link','link'],['m_fotoUrl','fotoUrl'],['m_registrador','registrador'],['m_obs','obs']];
 function campoDoUsuario(id,valorGravado){
   const e=$('#'+id); if(!e) return;
   const souSenior=!!(sessao&&sessao.perfil==='senior');
@@ -4872,6 +4883,45 @@ function contaSnMat(){
   if(q&&!editMat&&num(q.value)!==L.length) q.value=L.length;
 }
 (function(){ const t=document.getElementById('m_sn'); if(t) t.addEventListener('input',contaSnMat); })();
+
+/* ================= foto do material: galeria ou câmera, guardada no Drive ================= */
+let fotoPendente=null;  /* {base64, ext} escolhida mas ainda não salva */
+function pintaFotoMat(){
+  const box=$('#m_fotoPrev'); if(!box) return;
+  const url=fotoPendente?('data:image/'+(fotoPendente.ext==='png'?'png':'jpeg')+';base64,'+fotoPendente.base64):($('#m_fotoUrl')?$('#m_fotoUrl').value:'');
+  if(url){ box.innerHTML='<img src="'+esc(url)+'" alt="foto do material">'
+      +'<button type="button" class="btn ghost sm" id="m_fotoTira" style="margin-top:6px">Remover foto</button>';
+    const t=$('#m_fotoTira'); if(t) t.onclick=()=>{ fotoPendente=null; if($('#m_fotoUrl')) $('#m_fotoUrl').value=''; pintaFotoMat(); };
+  } else box.innerHTML='<span class="hint" style="margin:0">sem foto</span>';
+}
+function escolheFoto(camera){
+  const inp=document.createElement('input');
+  inp.type='file'; inp.accept='image/*'; if(camera) inp.capture='environment';
+  inp.onchange=()=>{ const f=inp.files[0]; if(!f) return;
+    if(!/^image\//.test(f.type)) return toast('Escolha uma imagem.');
+    if(f.size>12*1024*1024) return toast('Foto muito grande (máx. 12 MB).');
+    const r=new FileReader();
+    r.onload=()=>{ const ext=/png$/i.test(f.type)?'png':'jpg';
+      fotoPendente={base64:String(r.result).split(',')[1],ext:ext}; pintaFotoMat(); };
+    r.readAsDataURL(f);
+  };
+  inp.click();
+}
+/* sobe a foto pendente ao Drive e devolve o link (chamado ao salvar o produto) */
+async function subirFotoSeHouver(nomeProduto){
+  if(!fotoPendente) return ($('#m_fotoUrl')?$('#m_fotoUrl').value:'')||'';
+  if(!API){ toast('Sem conexão — a foto será anexada quando estiver online.'); return ''; }
+  const nome=limpaNomeArq((nomeProduto||'produto').slice(0,40))+'-'+Date.now()+'.'+fotoPendente.ext;
+  try{
+    const resp=await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body:JSON.stringify({acao:'documento',nome:nome,pasta:'fotos-materiais',assinatura:'foto-'+Date.now(),base64:fotoPendente.base64})});
+    const d=await resp.json();
+    if(d&&d.ok&&d.url) return d.url;
+  }catch(e){}
+  toast('Não consegui enviar a foto, mas o produto foi salvo.');
+  return '';
+}
+
 function openMat(m){
   if(!pode('cadastrar')) return barra('Seu perfil não permite cadastrar produtos.');
   editMat=m?m.id:null;
@@ -4885,6 +4935,7 @@ function openMat(m){
     : 'A quantidade já existente vira uma entrada de inventário inicial. Se informar os números de série, a quantidade se ajusta a eles.';
   $('#matDel').style.display=(m&&pode('excluir'))?'':'none';
   MF.forEach(([el,k])=>{$('#'+el).value=m?(m[k]===0?'':m[k]||''):'';});
+  fotoPendente=null; if(typeof pintaFotoMat==='function') setTimeout(pintaFotoMat,0);
   mostraDinheiro($('#m_preco'));
   campoDoUsuario('m_registrador', m?m.registrador:'');
   /* ao editar, o ajuste de contagem fica aqui mesmo */
@@ -4918,12 +4969,15 @@ $('#semelhantesCad').addEventListener('click',e=>{
   closeCad(); openCad(c); toast('Abrindo o registro que já existe.');
 });
 $('#matClose').onclick=closeMat;
+{ const g=$('#m_fotoGaleria'); if(g) g.onclick=()=>escolheFoto(false); }
+{ const c=$('#m_fotoCam'); if(c) c.onclick=()=>escolheFoto(true); }
 $('#scrimMat').addEventListener('click',e=>{if(e.target===$('#scrimMat'))closeMat();});
 async function salvarMat(){
   guardaAnterior(editMat?'a edição do produto':'o cadastro do produto');
   const o={id:editMat||'m-'+Date.now()};
   MF.forEach(([el,k])=>{o[k]=$('#'+el).value.trim();});
   if(isNaN(numBR($('#m_preco').value))){ toast('Não entendi o preço. Use 2.281 ou 2.281,50.'); $('#m_preco').focus(); return; }
+  if(fotoPendente){ const url=await subirFotoSeHouver(o.nome); if(url) o.fotoUrl=url; }
   o.preco=dinheiro($('#m_preco').value);
   if(editMat){
     const velho=mats.find(x=>x.id===editMat);
