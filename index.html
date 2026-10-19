@@ -746,7 +746,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
         <h1><img class="icone-app" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InRvcG8iIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNGN0I4NEEiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNFRTZCNTciLz48L2xpbmVhckdyYWRpZW50PjxsaW5lYXJHcmFkaWVudCBpZD0iZXNxIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRTgyMzdGIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjQjgxNDVGIi8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImRpciIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzZGQ0JFNiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzhFNkZCMCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iMTE2IiBmaWxsPSIjMEUwQjEyIi8+PHBvbHlnb24gcG9pbnRzPSIyNTYsMTAwIDQxMiwxODggMjU2LDI3NiAxMDAsMTg4IiBmaWxsPSJ1cmwoI3RvcG8pIi8+PHBvbHlnb24gcG9pbnRzPSIxMDAsMTg4IDI1NiwyNzYgMjU2LDQ0MCAxMDAsMzUyIiBmaWxsPSJ1cmwoI2VzcSkiLz48cG9seWdvbiBwb2ludHM9IjI1NiwyNzYgNDEyLDE4OCA0MTIsMzUyIDI1Niw0NDAiIGZpbGw9InVybCgjZGlyKSIvPjxwb2x5Z29uIHBvaW50cz0iMTkwLDEzNyAyMTIsMTI1IDM2OCwyMTMgMzQ2LDIyNSIgZmlsbD0iI0ZGRkZGRiIgZmlsbC1vcGFjaXR5PSIuODUiLz48cG9seWdvbiBwb2ludHM9IjM0NiwyMjUgMzY4LDIxMyAzNjgsMjY1IDM0NiwyNzciIGZpbGw9IiNGRkZGRkYiIGZpbGwtb3BhY2l0eT0iLjU1Ii8+PHBvbHlsaW5lIHBvaW50cz0iMTAwLDE4OCAyNTYsMjc2IDQxMiwxODgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGRkZGRiIgc3Ryb2tlLW9wYWNpdHk9Ii4zNSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGxpbmUgeDE9IjI1NiIgeTE9IjI3NiIgeDI9IjI1NiIgeTI9IjQ0MCIgc3Ryb2tlPSIjRkZGRkZGIiBzdHJva2Utb3BhY2l0eT0iLjI1IiBzdHJva2Utd2lkdGg9IjQiLz48L3N2Zz4=">Controle de estoque</h1>
         <p>Almoxarifado · Manutenção técnica</p>
         <div class="estado"><span class="ponto"></span><span id="estadoTxt">carregando…</span>
-          <span class="selo" title="versão deste programa">v118 · edição rápida e foto no cartão</span></div>
+          <span class="selo" title="versão deste programa">v120 · foto do material aparece</span></div>
       </div>
       <div class="direita">
         <span class="cracha" id="cracha">—</span>
@@ -981,7 +981,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
     <span class="discreto">
       <button id="json">exportar backup</button><b>·</b><button id="import">importar</button>
     </span>
-    <span class="versao" title="versão deste programa">v118 · edição rápida e foto no cartão</span>
+    <span class="versao" title="versão deste programa">v120 · foto do material aparece</span>
 </footer>
 </div>
 
@@ -4678,7 +4678,7 @@ function matHTML(m){
   const s=saldo(m.id), n=nivel(m), min=num(m.minimo);
   const pct=min>0?Math.min(100,Math.round(s/(min*2)*100)):(s>0?100:0);
   return `<article class="mat" data-n="${n}" data-id="${m.id}" tabindex="0" title="Clique para abrir o cadastro deste material">
-    ${m.fotoUrl?'<img class="mat-foto" src="'+esc(m.fotoUrl)+'" alt="" loading="lazy">':''}
+    ${m.fotoUrl?'<img class="mat-foto" src="'+esc(imgFoto(m.fotoUrl))+'" alt="" loading="lazy">':''}
     <div class="mat-top">
       <h3>${esc(m.nome)}</h3>
       <div class="saldo">${s}<em>${esc(m.unidade||'')}</em></div>
@@ -4912,9 +4912,15 @@ function fotoDireto(m){
 }
 
 let fotoPendente=null;  /* {base64, ext} escolhida mas ainda não salva */
+/* o Drive devolve o link da página do arquivo (…/file/d/ID/view); para mostrar como imagem usa o endereço da miniatura */
+function imgFoto(url){
+  const u=String(url||''); if(!u) return '';
+  const m=u.match(/\/file\/d\/([\w-]+)/)||u.match(/[?&]id=([\w-]+)/);
+  return (m&&/drive\.google\.com/.test(u))?'https://drive.google.com/thumbnail?id='+m[1]+'&sz=w1000':u;
+}
 function pintaFotoMat(){
   const box=$('#m_fotoPrev'); if(!box) return;
-  const url=fotoPendente?('data:image/'+(fotoPendente.ext==='png'?'png':'jpeg')+';base64,'+fotoPendente.base64):($('#m_fotoUrl')?$('#m_fotoUrl').value:'');
+  const url=fotoPendente?('data:image/'+(fotoPendente.ext==='png'?'png':'jpeg')+';base64,'+fotoPendente.base64):imgFoto($('#m_fotoUrl')?$('#m_fotoUrl').value:'');
   if(url){ box.innerHTML='<img src="'+esc(url)+'" alt="foto do material">'
       +'<button type="button" class="btn ghost sm" id="m_fotoTira" style="margin-top:6px">Remover foto</button>';
     const t=$('#m_fotoTira'); if(t) t.onclick=()=>{ fotoPendente=null; if($('#m_fotoUrl')) $('#m_fotoUrl').value=''; pintaFotoMat(); };
@@ -5011,15 +5017,15 @@ async function salvarMat(){
     if(!certo){ $('#m_preco').focus(); return; }
   }
   if(!o.nome){toast('Informe o nome do produto.');return;}
-  /* produto que já existe e já tinha natureza e preço: edição rápida (ex.: só a foto), mantém o que havia */
+  /* no Editar (produto que já existe), natureza e preço não são obrigatórios: se ficarem em branco, mantém o que havia (ex.: só pôr a foto) */
   const velhoMat=editMat?mats.find(x=>x.id===editMat):null;
-  const jaCompleto=!!(velhoMat&&velhoMat.natureza&&num(velhoMat.preco)>0);
+  const jaCompleto=!!velhoMat;
   if(!o.natureza){
-    if(jaCompleto) o.natureza=velhoMat.natureza;
+    if(jaCompleto) o.natureza=velhoMat.natureza||'';
     else{ toast('Informe a natureza: material de consumo ou equipamento. É ela que diz para onde vai o valor quando o material sai.'); const cn=$('#m_natureza'); if(cn)cn.focus(); return; }
   }
   if(!(num(o.preco)>0)){
-    if(jaCompleto) o.preco=num(velhoMat.preco);
+    if(jaCompleto) o.preco=num(velhoMat.preco)||0;
     else{ toast('Informe o preço unitário — sem ele o produto não entra na conta do estoque.'); const cp=$('#m_preco'); if(cp)cp.focus(); return; }
   }
   const jaTem=o.ean?mats.find(x=>x.id!==(editMat||'')&&soDigitos(x.ean)===soDigitos(o.ean)):null;
