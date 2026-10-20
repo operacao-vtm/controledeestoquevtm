@@ -746,7 +746,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
         <h1><img class="icone-app" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InRvcG8iIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNGN0I4NEEiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNFRTZCNTciLz48L2xpbmVhckdyYWRpZW50PjxsaW5lYXJHcmFkaWVudCBpZD0iZXNxIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRTgyMzdGIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjQjgxNDVGIi8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImRpciIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzZGQ0JFNiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzhFNkZCMCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iMTE2IiBmaWxsPSIjMEUwQjEyIi8+PHBvbHlnb24gcG9pbnRzPSIyNTYsMTAwIDQxMiwxODggMjU2LDI3NiAxMDAsMTg4IiBmaWxsPSJ1cmwoI3RvcG8pIi8+PHBvbHlnb24gcG9pbnRzPSIxMDAsMTg4IDI1NiwyNzYgMjU2LDQ0MCAxMDAsMzUyIiBmaWxsPSJ1cmwoI2VzcSkiLz48cG9seWdvbiBwb2ludHM9IjI1NiwyNzYgNDEyLDE4OCA0MTIsMzUyIDI1Niw0NDAiIGZpbGw9InVybCgjZGlyKSIvPjxwb2x5Z29uIHBvaW50cz0iMTkwLDEzNyAyMTIsMTI1IDM2OCwyMTMgMzQ2LDIyNSIgZmlsbD0iI0ZGRkZGRiIgZmlsbC1vcGFjaXR5PSIuODUiLz48cG9seWdvbiBwb2ludHM9IjM0NiwyMjUgMzY4LDIxMyAzNjgsMjY1IDM0NiwyNzciIGZpbGw9IiNGRkZGRkYiIGZpbGwtb3BhY2l0eT0iLjU1Ii8+PHBvbHlsaW5lIHBvaW50cz0iMTAwLDE4OCAyNTYsMjc2IDQxMiwxODgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGRkZGRiIgc3Ryb2tlLW9wYWNpdHk9Ii4zNSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGxpbmUgeDE9IjI1NiIgeTE9IjI3NiIgeDI9IjI1NiIgeTI9IjQ0MCIgc3Ryb2tlPSIjRkZGRkZGIiBzdHJva2Utb3BhY2l0eT0iLjI1IiBzdHJva2Utd2lkdGg9IjQiLz48L3N2Zz4=">Controle de estoque</h1>
         <p>Almoxarifado · Manutenção técnica</p>
         <div class="estado"><span class="ponto"></span><span id="estadoTxt">carregando…</span>
-          <span class="selo" title="versão deste programa">v121 · só salva com a foto no servidor</span></div>
+          <span class="selo" title="versão deste programa">v122 · teste do servidor antes da foto</span></div>
       </div>
       <div class="direita">
         <span class="cracha" id="cracha">—</span>
@@ -981,7 +981,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
     <span class="discreto">
       <button id="json">exportar backup</button><b>·</b><button id="import">importar</button>
     </span>
-    <span class="versao" title="versão deste programa">v121 · só salva com a foto no servidor</span>
+    <span class="versao" title="versão deste programa">v122 · teste do servidor antes da foto</span>
 </footer>
 </div>
 
@@ -1025,7 +1025,8 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
           <input type="hidden" id="m_fotoUrl">
           <div class="foto-mat"><div class="foto-prev" id="m_fotoPrev"></div>
             <div class="foto-bts"><button type="button" class="btn ghost sm" id="m_fotoGaleria">Enviar foto</button>
-              <button type="button" class="btn ghost sm" id="m_fotoCam">Tirar foto</button></div></div></div>
+              <button type="button" class="btn ghost sm" id="m_fotoCam">Tirar foto</button></div></div>
+          <div class="hint" id="m_fotoServ" style="margin:8px 0 0"></div></div>
         <div class="f wide"><label for="m_link">Link do produto na loja</label>
           <input id="m_link" class="mono" placeholder="https://…"></div>
         <div class="f wide dupla">
@@ -4925,6 +4926,40 @@ function pintaFotoMat(){
       +'<button type="button" class="btn ghost sm" id="m_fotoTira" style="margin-top:6px">Remover foto</button>';
     const t=$('#m_fotoTira'); if(t) t.onclick=()=>{ fotoPendente=null; if($('#m_fotoUrl')) $('#m_fotoUrl').value=''; pintaFotoMat(); };
   } else box.innerHTML='<span class="hint" style="margin:0">sem foto</span>';
+  mostraServidorFoto();
+}
+
+/* ===== teste do servidor antes de salvar a foto: o Salvar só libera com ✅ ===== */
+let servFoto={estado:'',msg:'',quando:0};
+async function testaServidorFoto(){
+  if(!API){ servFoto={estado:'erro',msg:'Sem conexão com o servidor.',quando:Date.now()}; mostraServidorFoto(); return servFoto; }
+  servFoto={estado:'testando',msg:'',quando:0}; mostraServidorFoto();
+  try{
+    const r=await fetch(API+(API.indexOf('?')>=0?'&':'?')+'acao=testeFoto&t='+Date.now());
+    const d=await r.json();
+    if(d&&d.teste==='foto'&&d.ok) servFoto={estado:'ok',msg:'',quando:Date.now()};
+    else if(d&&d.teste==='foto') servFoto={estado:'erro',msg:String(d.erro||'o Drive recusou o acesso'),quando:Date.now()};
+    else servFoto={estado:'antigo',msg:'',quando:Date.now()};
+  }catch(e){ servFoto={estado:'erro',msg:'o servidor não respondeu',quando:Date.now()}; }
+  mostraServidorFoto();
+  return servFoto;
+}
+function mostraServidorFoto(){
+  const el=$('#m_fotoServ');
+  const b=$('#matSalvar');
+  if(!fotoPendente){ if(el) el.innerHTML=''; if(b){ b.disabled=false; b.style.opacity=''; b.title=''; } return; }
+  const txt={
+    testando:'⏳ Verificando se o servidor pode receber a foto…',
+    ok:'✅ Servidor pronto: pode salvar.',
+    erro:'❌ O servidor não pode receber a foto: '+esc(servFoto.msg),
+    antigo:'⚠️ O servidor ainda está com o script antigo. Atualize o Codigo.gs no Apps Script e implante uma nova versão.'
+  }[servFoto.estado]||'⏳ Verificando se o servidor pode receber a foto…';
+  if(el){
+    el.innerHTML=txt+((servFoto.estado==='erro'||servFoto.estado==='antigo')?' <button type="button" class="btn ghost sm" id="m_fotoTesta" style="margin-left:6px">Testar de novo</button>':'');
+    const bt=$('#m_fotoTesta'); if(bt) bt.onclick=()=>testaServidorFoto();
+  }
+  const trava=servFoto.estado!=='ok';
+  if(b){ b.disabled=trava; b.style.opacity=trava?'.45':''; b.title=trava?'O Salvar libera quando o servidor confirmar que pode receber a foto.':''; }
 }
 function escolheFoto(camera){
   const inp=document.createElement('input');
@@ -4934,7 +4969,8 @@ function escolheFoto(camera){
     if(f.size>12*1024*1024) return toast('Foto muito grande (máx. 12 MB).');
     const r=new FileReader();
     r.onload=()=>{ const ext=/png$/i.test(f.type)?'png':'jpg';
-      fotoPendente={base64:String(r.result).split(',')[1],ext:ext}; pintaFotoMat(); };
+      fotoPendente={base64:String(r.result).split(',')[1],ext:ext}; pintaFotoMat();
+      if(!(servFoto.estado==='ok'&&Date.now()-servFoto.quando<5*60*1000)) testaServidorFoto(); };
     r.readAsDataURL(f);
   };
   inp.click();
@@ -5054,6 +5090,15 @@ async function salvarMat(){
   /* foto escolhida: primeiro ela tem que chegar ao servidor; só depois o produto é gravado */
   let comFoto=false;
   if(fotoPendente){
+    if(servFoto.estado!=='ok'){
+      const st=await testaServidorFoto();
+      if(st.estado!=='ok'){
+        await ask(st.estado==='antigo'
+          ?'⚠️ O servidor ainda está com o script antigo, então nada foi salvo. Atualize o Codigo.gs e implante uma nova versão.'
+          :'❌ O servidor não pode receber a foto, então nada foi salvo. Motivo: '+st.msg+'.','Entendi','Fechar');
+        return;
+      }
+    }
     toast('Enviando a foto ao servidor…');
     const r=await enviaFoto(o.nome);
     if(!r.url){
