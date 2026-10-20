@@ -746,7 +746,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
         <h1><img class="icone-app" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InRvcG8iIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNGN0I4NEEiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNFRTZCNTciLz48L2xpbmVhckdyYWRpZW50PjxsaW5lYXJHcmFkaWVudCBpZD0iZXNxIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRTgyMzdGIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjQjgxNDVGIi8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImRpciIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzZGQ0JFNiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzhFNkZCMCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iMTE2IiBmaWxsPSIjMEUwQjEyIi8+PHBvbHlnb24gcG9pbnRzPSIyNTYsMTAwIDQxMiwxODggMjU2LDI3NiAxMDAsMTg4IiBmaWxsPSJ1cmwoI3RvcG8pIi8+PHBvbHlnb24gcG9pbnRzPSIxMDAsMTg4IDI1NiwyNzYgMjU2LDQ0MCAxMDAsMzUyIiBmaWxsPSJ1cmwoI2VzcSkiLz48cG9seWdvbiBwb2ludHM9IjI1NiwyNzYgNDEyLDE4OCA0MTIsMzUyIDI1Niw0NDAiIGZpbGw9InVybCgjZGlyKSIvPjxwb2x5Z29uIHBvaW50cz0iMTkwLDEzNyAyMTIsMTI1IDM2OCwyMTMgMzQ2LDIyNSIgZmlsbD0iI0ZGRkZGRiIgZmlsbC1vcGFjaXR5PSIuODUiLz48cG9seWdvbiBwb2ludHM9IjM0NiwyMjUgMzY4LDIxMyAzNjgsMjY1IDM0NiwyNzciIGZpbGw9IiNGRkZGRkYiIGZpbGwtb3BhY2l0eT0iLjU1Ii8+PHBvbHlsaW5lIHBvaW50cz0iMTAwLDE4OCAyNTYsMjc2IDQxMiwxODgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGRkZGRiIgc3Ryb2tlLW9wYWNpdHk9Ii4zNSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGxpbmUgeDE9IjI1NiIgeTE9IjI3NiIgeDI9IjI1NiIgeTI9IjQ0MCIgc3Ryb2tlPSIjRkZGRkZGIiBzdHJva2Utb3BhY2l0eT0iLjI1IiBzdHJva2Utd2lkdGg9IjQiLz48L3N2Zz4=">Controle de estoque</h1>
         <p>Almoxarifado · Manutenção técnica</p>
         <div class="estado"><span class="ponto"></span><span id="estadoTxt">carregando…</span>
-          <span class="selo" title="versão deste programa">v120 · foto do material aparece</span></div>
+          <span class="selo" title="versão deste programa">v121 · só salva com a foto no servidor</span></div>
       </div>
       <div class="direita">
         <span class="cracha" id="cracha">—</span>
@@ -981,7 +981,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
     <span class="discreto">
       <button id="json">exportar backup</button><b>·</b><button id="import">importar</button>
     </span>
-    <span class="versao" title="versão deste programa">v120 · foto do material aparece</span>
+    <span class="versao" title="versão deste programa">v121 · só salva com a foto no servidor</span>
 </footer>
 </div>
 
@@ -4939,19 +4939,30 @@ function escolheFoto(camera){
   };
   inp.click();
 }
-/* sobe a foto pendente ao Drive e devolve o link (chamado ao salvar o produto) */
-async function subirFotoSeHouver(nomeProduto){
-  if(!fotoPendente) return ($('#m_fotoUrl')?$('#m_fotoUrl').value:'')||'';
-  if(!API){ toast('Sem conexão — a foto será anexada quando estiver online.'); return ''; }
+/* sobe a foto pendente ao Drive: devolve {url} quando o servidor confirmou, ou {erro} com o motivo */
+async function enviaFoto(nomeProduto){
+  if(!fotoPendente) return {url:($('#m_fotoUrl')?$('#m_fotoUrl').value:'')||''};
+  if(!API) return {erro:'o sistema está sem conexão com o servidor'};
   const nome=limpaNomeArq((nomeProduto||'produto').slice(0,40))+'-'+Date.now()+'.'+fotoPendente.ext;
   try{
     const resp=await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},
       body:JSON.stringify({acao:'documento',nome:nome,pasta:'fotos-materiais',assinatura:'foto-'+Date.now(),base64:fotoPendente.base64})});
     const d=await resp.json();
-    if(d&&d.ok&&d.url) return d.url;
-  }catch(e){}
-  toast('Não consegui enviar a foto, mas o produto foi salvo.');
-  return '';
+    if(d&&d.ok&&d.url) return {url:d.url};
+    return {erro:(d&&d.erro)?String(d.erro):'o servidor não devolveu o link da foto'};
+  }catch(e){
+    return {erro:'o servidor não respondeu ('+(e&&e.message?e.message:'falha de rede')+')'};
+  }
+}
+/* usado pela foto direto do cartão: só devolve o link se a foto subiu; se falhou, avisa e deixa tentar de novo */
+async function subirFotoSeHouver(nomeProduto){
+  for(;;){
+    const r=await enviaFoto(nomeProduto);
+    if(r.url) return r.url;
+    const de=await ask('A foto não subiu para o servidor, então nada foi gravado. Motivo: '+r.erro+'.','Tentar de novo','Fechar');
+    if(!de) return '';
+    toast('Enviando a foto ao servidor…');
+  }
 }
 
 function openMat(m){
@@ -5009,7 +5020,6 @@ async function salvarMat(){
   const o={id:editMat||'m-'+Date.now()};
   MF.forEach(([el,k])=>{o[k]=$('#'+el).value.trim();});
   if(isNaN(numBR($('#m_preco').value))){ toast('Não entendi o preço. Use 2.281 ou 2.281,50.'); $('#m_preco').focus(); return; }
-  if(fotoPendente){ const url=await subirFotoSeHouver(o.nome); if(url) o.fotoUrl=url; }
   o.preco=dinheiro($('#m_preco').value);
   if(editMat){
     const velho=mats.find(x=>x.id===editMat);
@@ -5040,6 +5050,19 @@ async function salvarMat(){
         '. Quer abrir esse em vez de cadastrar outro igual?','Abrir o existente');
       if(abrir){ closeMat(); openMat(igual); return; }
     }
+  }
+  /* foto escolhida: primeiro ela tem que chegar ao servidor; só depois o produto é gravado */
+  let comFoto=false;
+  if(fotoPendente){
+    toast('Enviando a foto ao servidor…');
+    const r=await enviaFoto(o.nome);
+    if(!r.url){
+      const de=await ask('A foto não subiu para o servidor, então nada foi salvo. Motivo: '+r.erro+'.','Tentar de novo','Voltar');
+      return de?salvarMat():undefined;
+    }
+    o.fotoUrl=r.url; comFoto=true;
+    if($('#m_fotoUrl')) $('#m_fotoUrl').value=r.url;
+    fotoPendente=null; if(typeof pintaFotoMat==='function') pintaFotoMat();
   }
   o.minimo=num(o.minimo);o.preco=num(o.preco);
   const inicial=num($('#m_inicial').value);
@@ -5076,7 +5099,7 @@ async function salvarMat(){
   if(era) registra('Alterou produto',o.nome,'');
   render(); persist(['mat','mov']);
   if(relAtual&&!$('#panRel').hidden)gerar();
-  toast(era?'Produto atualizado.':(inicial>0?'Produto cadastrado com '+inicial+' em estoque.':'Produto cadastrado.'));
+  toast((comFoto?'Foto enviada ao servidor. ':'')+(era?'Produto atualizado.':(inicial>0?'Produto cadastrado com '+inicial+' em estoque.':'Produto cadastrado.')));
   return mats.find(x=>x.id===o.id)||o;
 }
 ligarBarra({prefixo:'mat',
