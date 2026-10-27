@@ -746,7 +746,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
         <h1><img class="icone-app" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InRvcG8iIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNGN0I4NEEiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNFRTZCNTciLz48L2xpbmVhckdyYWRpZW50PjxsaW5lYXJHcmFkaWVudCBpZD0iZXNxIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRTgyMzdGIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjQjgxNDVGIi8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImRpciIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzZGQ0JFNiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzhFNkZCMCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iMTE2IiBmaWxsPSIjMEUwQjEyIi8+PHBvbHlnb24gcG9pbnRzPSIyNTYsMTAwIDQxMiwxODggMjU2LDI3NiAxMDAsMTg4IiBmaWxsPSJ1cmwoI3RvcG8pIi8+PHBvbHlnb24gcG9pbnRzPSIxMDAsMTg4IDI1NiwyNzYgMjU2LDQ0MCAxMDAsMzUyIiBmaWxsPSJ1cmwoI2VzcSkiLz48cG9seWdvbiBwb2ludHM9IjI1NiwyNzYgNDEyLDE4OCA0MTIsMzUyIDI1Niw0NDAiIGZpbGw9InVybCgjZGlyKSIvPjxwb2x5Z29uIHBvaW50cz0iMTkwLDEzNyAyMTIsMTI1IDM2OCwyMTMgMzQ2LDIyNSIgZmlsbD0iI0ZGRkZGRiIgZmlsbC1vcGFjaXR5PSIuODUiLz48cG9seWdvbiBwb2ludHM9IjM0NiwyMjUgMzY4LDIxMyAzNjgsMjY1IDM0NiwyNzciIGZpbGw9IiNGRkZGRkYiIGZpbGwtb3BhY2l0eT0iLjU1Ii8+PHBvbHlsaW5lIHBvaW50cz0iMTAwLDE4OCAyNTYsMjc2IDQxMiwxODgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGRkZGRiIgc3Ryb2tlLW9wYWNpdHk9Ii4zNSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGxpbmUgeDE9IjI1NiIgeTE9IjI3NiIgeDI9IjI1NiIgeTI9IjQ0MCIgc3Ryb2tlPSIjRkZGRkZGIiBzdHJva2Utb3BhY2l0eT0iLjI1IiBzdHJva2Utd2lkdGg9IjQiLz48L3N2Zz4=">Controle de estoque</h1>
         <p>Almoxarifado · Manutenção técnica</p>
         <div class="estado"><span class="ponto"></span><span id="estadoTxt">carregando…</span>
-          <span class="selo" title="versão deste programa">v122 · teste do servidor antes da foto</span></div>
+          <span class="selo" title="versão deste programa">v119 · app Pedido de Troca e avisos no celular</span></div>
       </div>
       <div class="direita">
         <span class="cracha" id="cracha">—</span>
@@ -755,6 +755,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
         <button class="btn sm" id="irPlanilha" title="abre a planilha de backup no Google">Planilha</button>
       <button class="btn ghost sm" id="irDocs" style="display:none" title="abre no Google Drive a pasta com todas as requisições e comprovantes">Pasta de documentos</button>
         <button class="btn sm" id="irTV" title="tela cheia para TV/monitor, atualiza sozinha">Modo TV</button>
+        <button class="btn ghost sm" id="ativarAvisos" style="display:none" title="receber neste celular os avisos de pedido de troca e saída de material">🔔 Ativar avisos</button>
         <button class="btn sm" id="sair">Sair</button>
       </div>
     </header>
@@ -981,7 +982,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
     <span class="discreto">
       <button id="json">exportar backup</button><b>·</b><button id="import">importar</button>
     </span>
-    <span class="versao" title="versão deste programa">v122 · teste do servidor antes da foto</span>
+    <span class="versao" title="versão deste programa">v119 · app Pedido de Troca e avisos no celular</span>
 </footer>
 </div>
 
@@ -1025,8 +1026,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
           <input type="hidden" id="m_fotoUrl">
           <div class="foto-mat"><div class="foto-prev" id="m_fotoPrev"></div>
             <div class="foto-bts"><button type="button" class="btn ghost sm" id="m_fotoGaleria">Enviar foto</button>
-              <button type="button" class="btn ghost sm" id="m_fotoCam">Tirar foto</button></div></div>
-          <div class="hint" id="m_fotoServ" style="margin:8px 0 0"></div></div>
+              <button type="button" class="btn ghost sm" id="m_fotoCam">Tirar foto</button></div></div></div>
         <div class="f wide"><label for="m_link">Link do produto na loja</label>
           <input id="m_link" class="mono" placeholder="https://…"></div>
         <div class="f wide dupla">
@@ -2114,6 +2114,7 @@ function escondeSe(seletor,esconder){
   document.querySelectorAll(seletor).forEach(e=>{ e.style.display=esconder?'none':''; });
 }
 function aplicaPermissoes(){
+  try{ mostraBotaoAvisos(); }catch(e){}
   if(!sessao) return;
   const b=document.body;
   escondeSe('#tabMat,#tabMov',!pode('lancar'));
@@ -3338,7 +3339,7 @@ function atualizaBadges(){
   if(b){ const n=retornos.filter(r=>!r.decisao).length; b.textContent=n||''; }
 }
 function pintaTrocas(){
-  const pend=trocas.filter(t=>t.status==='aguardando').sort((a,b)=>String(a.quando).localeCompare(String(b.quando)));
+  const pend=trocas.filter(t=>t.status==='aguardando'||t.status==='compra').sort((a,b)=>String(a.quando).localeCompare(String(b.quando)));
   const feitos=trocas.filter(t=>t.status==='atendido').sort((a,b)=>String(b.atendidoEm).localeCompare(String(a.atendidoEm))).slice(0,30);
   let h='';
   if(!pend.length) h+='<div class="empty"><p>Nenhum pedido de troca esperando atendimento.</p></div>';
@@ -3358,24 +3359,36 @@ function pintaTrocas(){
       return;
     }
     const esc2=escolhaTroca[t.id]=escolhaTroca[t.id]||{};
+    const ehMat=t.tipo==='material', compra=t.status==='compra';
     h+=`<div class="tr-card" data-t="${t.id}">
-      <div class="cab"><span class="tag-t pend">aguardando</span><b>${esc(t.numero)} · ${esc(t.onde)}</b>
+      <div class="cab">${compra?'<span class="tag-t pend" style="background:#E8EEFB;color:#2F4F9C">aguardando compra</span>':'<span class="tag-t pend">aguardando</span>'}
+        ${ehMat?'<span class="tag-t dev">pedido de material</span>':''}${t.origem==='app'?'<span class="tag-t ok">pelo app</span>':''}
+        <b>${esc(t.numero)} · ${esc(t.onde)}</b>
         <span>${dtBR(t.quando)} · pedido por ${esc(t.quem)}${t.os?' · '+esc(t.os):''}</span></div>
       ${t.obs?'<p class="hint" style="margin:0 0 6px">'+esc(t.obs)+'</p>':''}
+      ${compra&&t.falta?'<p class="hint" style="margin:0 0 6px;color:#2F4F9C"><b>Falta:</b> '+esc(t.falta)+'</p>':''}
       ${(t.itens||[]).map((it,i)=>{
-        const mp=mat(it.precisaId), mv=mat(it.produtoVoltaId);
-        const disp=seriesEmEstoque(it.precisaId);
+        const mp=mat(it.precisaId), mv=mat(it.produtoVoltaId), q=Number(it.qtd)||1;
+        const disp=mp?seriesEmEstoque(it.precisaId):[];
         const usadas=Object.keys(esc2).filter(k=>+k!==i).map(k=>esc2[k]);
-        const escolhas=disp.length
-          ? disp.map(sn=>`<button type="button" class="peca-t${esc2[i]===sn?' on':''}" data-i="${i}" data-sn="${esc(sn)}"${usadas.indexOf(sn)>=0?' disabled title="já escolhida em outra troca"':''}>${esc(sn)}</button>`).join('')
-          : '<span class="hint" style="margin:0">sem peça com S/N em estoque · sai 1 unidade · saldo '+saldo(it.precisaId)+'</span>';
+        const vincula=!mp&&it.nomeLivre
+          ? `<div class="hint" style="margin:4px 0">não cadastrado: <b>${esc(it.nomeLivre)}</b> · escolha o material cadastrado:</div>
+             <select data-vincula="${i}"><option value="">— escolha —</option>${opcoesProdutoTroca('')}</select>`:'';
+        const escolhas=!mp?''
+          : (disp.length&&q===1
+            ? disp.map(sn=>`<button type="button" class="peca-t${esc2[i]===sn?' on':''}" data-i="${i}" data-sn="${esc(sn)}"${usadas.indexOf(sn)>=0?' disabled title="já escolhida em outra troca"':''}>${esc(sn)}</button>`).join('')
+            : '<span class="hint" style="margin:0">sai '+q+' unidade(s) · saldo '+saldo(it.precisaId)+'</span>');
+        const loja=it.loja?'<div class="hint" style="margin:4px 0 0">🛒 sugestão de compra: '+esc(it.loja)+'</div>':'';
+        const nomeSai=mp?mp.nome:(it.nomeLivre||'produto excluído');
         return `<div class="tr-linha">
-          <div><div class="tr-rot vol">volta do campo</div><span class="tag-t vol">${esc(it.volta)}</span>
-            <div class="hint" style="margin:5px 0 0">${esc(mv?mv.nome:'')}</div></div>
-          <div><div class="tr-rot sai">sai do estoque · ${esc(mp?mp.nome:'produto excluído')}</div>${escolhas}</div>
+          ${ehMat?'':`<div><div class="tr-rot vol">volta do campo</div><span class="tag-t vol">${esc(it.volta)}</span>
+            <div class="hint" style="margin:5px 0 0">${esc(mv?mv.nome:'')}</div></div>`}
+          <div><div class="tr-rot sai">sai do estoque · ${q>1?q+'× ':''}${esc(nomeSai)}</div>${escolhas}${vincula}${loja}</div>
         </div>`;}).join('')}
+      ${t.fotos?'<p class="hint" style="margin:6px 0 0">'+String(t.fotos).split('\n').filter(String).map((u,k)=>'<a href="'+esc(u)+'" target="_blank" rel="noopener">📷 foto '+(k+1)+'</a>').join(' · ')+'</p>':''}
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
         ${pode('lancar')?`<button class="btn" data-atender="${t.id}" style="background:var(--marca);border-color:var(--marca);color:#fff">Atender e gerar requisição</button>`:''}
+        ${pode('lancar')&&!compra?`<button class="btn ghost" data-falta="${t.id}">Falta material</button>`:''}
         ${pode('excluir')?`<button class="btn ghost sm danger" data-cancelar="${t.id}">Cancelar pedido</button>`:''}
       </div>
     </div>`;
@@ -3403,6 +3416,12 @@ function pintaTrocas(){
     const at=box.querySelector('[data-atender]'); if(at) at.onclick=()=>atenderTroca(t);
     const rc=box.querySelector('[data-receber]'); if(rc) rc.onclick=()=>receberDevolucao(t);
     const ca=box.querySelector('[data-cancelar]'); if(ca) ca.onclick=()=>cancelarTroca(t);
+    const fa=box.querySelector('[data-falta]'); if(fa) fa.onclick=()=>faltaMaterial(t);
+    box.querySelectorAll('[data-vincula]').forEach(sel=>sel.onchange=async()=>{
+      const it=(t.itens||[])[+sel.dataset.vincula]; if(!it||!sel.value) return;
+      it.precisaId=sel.value; t.atualizadoEm=new Date().toISOString();
+      await persist(['tro']); pintaTrocas(); toast('Material vinculado ao pedido '+t.numero+'.');
+    });
   });
   $('#gridMat').querySelectorAll('[data-desfazer]').forEach(b=>b.onclick=()=>{
     const t=trocas.find(x=>x.id===b.dataset.desfazer); if(t) desfazerAtendimento(t);
@@ -3418,27 +3437,29 @@ async function atenderTroca(t){
   const itens=t.itens||[];
   for(let i=0;i<itens.length;i++){
     const it=itens[i];
-    if(!mat(it.precisaId)) return toast('O produto da troca '+(i+1)+' não existe mais no cadastro.');
-    if(seriesEmEstoque(it.precisaId).length&&!e[i]) return toast('Escolha a peça que sai na troca '+(i+1)+'.');
+    if(!mat(it.precisaId)) return toast(it.nomeLivre?('“'+it.nomeLivre+'” não está cadastrado: escolha o material cadastrado no item '+(i+1)+' ou use Falta material.'):('O produto da troca '+(i+1)+' não existe mais no cadastro.'));
+    if((Number(it.qtd)||1)===1&&seriesEmEstoque(it.precisaId).length&&!e[i]) return toast('Escolha a peça que sai no item '+(i+1)+'.');
   }
   const soma={};
-  itens.forEach(it=>{ soma[it.precisaId]=(soma[it.precisaId]||0)+1; });
+  itens.forEach(it=>{ soma[it.precisaId]=(soma[it.precisaId]||0)+(Number(it.qtd)||1); });
   const falta=Object.keys(soma).filter(id=>soma[id]>saldoBase(id));
-  if(falta.length) return toast('Sem saldo para '+falta.map(id=>mat(id).nome).join(', ')+'. Dê entrada antes de atender.');
-  const ok=await ask('Atender o pedido '+t.numero+'? Sai '+itens.length+' peça(s) do estoque para '+t.onde+', e as que voltam ficam em Retornos.','Atender');
+  if(falta.length) return toast('Sem saldo para '+falta.map(id=>mat(id).nome).join(', ')+'. Use “Falta material” ou dê entrada antes de atender.');
+  const totalPecas=Object.keys(soma).reduce((x,id)=>x+soma[id],0);
+  const ok=await ask('Atender o pedido '+t.numero+'? Sai '+totalPecas+' peça(s) do estoque para '+t.onde+(t.tipo==='material'?'.':', e as que voltam ficam em Retornos.'),'Atender');
   if(!ok) return;
   guardaAnterior('o atendimento do pedido '+t.numero);
   const req='req-'+Date.now(), quando=agora(), iso=new Date().toISOString(), marca=Date.now();
   const porMat={};
-  itens.forEach((it,i)=>{ const g=porMat[it.precisaId]=porMat[it.precisaId]||{qtd:0,series:[]}; g.qtd++; if(e[i]) g.series.push(e[i]); it.sai=e[i]||''; });
+  itens.forEach((it,i)=>{ const g=porMat[it.precisaId]=porMat[it.precisaId]||{qtd:0,series:[]}; g.qtd+=(Number(it.qtd)||1); if(e[i]) g.series.push(e[i]); it.sai=e[i]||''; });
   const novos=Object.keys(porMat).map((id,k)=>({
     id:'v-'+marca+'-'+k, reqId:req, tipo:'saida', materialId:id, qtd:porMat[id].qtd, preco:0,
     series:porMat[id].series.join('\n'), data:quando, retirado:t.quem, destino:t.onde, os:t.os,
-    autorizado:'', entregue:sessao?sessao.nome:'', obs:'Troca '+t.numero+(t.obs?' · '+t.obs:''),
+    autorizado:'', entregue:sessao?sessao.nome:'', obs:(t.tipo==='material'?'Pedido de material ':'Troca ')+t.numero+(t.obs?' · '+t.obs:''),
     trocaId:t.id, usuario:sessao?sessao.nome:''}));
   movs=movs.concat(novos);
   t.status='atendido'; t.reqId=req; t.atendidoPor=sessao?sessao.nome:''; t.atendidoEm=quando; t.atualizadoEm=iso;
   itens.forEach((it,i)=>{
+    if(t.tipo==='material'||!it.volta) return;   /* pedido de material: nada volta do campo */
     const mv=mat(it.produtoVoltaId)||mat(it.precisaId);
     retornos.push({id:'rt-'+marca+'-'+i, sn:it.volta, produto:mv?mv.nome:'', produtoId:mv?mv.id:'',
       onde:t.onde, os:t.os, trocaId:t.id, numero:t.numero, reqId:req, chegouEm:quando,
@@ -3447,8 +3468,22 @@ async function atenderTroca(t){
   delete escolhaTroca[t.id];
   await persist(['mov','tro','ret']);
   render();
-  toast('Pedido '+t.numero+' atendido. As peças que voltam estão em Retornos.');
+  toast('Pedido '+t.numero+' atendido.'+(t.tipo==='material'?'':' As peças que voltam estão em Retornos.'));
   printMov(novos[0]);
+}
+/* v119: falta material → o pedido espera a compra; nada sai pela metade */
+async function faltaMaterial(t){
+  if(!pode('lancar')) return barra('Seu perfil não permite lançar.');
+  const soma={}, livres=[];
+  (t.itens||[]).forEach(it=>{ if(mat(it.precisaId)) soma[it.precisaId]=(soma[it.precisaId]||0)+(Number(it.qtd)||1); else livres.push((Number(it.qtd)||1)+'× '+(it.nomeLivre||'material não cadastrado')); });
+  const faltando=Object.keys(soma).filter(id=>soma[id]>saldoBase(id)).map(id=>(soma[id]-Math.max(0,saldoBase(id)))+'× '+mat(id).nome).concat(livres);
+  const lista=faltando.length?faltando.join(', '):'material do pedido';
+  const ok=await ask('Marcar o pedido '+t.numero+' como aguardando compra? Falta: '+lista+'. O técnico é avisado e o pedido só é liberado quando tudo chegar.','Aguardando compra','Voltar');
+  if(!ok) return;
+  guardaAnterior('a falta de material do pedido '+t.numero);
+  t.status='compra'; t.falta=lista; t.compraEm=agora(); t.atualizadoEm=new Date().toISOString();
+  registra('Pedido aguardando compra',t.onde,t.numero);
+  await persist(['tro']); render(); toast('Pedido '+t.numero+' aguardando compra.');
 }
 async function receberDevolucao(t){
   if(!pode('lancar')) return barra('Seu perfil não permite lançar.');
@@ -3904,6 +3939,37 @@ function aplicaLicenca(){
 }
 
 /* ================= registro de atividades: quem fez o quê, e quando ================= */
+/* v119: avisos no celular (Firebase, o mesmo projeto do Painel de OS) */
+const FB_CONFIG={apiKey:'AIzaSyBcZzBG3ADvSkXAk2IKTNbUvjD0-T08alk',authDomain:'painel-de-os.firebaseapp.com',projectId:'painel-de-os',
+  storageBucket:'painel-de-os.firebasestorage.app',messagingSenderId:'575243124952',appId:'1:575243124952:web:0ad5b1f2391dd369b0d7ad'};
+const FB_VAPID='BCxj2axzNNfHA8FmVjLjMkh5nV7w_IOPtcsO2TifZCaexxUmLd0m1ZF78f98y7DQxZbtX35i9-e4yzaTZdcQknA';
+function mostraBotaoAvisos(){
+  const b=$('#ativarAvisos'); if(!b) return;
+  const pode=!!sessao&&['senior','junior','diretoria'].indexOf(sessao.perfil)>=0
+    &&('serviceWorker' in navigator)&&('PushManager' in window)&&('Notification' in window)&&location.protocol==='https:';
+  b.style.display=pode?'':'none';
+}
+function carregaJs(src){ return new Promise((ok,falha)=>{ if(document.querySelector('script[src="'+src+'"]')) return ok();
+  const s=document.createElement('script'); s.src=src; s.onload=ok; s.onerror=()=>falha(new Error('script')); document.head.appendChild(s); }); }
+async function ativarAvisos(){
+  if(!sessao) return;
+  const perm=await Notification.requestPermission();
+  if(perm!=='granted') return toast('Avisos bloqueados neste aparelho. Libere as notificações do site nas configurações.');
+  try{
+    const reg=await navigator.serviceWorker.register('firebase-messaging-sw.js',{scope:'./avisos/'});   /* escopo próprio: não mexe no sw.js do app */
+    await carregaJs('https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js');
+    await carregaJs('https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js');
+    if(!firebase.apps.length) firebase.initializeApp(FB_CONFIG);
+    const token=await firebase.messaging().getToken({vapidKey:FB_VAPID,serviceWorkerRegistration:reg});
+    if(!token) throw new Error('sem registro');
+    const r=await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body:JSON.stringify({acao:'aviso_registrar',token:token,nome:sessao.nome,perfil:sessao.perfil,aparelho:navigator.userAgent})});
+    const d=await r.json();
+    if(!d||!d.ok) throw new Error((d&&d.erro)||'planilha');
+    toast('Avisos ativados neste aparelho.');
+  }catch(e){ toast('Não foi possível ativar os avisos: '+e.message); }
+}
+$('#ativarAvisos').onclick=ativarAvisos;
 $('#irDocs').onclick=()=>{ if(!pastaDocsUrl) return toast('A pasta aparece depois que o primeiro documento for gravado.'); let j=null; try{ j=window.open(pastaDocsUrl,'_blank','noopener'); }catch(e){} if(!j) toast('O endereço da pasta é '+pastaDocsUrl); };
 $('#planFechar').onclick=()=>{ $('#panPlan').hidden=true; try{ window.scrollTo({top:0,behavior:'smooth'}); }catch(e){} };
 /* o que não deixa carimbo no próprio registro (correção, exclusão, cancelamento, cadastro, desfazer)
@@ -4679,7 +4745,7 @@ function matHTML(m){
   const s=saldo(m.id), n=nivel(m), min=num(m.minimo);
   const pct=min>0?Math.min(100,Math.round(s/(min*2)*100)):(s>0?100:0);
   return `<article class="mat" data-n="${n}" data-id="${m.id}" tabindex="0" title="Clique para abrir o cadastro deste material">
-    ${m.fotoUrl?'<img class="mat-foto" src="'+esc(imgFoto(m.fotoUrl))+'" alt="" loading="lazy">':''}
+    ${m.fotoUrl?'<img class="mat-foto" src="'+esc(m.fotoUrl)+'" alt="" loading="lazy">':''}
     <div class="mat-top">
       <h3>${esc(m.nome)}</h3>
       <div class="saldo">${s}<em>${esc(m.unidade||'')}</em></div>
@@ -4913,53 +4979,13 @@ function fotoDireto(m){
 }
 
 let fotoPendente=null;  /* {base64, ext} escolhida mas ainda não salva */
-/* o Drive devolve o link da página do arquivo (…/file/d/ID/view); para mostrar como imagem usa o endereço da miniatura */
-function imgFoto(url){
-  const u=String(url||''); if(!u) return '';
-  const m=u.match(/\/file\/d\/([\w-]+)/)||u.match(/[?&]id=([\w-]+)/);
-  return (m&&/drive\.google\.com/.test(u))?'https://drive.google.com/thumbnail?id='+m[1]+'&sz=w1000':u;
-}
 function pintaFotoMat(){
   const box=$('#m_fotoPrev'); if(!box) return;
-  const url=fotoPendente?('data:image/'+(fotoPendente.ext==='png'?'png':'jpeg')+';base64,'+fotoPendente.base64):imgFoto($('#m_fotoUrl')?$('#m_fotoUrl').value:'');
+  const url=fotoPendente?('data:image/'+(fotoPendente.ext==='png'?'png':'jpeg')+';base64,'+fotoPendente.base64):($('#m_fotoUrl')?$('#m_fotoUrl').value:'');
   if(url){ box.innerHTML='<img src="'+esc(url)+'" alt="foto do material">'
       +'<button type="button" class="btn ghost sm" id="m_fotoTira" style="margin-top:6px">Remover foto</button>';
     const t=$('#m_fotoTira'); if(t) t.onclick=()=>{ fotoPendente=null; if($('#m_fotoUrl')) $('#m_fotoUrl').value=''; pintaFotoMat(); };
   } else box.innerHTML='<span class="hint" style="margin:0">sem foto</span>';
-  mostraServidorFoto();
-}
-
-/* ===== teste do servidor antes de salvar a foto: o Salvar só libera com ✅ ===== */
-let servFoto={estado:'',msg:'',quando:0};
-async function testaServidorFoto(){
-  if(!API){ servFoto={estado:'erro',msg:'Sem conexão com o servidor.',quando:Date.now()}; mostraServidorFoto(); return servFoto; }
-  servFoto={estado:'testando',msg:'',quando:0}; mostraServidorFoto();
-  try{
-    const r=await fetch(API+(API.indexOf('?')>=0?'&':'?')+'acao=testeFoto&t='+Date.now());
-    const d=await r.json();
-    if(d&&d.teste==='foto'&&d.ok) servFoto={estado:'ok',msg:'',quando:Date.now()};
-    else if(d&&d.teste==='foto') servFoto={estado:'erro',msg:String(d.erro||'o Drive recusou o acesso'),quando:Date.now()};
-    else servFoto={estado:'antigo',msg:'',quando:Date.now()};
-  }catch(e){ servFoto={estado:'erro',msg:'o servidor não respondeu',quando:Date.now()}; }
-  mostraServidorFoto();
-  return servFoto;
-}
-function mostraServidorFoto(){
-  const el=$('#m_fotoServ');
-  const b=$('#matSalvar');
-  if(!fotoPendente){ if(el) el.innerHTML=''; if(b){ b.disabled=false; b.style.opacity=''; b.title=''; } return; }
-  const txt={
-    testando:'⏳ Verificando se o servidor pode receber a foto…',
-    ok:'✅ Servidor pronto: pode salvar.',
-    erro:'❌ O servidor não pode receber a foto: '+esc(servFoto.msg),
-    antigo:'⚠️ O servidor ainda está com o script antigo. Atualize o Codigo.gs no Apps Script e implante uma nova versão.'
-  }[servFoto.estado]||'⏳ Verificando se o servidor pode receber a foto…';
-  if(el){
-    el.innerHTML=txt+((servFoto.estado==='erro'||servFoto.estado==='antigo')?' <button type="button" class="btn ghost sm" id="m_fotoTesta" style="margin-left:6px">Testar de novo</button>':'');
-    const bt=$('#m_fotoTesta'); if(bt) bt.onclick=()=>testaServidorFoto();
-  }
-  const trava=servFoto.estado!=='ok';
-  if(b){ b.disabled=trava; b.style.opacity=trava?'.45':''; b.title=trava?'O Salvar libera quando o servidor confirmar que pode receber a foto.':''; }
 }
 function escolheFoto(camera){
   const inp=document.createElement('input');
@@ -4969,36 +4995,24 @@ function escolheFoto(camera){
     if(f.size>12*1024*1024) return toast('Foto muito grande (máx. 12 MB).');
     const r=new FileReader();
     r.onload=()=>{ const ext=/png$/i.test(f.type)?'png':'jpg';
-      fotoPendente={base64:String(r.result).split(',')[1],ext:ext}; pintaFotoMat();
-      if(!(servFoto.estado==='ok'&&Date.now()-servFoto.quando<5*60*1000)) testaServidorFoto(); };
+      fotoPendente={base64:String(r.result).split(',')[1],ext:ext}; pintaFotoMat(); };
     r.readAsDataURL(f);
   };
   inp.click();
 }
-/* sobe a foto pendente ao Drive: devolve {url} quando o servidor confirmou, ou {erro} com o motivo */
-async function enviaFoto(nomeProduto){
-  if(!fotoPendente) return {url:($('#m_fotoUrl')?$('#m_fotoUrl').value:'')||''};
-  if(!API) return {erro:'o sistema está sem conexão com o servidor'};
+/* sobe a foto pendente ao Drive e devolve o link (chamado ao salvar o produto) */
+async function subirFotoSeHouver(nomeProduto){
+  if(!fotoPendente) return ($('#m_fotoUrl')?$('#m_fotoUrl').value:'')||'';
+  if(!API){ toast('Sem conexão — a foto será anexada quando estiver online.'); return ''; }
   const nome=limpaNomeArq((nomeProduto||'produto').slice(0,40))+'-'+Date.now()+'.'+fotoPendente.ext;
   try{
     const resp=await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},
       body:JSON.stringify({acao:'documento',nome:nome,pasta:'fotos-materiais',assinatura:'foto-'+Date.now(),base64:fotoPendente.base64})});
     const d=await resp.json();
-    if(d&&d.ok&&d.url) return {url:d.url};
-    return {erro:(d&&d.erro)?String(d.erro):'o servidor não devolveu o link da foto'};
-  }catch(e){
-    return {erro:'o servidor não respondeu ('+(e&&e.message?e.message:'falha de rede')+')'};
-  }
-}
-/* usado pela foto direto do cartão: só devolve o link se a foto subiu; se falhou, avisa e deixa tentar de novo */
-async function subirFotoSeHouver(nomeProduto){
-  for(;;){
-    const r=await enviaFoto(nomeProduto);
-    if(r.url) return r.url;
-    const de=await ask('A foto não subiu para o servidor, então nada foi gravado. Motivo: '+r.erro+'.','Tentar de novo','Fechar');
-    if(!de) return '';
-    toast('Enviando a foto ao servidor…');
-  }
+    if(d&&d.ok&&d.url) return d.url;
+  }catch(e){}
+  toast('Não consegui enviar a foto, mas o produto foi salvo.');
+  return '';
 }
 
 function openMat(m){
@@ -5056,6 +5070,7 @@ async function salvarMat(){
   const o={id:editMat||'m-'+Date.now()};
   MF.forEach(([el,k])=>{o[k]=$('#'+el).value.trim();});
   if(isNaN(numBR($('#m_preco').value))){ toast('Não entendi o preço. Use 2.281 ou 2.281,50.'); $('#m_preco').focus(); return; }
+  if(fotoPendente){ const url=await subirFotoSeHouver(o.nome); if(url) o.fotoUrl=url; }
   o.preco=dinheiro($('#m_preco').value);
   if(editMat){
     const velho=mats.find(x=>x.id===editMat);
@@ -5063,15 +5078,15 @@ async function salvarMat(){
     if(!certo){ $('#m_preco').focus(); return; }
   }
   if(!o.nome){toast('Informe o nome do produto.');return;}
-  /* no Editar (produto que já existe), natureza e preço não são obrigatórios: se ficarem em branco, mantém o que havia (ex.: só pôr a foto) */
+  /* produto que já existe e já tinha natureza e preço: edição rápida (ex.: só a foto), mantém o que havia */
   const velhoMat=editMat?mats.find(x=>x.id===editMat):null;
-  const jaCompleto=!!velhoMat;
+  const jaCompleto=!!(velhoMat&&velhoMat.natureza&&num(velhoMat.preco)>0);
   if(!o.natureza){
-    if(jaCompleto) o.natureza=velhoMat.natureza||'';
+    if(jaCompleto) o.natureza=velhoMat.natureza;
     else{ toast('Informe a natureza: material de consumo ou equipamento. É ela que diz para onde vai o valor quando o material sai.'); const cn=$('#m_natureza'); if(cn)cn.focus(); return; }
   }
   if(!(num(o.preco)>0)){
-    if(jaCompleto) o.preco=num(velhoMat.preco)||0;
+    if(jaCompleto) o.preco=num(velhoMat.preco);
     else{ toast('Informe o preço unitário — sem ele o produto não entra na conta do estoque.'); const cp=$('#m_preco'); if(cp)cp.focus(); return; }
   }
   const jaTem=o.ean?mats.find(x=>x.id!==(editMat||'')&&soDigitos(x.ean)===soDigitos(o.ean)):null;
@@ -5086,28 +5101,6 @@ async function salvarMat(){
         '. Quer abrir esse em vez de cadastrar outro igual?','Abrir o existente');
       if(abrir){ closeMat(); openMat(igual); return; }
     }
-  }
-  /* foto escolhida: primeiro ela tem que chegar ao servidor; só depois o produto é gravado */
-  let comFoto=false;
-  if(fotoPendente){
-    if(servFoto.estado!=='ok'){
-      const st=await testaServidorFoto();
-      if(st.estado!=='ok'){
-        await ask(st.estado==='antigo'
-          ?'⚠️ O servidor ainda está com o script antigo, então nada foi salvo. Atualize o Codigo.gs e implante uma nova versão.'
-          :'❌ O servidor não pode receber a foto, então nada foi salvo. Motivo: '+st.msg+'.','Entendi','Fechar');
-        return;
-      }
-    }
-    toast('Enviando a foto ao servidor…');
-    const r=await enviaFoto(o.nome);
-    if(!r.url){
-      const de=await ask('A foto não subiu para o servidor, então nada foi salvo. Motivo: '+r.erro+'.','Tentar de novo','Voltar');
-      return de?salvarMat():undefined;
-    }
-    o.fotoUrl=r.url; comFoto=true;
-    if($('#m_fotoUrl')) $('#m_fotoUrl').value=r.url;
-    fotoPendente=null; if(typeof pintaFotoMat==='function') pintaFotoMat();
   }
   o.minimo=num(o.minimo);o.preco=num(o.preco);
   const inicial=num($('#m_inicial').value);
@@ -5144,7 +5137,7 @@ async function salvarMat(){
   if(era) registra('Alterou produto',o.nome,'');
   render(); persist(['mat','mov']);
   if(relAtual&&!$('#panRel').hidden)gerar();
-  toast((comFoto?'Foto enviada ao servidor. ':'')+(era?'Produto atualizado.':(inicial>0?'Produto cadastrado com '+inicial+' em estoque.':'Produto cadastrado.')));
+  toast(era?'Produto atualizado.':(inicial>0?'Produto cadastrado com '+inicial+' em estoque.':'Produto cadastrado.'));
   return mats.find(x=>x.id===o.id)||o;
 }
 ligarBarra({prefixo:'mat',
