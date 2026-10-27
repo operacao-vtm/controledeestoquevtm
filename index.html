@@ -746,7 +746,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
         <h1><img class="icone-app" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InRvcG8iIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNGN0I4NEEiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNFRTZCNTciLz48L2xpbmVhckdyYWRpZW50PjxsaW5lYXJHcmFkaWVudCBpZD0iZXNxIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRTgyMzdGIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjQjgxNDVGIi8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImRpciIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzZGQ0JFNiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzhFNkZCMCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iMTE2IiBmaWxsPSIjMEUwQjEyIi8+PHBvbHlnb24gcG9pbnRzPSIyNTYsMTAwIDQxMiwxODggMjU2LDI3NiAxMDAsMTg4IiBmaWxsPSJ1cmwoI3RvcG8pIi8+PHBvbHlnb24gcG9pbnRzPSIxMDAsMTg4IDI1NiwyNzYgMjU2LDQ0MCAxMDAsMzUyIiBmaWxsPSJ1cmwoI2VzcSkiLz48cG9seWdvbiBwb2ludHM9IjI1NiwyNzYgNDEyLDE4OCA0MTIsMzUyIDI1Niw0NDAiIGZpbGw9InVybCgjZGlyKSIvPjxwb2x5Z29uIHBvaW50cz0iMTkwLDEzNyAyMTIsMTI1IDM2OCwyMTMgMzQ2LDIyNSIgZmlsbD0iI0ZGRkZGRiIgZmlsbC1vcGFjaXR5PSIuODUiLz48cG9seWdvbiBwb2ludHM9IjM0NiwyMjUgMzY4LDIxMyAzNjgsMjY1IDM0NiwyNzciIGZpbGw9IiNGRkZGRkYiIGZpbGwtb3BhY2l0eT0iLjU1Ii8+PHBvbHlsaW5lIHBvaW50cz0iMTAwLDE4OCAyNTYsMjc2IDQxMiwxODgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGRkZGRiIgc3Ryb2tlLW9wYWNpdHk9Ii4zNSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGxpbmUgeDE9IjI1NiIgeTE9IjI3NiIgeDI9IjI1NiIgeTI9IjQ0MCIgc3Ryb2tlPSIjRkZGRkZGIiBzdHJva2Utb3BhY2l0eT0iLjI1IiBzdHJva2Utd2lkdGg9IjQiLz48L3N2Zz4=">Controle de estoque</h1>
         <p>Almoxarifado · Manutenção técnica</p>
         <div class="estado"><span class="ponto"></span><span id="estadoTxt">carregando…</span>
-          <span class="selo" title="versão deste programa">v119 · app Pedido de Troca e avisos no celular</span></div>
+          <span class="selo" title="versão deste programa">v120 · botão de avisos ativa e desativa</span></div>
       </div>
       <div class="direita">
         <span class="cracha" id="cracha">—</span>
@@ -982,7 +982,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
     <span class="discreto">
       <button id="json">exportar backup</button><b>·</b><button id="import">importar</button>
     </span>
-    <span class="versao" title="versão deste programa">v119 · app Pedido de Troca e avisos no celular</span>
+    <span class="versao" title="versão deste programa">v120 · botão de avisos ativa e desativa</span>
 </footer>
 </div>
 
@@ -3948,11 +3948,17 @@ function mostraBotaoAvisos(){
   const pode=!!sessao&&['senior','junior','diretoria'].indexOf(sessao.perfil)>=0
     &&('serviceWorker' in navigator)&&('PushManager' in window)&&('Notification' in window)&&location.protocol==='https:';
   b.style.display=pode?'':'none';
+  const ativo=avisosAtivos();
+  b.textContent=ativo?'🔕 Desativar avisos':'🔔 Ativar avisos';
+  b.title=ativo?'os avisos estão ligados neste aparelho; toque para desligar':'receber neste celular os avisos de pedido de troca e saída de material';
 }
+/* v120: o aparelho guarda o registro; com ele (e a permissão dada), os avisos estão ligados */
+function avisosAtivos(){ try{ return !!localStorage.getItem('alm:avisosToken') && ('Notification' in window) && Notification.permission==='granted'; }catch(e){ return false; } }
 function carregaJs(src){ return new Promise((ok,falha)=>{ if(document.querySelector('script[src="'+src+'"]')) return ok();
   const s=document.createElement('script'); s.src=src; s.onload=ok; s.onerror=()=>falha(new Error('script')); document.head.appendChild(s); }); }
 async function ativarAvisos(){
   if(!sessao) return;
+  if(avisosAtivos()) return desativarAvisos();
   const perm=await Notification.requestPermission();
   if(perm!=='granted') return toast('Avisos bloqueados neste aparelho. Libere as notificações do site nas configurações.');
   try{
@@ -3966,8 +3972,26 @@ async function ativarAvisos(){
       body:JSON.stringify({acao:'aviso_registrar',token:token,nome:sessao.nome,perfil:sessao.perfil,aparelho:navigator.userAgent})});
     const d=await r.json();
     if(!d||!d.ok) throw new Error((d&&d.erro)||'planilha');
+    try{ localStorage.setItem('alm:avisosToken',token); }catch(e){}
+    mostraBotaoAvisos();
     toast('Avisos ativados neste aparelho.');
   }catch(e){ toast('Não foi possível ativar os avisos: '+e.message); }
+}
+/* v120: desligar. O registro do Firebase é apagado; a planilha tira o aparelho da lista no próximo aviso. */
+async function desativarAvisos(){
+  const ok=await ask('Desativar os avisos neste aparelho? Você deixa de receber os avisos do estoque aqui.','Desativar','Manter');
+  if(!ok) return;
+  try{
+    const reg=await navigator.serviceWorker.register('firebase-messaging-sw.js',{scope:'./avisos/'});
+    await carregaJs('https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js');
+    await carregaJs('https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js');
+    if(!firebase.apps.length) firebase.initializeApp(FB_CONFIG);
+    await firebase.messaging().deleteToken();
+    try{ await reg.unregister(); }catch(e2){}
+  }catch(e){ /* mesmo sem internet o aparelho deixa de mostrar como ligado */ }
+  try{ localStorage.removeItem('alm:avisosToken'); }catch(e){}
+  mostraBotaoAvisos();
+  toast('Avisos desativados neste aparelho.');
 }
 $('#ativarAvisos').onclick=ativarAvisos;
 $('#irDocs').onclick=()=>{ if(!pastaDocsUrl) return toast('A pasta aparece depois que o primeiro documento for gravado.'); let j=null; try{ j=window.open(pastaDocsUrl,'_blank','noopener'); }catch(e){} if(!j) toast('O endereço da pasta é '+pastaDocsUrl); };
