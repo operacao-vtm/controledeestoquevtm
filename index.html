@@ -821,7 +821,7 @@ body.comMenu{padding-left:250px}
         <h1><img class="icone-app" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InRvcG8iIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNGN0I4NEEiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNFRTZCNTciLz48L2xpbmVhckdyYWRpZW50PjxsaW5lYXJHcmFkaWVudCBpZD0iZXNxIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRTgyMzdGIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjQjgxNDVGIi8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImRpciIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzZGQ0JFNiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzhFNkZCMCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iMTE2IiBmaWxsPSIjMEUwQjEyIi8+PHBvbHlnb24gcG9pbnRzPSIyNTYsMTAwIDQxMiwxODggMjU2LDI3NiAxMDAsMTg4IiBmaWxsPSJ1cmwoI3RvcG8pIi8+PHBvbHlnb24gcG9pbnRzPSIxMDAsMTg4IDI1NiwyNzYgMjU2LDQ0MCAxMDAsMzUyIiBmaWxsPSJ1cmwoI2VzcSkiLz48cG9seWdvbiBwb2ludHM9IjI1NiwyNzYgNDEyLDE4OCA0MTIsMzUyIDI1Niw0NDAiIGZpbGw9InVybCgjZGlyKSIvPjxwb2x5Z29uIHBvaW50cz0iMTkwLDEzNyAyMTIsMTI1IDM2OCwyMTMgMzQ2LDIyNSIgZmlsbD0iI0ZGRkZGRiIgZmlsbC1vcGFjaXR5PSIuODUiLz48cG9seWdvbiBwb2ludHM9IjM0NiwyMjUgMzY4LDIxMyAzNjgsMjY1IDM0NiwyNzciIGZpbGw9IiNGRkZGRkYiIGZpbGwtb3BhY2l0eT0iLjU1Ii8+PHBvbHlsaW5lIHBvaW50cz0iMTAwLDE4OCAyNTYsMjc2IDQxMiwxODgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGRkZGRiIgc3Ryb2tlLW9wYWNpdHk9Ii4zNSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGxpbmUgeDE9IjI1NiIgeTE9IjI3NiIgeDI9IjI1NiIgeTI9IjQ0MCIgc3Ryb2tlPSIjRkZGRkZGIiBzdHJva2Utb3BhY2l0eT0iLjI1IiBzdHJva2Utd2lkdGg9IjQiLz48L3N2Zz4=">Controle de estoque</h1>
         <p>Almoxarifado · Manutenção técnica</p>
         <div class="estado"><span class="ponto"></span><span id="estadoTxt">carregando…</span>
-          <span class="selo" title="versão deste programa">v205 · menu do almoxarifado</span></div>
+          <span class="selo" title="versão deste programa">v206 · atalhos do SGI</span></div>
       </div>
       <div class="direita">
         <span class="cracha" id="cracha">—</span>
@@ -1079,7 +1079,7 @@ body.comMenu{padding-left:250px}
     <span class="discreto">
       <button id="json">exportar backup</button><b>·</b><button id="import">importar</button>
     </span>
-    <span class="versao" title="versão deste programa">v205 · menu do almoxarifado</span>
+    <span class="versao" title="versão deste programa">v206 · atalhos do SGI</span>
 </footer>
 </div>
 
@@ -8023,5 +8023,25 @@ function pintaInicio(){
   $('#iniC4').innerHTML=c4.length?c4.map(L=>item((L[0].os||'requisição')+' · '+(L[0].destino||''),L.length+' item(ns) · retirar: '+(L[0].retirado||'—'))).join(''):vazio('Nada liberado hoje para entregar.');
 }
 { const _r=render; render=function(){ const x=_r.apply(this,arguments); try{ if(!$('#panInicio').hidden) pintaInicio(); }catch(e){} return x; }; }
-setTimeout(()=>{ try{ irMenu('inicio'); }catch(e){} },300);
+setTimeout(()=>{ try{ irMenu((location.hash||'').slice(1)||'inicio'); }catch(e){ try{ irMenu('inicio'); }catch(x){} } },300);
+/* v206: nota enviada pelo Assistente do SGI (XML guardado neste navegador) — abre o 2.1 já com a nota lida, para conferir.
+   Espera o login (até 2 min) antes de usar a nota. */
+/* v206: chegou do SGI já logado (mesmo endereço): entra direto, sem pedir a senha de novo */
+setTimeout(async()=>{ try{
+  if(typeof sessao!=='undefined'&&sessao) return;
+  if(!sbAuth||typeof sbEntrarOrig!=='function') return;
+  await sbCarregarTudo(true);
+  const eu=usuarios.find(u=>u.id===sbAuth.uid); if(!eu) return;
+  escolhido=eu.id; $('#sbLoginScrim').classList.remove('on'); document.body.style.overflow='';
+  sbEntrarOrig();
+}catch(e){} },600);
+if((location.hash||'')==='#e-nota-xml'){ let tent=0; const vez=setInterval(()=>{ tent++;
+  try{
+    if(!sessao){ if(tent>240) clearInterval(vez); return; }
+    clearInterval(vez);
+    const x=JSON.parse(localStorage.getItem('sgi:xml')||'null'); localStorage.removeItem('sgi:xml');
+    if(!x||!x.xml||Date.now()-Number(x.quando||0)>15*60*1000){ toast('A nota enviada pelo SGI expirou: envie de novo.'); return; }
+    irChip('entrada');
+    setTimeout(()=>{ try{ recebeXML(new File([x.xml],x.nome||'nota.xml',{type:'text/xml'})); }catch(e){ toast('Não foi possível ler a nota enviada pelo SGI.'); } },400);
+  }catch(e){ clearInterval(vez); } },500); }   /* v206: atalhos vindos do SGI (#k-liberar, #k-compras…) */
 </script>
