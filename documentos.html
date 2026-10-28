@@ -20,7 +20,7 @@ table{width:100%;border-collapse:collapse;background:var(--card);border-radius:1
 th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
 th{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
 .tag{display:inline-block;border-radius:999px;padding:2px 9px;font-size:12px;font-weight:700}
-.t-saida{background:#FDE7E7;color:#B42318}.t-troca{background:#FCE7F2;color:#B4236B}.t-entrada{background:#E6F4EA;color:#1b7f3b}.t-compra{background:#E8EEFB;color:#2F4F9C}
+.t-saida{background:#FDE7E7;color:#B42318}.t-troca{background:#FCE7F2;color:#B4236B}.t-entrada{background:#E6F4EA;color:#1b7f3b}.t-compra{background:#E8EEFB;color:#2F4F9C}.t-retorno{background:#FFF1E0;color:#9A5B00}
 .abrir{border:1.5px solid var(--brand);color:var(--brand);background:transparent;border-radius:9px;padding:6px 11px;font:inherit;font-size:13px;font-weight:700;cursor:pointer;margin:2px 4px 2px 0}
 .vazio{padding:40px;text-align:center;color:var(--muted)}
 .btn{border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;padding:8px 13px;font:inherit;cursor:pointer}
@@ -32,7 +32,7 @@ th{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.04
 </head>
 <body>
 <header>
-  <div><h1>📁 Documentos do almoxarifado</h1><div class="sub">Requisições de saída e de troca, comprovantes de entrada (com o XML da nota) e solicitações de compra.</div></div>
+  <div><h1>📁 Documentos do almoxarifado</h1><div class="sub">Requisições de saída e de troca, comprovantes de entrada (com o XML da nota) e solicitações de compra e retornos de serviço.</div></div>
   <div><span id="quem" class="sub"></span> <button class="btn" id="sair">Sair</button></div>
 </header>
 <main>
@@ -42,6 +42,7 @@ th{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.04
     <button class="chip" data-tipo="troca">Trocas</button>
     <button class="chip" data-tipo="entrada">Entradas e notas</button>
     <button class="chip" data-tipo="compra">Solicitações de compra</button>
+    <button class="chip" data-tipo="retorno">Retornos de serviço</button>
   </div>
   <div class="filtros">
     <input id="busca" placeholder="buscar por número, OS, nota fiscal, pedido, destino ou pessoa">
@@ -76,7 +77,7 @@ async function token(){
 }
 async function sb(caminho,op){ const o=op||{}; const r=await fetch(SB_URL+caminho,Object.assign({},o,{headers:Object.assign({apikey:SB_ANON,'Content-Type':'application/json',Authorization:'Bearer '+await token()},o.headers||{})}));
   if(!r.ok) throw new Error(r.status+' '+(await r.text()).slice(0,160)); const t=await r.text(); return t?JSON.parse(t):null; }
-const ROT={saida:'Saída',troca:'Troca',entrada:'Entrada',compra:'Compra'};
+const ROT={saida:'Saída',troca:'Troca',entrada:'Entrada',compra:'Compra',retorno:'Retorno'};
 let docs=[], tipo='';
 const data=iso=>{ const d=new Date(iso); return isNaN(d)?'':d.toLocaleDateString('pt-BR')+' '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}); };
 function desenha(){
