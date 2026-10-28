@@ -131,6 +131,19 @@ main.entrando{animation:abSobe .4s ease-out}
     <p class="dica" id="dicaPronto">O almoxarifado foi avisado no celular.</p>
     <div class="dois" style="margin-top:14px"><button type="button" class="bt" id="outra">Fazer outro pedido</button><button type="button" class="bt" id="verMeus">Ver meus pedidos</button></div></section>
 </main>
+
+<div id="sbLogin" style="position:fixed;inset:0;z-index:999;background:rgba(10,8,14,.92);display:none;align-items:center;justify-content:center;padding:20px">
+  <div style="background:#fff;color:#1b1a22;border-radius:18px;padding:22px;max-width:380px;width:100%;font-family:inherit">
+    <h2 style="margin:0 0 4px;font-size:20px">Pedido de troca · entrar</h2>
+    <p style="margin:0 0 14px;font-size:14px;opacity:.75">Use o seu e-mail e a sua senha do sistema.</p>
+    <label style="font-size:13px;font-weight:700">E-mail</label>
+    <input id="sbEmail" type="email" autocomplete="username" style="width:100%;padding:12px;margin:4px 0 10px;border:1.5px solid #ccc;border-radius:10px;font-size:16px">
+    <label style="font-size:13px;font-weight:700">Senha</label>
+    <input id="sbSenha" type="password" autocomplete="current-password" style="width:100%;padding:12px;margin:4px 0 6px;border:1.5px solid #ccc;border-radius:10px;font-size:16px">
+    <p id="sbAviso" style="min-height:18px;margin:4px 0 10px;font-size:13px;color:#b3261e"></p>
+    <button id="sbEntrar" type="button" style="width:100%;padding:13px;border:0;border-radius:12px;background:#E5397F;color:#fff;font-weight:800;font-size:16px">Entrar</button>
+  </div>
+</div>
 <script>
 // Pedido de Troca — liga direto na planilha do Controle de Estoque (o mesmo Apps Script do estoque).
 const API='https://script.google.com/macros/s/AKfycbwZuFk1RqHlodh-jP7dp_y8Fq1fMJla5A9Ml4pkdaomzNKS3oZ6M3C37vOlZZDb0nCJ/exec';
@@ -138,6 +151,95 @@ const FB_CONFIG={apiKey:'AIzaSyBcZzBG3ADvSkXAk2IKTNbUvjD0-T08alk',authDomain:'pa
   storageBucket:'painel-de-os.firebasestorage.app',messagingSenderId:'575243124952',appId:'1:575243124952:web:0ad5b1f2391dd369b0d7ad'};
 const FB_VAPID='BCxj2axzNNfHA8FmVjLjMkh5nV7w_IOPtcsO2TifZCaexxUmLd0m1ZF78f98y7DQxZbtX35i9-e4yzaTZdcQknA';
 const $=id=>document.getElementById(id);
+/* =====================================================================
+   APP PEDIDO DE TROCA NO SUPABASE
+   O técnico entra com e-mail e senha; o pedido vai direto para o banco.
+   As fotos continuam indo para o Drive pelo Apps Script.
+   ===================================================================== */
+const SB_URL='https://xqeyhsuoinayuwydyesu.supabase.co';
+const SB_ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhxZXloc3VvaW5heXV3eWR5ZXN1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI2ODM2NjAsImV4cCI6MjEwODI1OTY2MH0.qI3ExHVnS4gudCM4U4JSuPidzJUSVKneOcydoSLoMLw';
+const SB_AUTH_KEY='alm2:auth';
+let sbAuth=null; try{ sbAuth=JSON.parse(localStorage.getItem(SB_AUTH_KEY)||'null'); }catch(e){}
+let sbEu=null;
+function sbGuarda(j){
+  sbAuth=j?{access_token:j.access_token,refresh_token:j.refresh_token,expires_at:j.expires_at||(Math.floor(Date.now()/1000)+(j.expires_in||3600)),uid:(j.user&&j.user.id)||(sbAuth&&sbAuth.uid)}:null;
+  try{ if(sbAuth) localStorage.setItem(SB_AUTH_KEY,JSON.stringify(sbAuth)); else localStorage.removeItem(SB_AUTH_KEY); }catch(e){}
+}
+const fetchOriginal=window.fetch.bind(window);
+async function sbToken(){
+  if(!sbAuth) throw new Error('entre com o seu e-mail e senha');
+  if(Date.now()/1000>sbAuth.expires_at-90){
+    const r=await fetchOriginal(SB_URL+'/auth/v1/token?grant_type=refresh_token',{method:'POST',headers:{apikey:SB_ANON,'Content-Type':'application/json'},body:JSON.stringify({refresh_token:sbAuth.refresh_token})});
+    if(!r.ok){ sbGuarda(null); mostraLogin(); throw new Error('o login expirou; entre de novo'); }
+    sbGuarda(await r.json());
+  }
+  return sbAuth.access_token;
+}
+async function sb(caminho,opcoes){
+  const o=opcoes||{}, h=Object.assign({apikey:SB_ANON,'Content-Type':'application/json',Authorization:'Bearer '+await sbToken()},o.headers||{});
+  const r=await fetchOriginal(SB_URL+caminho,Object.assign({},o,{headers:h}));
+  if(!r.ok){ let t=''; try{ t=await r.text(); }catch(e){} throw new Error(r.status+' '+t.slice(0,200)); }
+  const t=await r.text(); return t?JSON.parse(t):null;
+}
+const resposta=d=>new Response(JSON.stringify(d),{status:200,headers:{'Content-Type':'application/json'}});
+/* as três conversas do app com o estoque passam a ser com o Supabase */
+window.fetch=async function(url,op){
+  const u=String(url||'');
+  if(u.indexOf(API)!==0) return fetchOriginal(url,op);
+  try{
+    if(u.indexOf('acao=listas')>=0){
+      const [mats,cads,series]=await Promise.all([sb('/rest/v1/est_materiais?select=id,nome&order=nome'),
+        sb('/rest/v1/est_cadastros?select=tipo,nome'),sb('/rest/v1/rpc/est_series_app',{method:'POST',body:'{}'})]);
+      return resposta({ok:true,materiais:(mats||[]).filter(m=>m.nome),destinos:(cads||[]).filter(c=>c.tipo==='destino').map(c=>c.nome),
+        fornecedores:(cads||[]).filter(c=>c.tipo==='fornecedor').map(c=>c.nome),series:series||[]});
+    }
+    if(u.indexOf('acao=meus')>=0){
+      const [L,mats]=await Promise.all([sb('/rest/v1/est_trocas?select=*&criado_por=eq.'+sbAuth.uid+'&order=quando.desc&limit=60'),sb('/rest/v1/est_materiais?select=id,nome')]);
+      const nome={}; (mats||[]).forEach(m=>{ nome[m.id]=m.nome; });
+      return resposta({ok:true,pedidos:(L||[]).map(t=>({chave:t.chave||t.id,numero:t.numero,tipo:t.tipo,quando:t.quando,onde:t.onde,os:t.os,status:t.status,
+        falta:t.falta==null?'':(Array.isArray(t.falta)?t.falta.join(', '):(typeof t.falta==='object'?(t.falta.texto||''):String(t.falta))),
+        itens:(t.itens||[]).map(it=>({sn:it.volta||'',nome:nome[it.precisaId]||it.nomeLivre||nome[it.produtoVoltaId]||'',qtd:Number(it.qtd)||1,loja:it.loja||''}))}))});
+    }
+    if(op&&op.method==='POST'){
+      let corpo={}; try{ corpo=JSON.parse(op.body||'{}'); }catch(e){}
+      if(corpo.acao==='troca'){
+        const t=corpo.troca||{};
+        const linha={id:t.id,origem:'app',tipo:t.tipo,quando:new Date().toISOString().slice(0,16),quem:t.quem,onde:t.onde,os:t.os||null,obs:t.obs||null,
+          status:'aguardando',itens:t.itens||[],chave:t.chave||null,push_token:t.pushToken||null,
+          fotos:t.fotos?String(t.fotos).split('\n').filter(Boolean):null,registrada_por:sbEu?sbEu.nome:t.quem,criado_por:sbAuth.uid};
+        const r=await sb('/rest/v1/est_trocas',{method:'POST',body:JSON.stringify(linha),headers:{Prefer:'return=representation'}});
+        return resposta({ok:true,numero:(r&&r[0]&&r[0].numero)||''});
+      }
+    }
+  }catch(e){ return resposta({ok:false,erro:e.message}); }
+  return fetchOriginal(url,op);
+};
+function mostraLogin(){ $('sbLogin').style.display='flex'; setTimeout(()=>$('sbEmail').focus(),60); }
+async function quemSouEu(){
+  const pessoas=await sb('/rest/v1/rpc/est_usuarios',{method:'POST',body:'{}'});
+  sbEu=(pessoas||[]).find(p=>p.id===sbAuth.uid)||null;
+  if(!sbEu) throw new Error('o seu usuário não tem perfil no estoque');
+  if($('nome')&&!$('nome').value.trim()) $('nome').value=sbEu.nome;
+}
+async function entrarSB(){
+  const email=$('sbEmail').value.trim(), senha=$('sbSenha').value, av=$('sbAviso');
+  if(!email||!senha){ av.textContent='Informe o e-mail e a senha.'; return; }
+  av.textContent=''; $('sbEntrar').disabled=true; $('sbEntrar').textContent='Entrando…';
+  try{
+    const r=await fetchOriginal(SB_URL+'/auth/v1/token?grant_type=password',{method:'POST',headers:{apikey:SB_ANON,'Content-Type':'application/json'},body:JSON.stringify({email,password:senha})});
+    if(!r.ok) throw new Error('e-mail ou senha incorretos');
+    sbGuarda(await r.json()); await quemSouEu();
+    $('sbLogin').style.display='none'; $('sbSenha').value='';
+    try{ await lerListas(); }catch(e){}
+    if(typeof desenharMeus==='function') desenharMeus();
+    location.reload();
+  }catch(e){ sbGuarda(null); av.textContent='Não foi possível entrar: '+e.message; }
+  $('sbEntrar').disabled=false; $('sbEntrar').textContent='Entrar';
+}
+$('sbEntrar').onclick=entrarSB;
+$('sbSenha').addEventListener('keydown',e=>{ if(e.key==='Enter') entrarSB(); });
+if(!sbAuth) mostraLogin(); else quemSouEu().catch(e=>{ if(/perfil|expirou|401/.test(e.message)){ sbGuarda(null); mostraLogin(); } });
+
 const esc=t=>String(t==null?'':t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const norm=t=>String(t||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
 let MATERIAIS=[], LOCAIS=[], LOJAS=[], SERIES={};
@@ -264,7 +366,7 @@ $('outra').onclick=()=>{ trocarTipo(tipo); $('os').value=''; $('obs').value=''; 
 const ROT={troca:'Troca',material:'Material',devolucao:'Devolução'};
 async function desenharMeus(){
   const meus=JSON.parse(guarda('trocaMeus')||'[]'), caixa=$('listaMeus');
-  if(!meus.length){ caixa.innerHTML='<div class="vazio">Nenhum pedido feito neste celular ainda.</div>'; return; }
+  if(!meus.length&&!sbAuth){ caixa.innerHTML='<div class="vazio">Nenhum pedido feito neste celular ainda.</div>'; return; }
   let L; try{ const r=await fetch(API+'?acao=meus&chaves='+encodeURIComponent(meus.map(m=>m.chave).join(','))); const d=await r.json(); L=(d&&d.pedidos)||[]; }
   catch(e){ if(!caixa.innerHTML) caixa.innerHTML='<div class="vazio">Sem conexão agora. Tente de novo em instantes.</div>'; return; }
   L.sort((a,b)=>String(b.quando).localeCompare(String(a.quando)));
@@ -289,4 +391,5 @@ $('abaNovo').onclick=()=>aba(false); $('abaMeus').onclick=()=>aba(true); $('verM
 trocarTipo('troca');
 lerListas().then(montarListas).catch(()=>{ $('explica').textContent='Não foi possível carregar as listas do estoque. Confira a internet e abra o app de novo.'; });
 if('serviceWorker' in navigator&&location.protocol==='https:') window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+
 </script></body></html>
