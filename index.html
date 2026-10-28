@@ -759,7 +759,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
         <h1><img class="icone-app" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InRvcG8iIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNGN0I4NEEiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNFRTZCNTciLz48L2xpbmVhckdyYWRpZW50PjxsaW5lYXJHcmFkaWVudCBpZD0iZXNxIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRTgyMzdGIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjQjgxNDVGIi8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImRpciIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzZGQ0JFNiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzhFNkZCMCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iMTE2IiBmaWxsPSIjMEUwQjEyIi8+PHBvbHlnb24gcG9pbnRzPSIyNTYsMTAwIDQxMiwxODggMjU2LDI3NiAxMDAsMTg4IiBmaWxsPSJ1cmwoI3RvcG8pIi8+PHBvbHlnb24gcG9pbnRzPSIxMDAsMTg4IDI1NiwyNzYgMjU2LDQ0MCAxMDAsMzUyIiBmaWxsPSJ1cmwoI2VzcSkiLz48cG9seWdvbiBwb2ludHM9IjI1NiwyNzYgNDEyLDE4OCA0MTIsMzUyIDI1Niw0NDAiIGZpbGw9InVybCgjZGlyKSIvPjxwb2x5Z29uIHBvaW50cz0iMTkwLDEzNyAyMTIsMTI1IDM2OCwyMTMgMzQ2LDIyNSIgZmlsbD0iI0ZGRkZGRiIgZmlsbC1vcGFjaXR5PSIuODUiLz48cG9seWdvbiBwb2ludHM9IjM0NiwyMjUgMzY4LDIxMyAzNjgsMjY1IDM0NiwyNzciIGZpbGw9IiNGRkZGRkYiIGZpbGwtb3BhY2l0eT0iLjU1Ii8+PHBvbHlsaW5lIHBvaW50cz0iMTAwLDE4OCAyNTYsMjc2IDQxMiwxODgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGRkZGRiIgc3Ryb2tlLW9wYWNpdHk9Ii4zNSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGxpbmUgeDE9IjI1NiIgeTE9IjI3NiIgeDI9IjI1NiIgeTI9IjQ0MCIgc3Ryb2tlPSIjRkZGRkZGIiBzdHJva2Utb3BhY2l0eT0iLjI1IiBzdHJva2Utd2lkdGg9IjQiLz48L3N2Zz4=">Controle de estoque</h1>
         <p>Almoxarifado · Manutenção técnica</p>
         <div class="estado"><span class="ponto"></span><span id="estadoTxt">carregando…</span>
-          <span class="selo" title="versão deste programa">v200 · Supabase</span></div>
+          <span class="selo" title="versão deste programa">v201 · documentos arquivados</span></div>
       </div>
       <div class="direita">
         <span class="cracha" id="cracha">—</span>
@@ -769,7 +769,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
       <button class="btn ghost sm" id="irDocs" style="display:none" title="abre no Google Drive a pasta com todas as requisições e comprovantes">Pasta de documentos</button>
         <button class="btn sm" id="irTV" title="tela cheia para TV/monitor, atualiza sozinha">Modo TV</button>
         <button class="btn ghost sm" id="ativarAvisos" style="display:none" title="receber neste celular os avisos de pedido de troca e saída de material">🔔 Ativar avisos</button>
-        <button class="btn ghost sm" id="irSupabase" style="display:none" title="copia todos os dados da planilha para o Supabase (só o administrador sênior)">⇪ Levar para o Supabase</button> <button class="btn sm" id="sair">Sair</button>
+        <button class="btn ghost sm" id="irSupabase" style="display:none" title="copia todos os dados da planilha para o Supabase (só o administrador sênior)">⇪ Levar para o Supabase</button> <a class="btn ghost sm" id="irDocumentos" href="documentos.html" target="_blank" rel="noopener">📁 Documentos</a> <button class="btn sm" id="sair">Sair</button>
       </div>
     </header>
   </div>
@@ -995,7 +995,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
     <span class="discreto">
       <button id="json">exportar backup</button><b>·</b><button id="import">importar</button>
     </span>
-    <span class="versao" title="versão deste programa">v200 · Supabase</span>
+    <span class="versao" title="versão deste programa">v201 · documentos arquivados</span>
 </footer>
 </div>
 
@@ -3458,6 +3458,7 @@ async function liberarSaida(req){
   await persist(['mov','tro']); render();
   toast('Saída liberada.'+(tr?' O técnico é avisado.':''));
   try{ printMov(itens[0]); }catch(e){}   /* o documento da requisição sai agora, para assinar */
+  arquivaLiberacao(itens,tr);   /* v201: requisição guardada em Documentos */
 }
 async function recusarSaida(req){
   if(!podeLiberar()) return barra('Só o administrador sênior ou quem pode liberar saídas.');
@@ -3625,6 +3626,7 @@ async function faltaMaterial(t){
   t.status='compra'; t.falta=lista; t.compraEm=agora(); t.atualizadoEm=new Date().toISOString();
   registra('Pedido aguardando compra',t.onde,t.numero);
   await persist(['tro']); render(); toast('Pedido '+t.numero+' aguardando compra.');
+  arquivaCompra(t);   /* v201: solicitação de compra guardada em Documentos */
 }
 async function receberDevolucao(t){
   if(!pode('lancar')) return barra('Seu perfil não permite lançar.');
@@ -5776,6 +5778,7 @@ async function salvarMov(){
     render();persist(['mov','mat','cad']);
     if(relAtual&&!$('#panRel').hidden)gerar();
     toast(era?'Entrada atualizada.':'Entrada registrada.');
+    if(!era) arquivaEntrada(o);   /* v201: comprovante de entrada guardado em Documentos */
     /* continua na tela editando ESTA entrada: Salvar e depois Fechar não pode gravar duas vezes */
     editMov=o.id;
     const tt=$('#movTitle'); if(tt) tt.textContent='Editar entrada';
@@ -7514,6 +7517,73 @@ $('#sbLSenha').addEventListener('keydown',e=>{ if(e.key==='Enter') sbFazerLogin(
 { const sairOrig=$('#sair').onclick; $('#sair').onclick=()=>{ sbGuardaAuth(null); try{ localStorage.removeItem('alm:sessao'); }catch(e){} sairOrig(); }; }
 /* o que era da planilha some desta versão */
 document.head.insertAdjacentHTML('beforeend','<style>.chip.cad[data-cad="usuarios"],#irSupabase,#backupAgora{display:none!important}</style>');
+
+/* =====================================================================
+   v201 — DOCUMENTOS ARQUIVADOS
+   Toda autorização gera o documento e guarda no Supabase (pasta documentos):
+   saída e troca na liberação, entrada ao registrar (com o XML da nota),
+   solicitação de compra ao marcar falta de material. Ver em documentos.html.
+   ===================================================================== */
+let xmlUltimo={chave:'',texto:''};
+{ const lerOrig=lerXMLnota;
+  lerXMLnota=function(txt){ const r=lerOrig.apply(this,arguments);
+    try{ const m=String(txt).match(/Id="NFe(\d{44})"/)||String(txt).match(/<chNFe>(\d{44})<\/chNFe>/); xmlUltimo={chave:m?m[1]:'',texto:String(txt)}; }catch(e){}
+    return r; }; }
+async function sbGuardaArquivo(caminho,blob,tipo){
+  const r=await fetch(SB_URL+'/storage/v1/object/documentos/'+caminho,{method:'POST',
+    headers:{apikey:SB_ANON,Authorization:'Bearer '+await sbTokenValido(),'Content-Type':tipo,'x-upsert':'false'},body:blob});
+  if(!r.ok){ let t=''; try{ t=await r.text(); }catch(e){} throw new Error(r.status+' '+t.slice(0,160)); }
+}
+async function arquivarDocumento(o){
+  try{
+    const id='doc-'+Date.now()+'-'+Math.random().toString(36).slice(2,6), base=o.tipo+'/'+id;
+    let pdf=null, xml=null;
+    if(o.pdf){ await sbGuardaArquivo(base+'.pdf',o.pdf,'application/pdf'); pdf=base+'.pdf'; }
+    if(o.xml){ await sbGuardaArquivo(base+'.xml',new Blob([o.xml],{type:'text/xml'}),'text/xml'); xml=base+'.xml'; }
+    const r=await sbApi('/rest/v1/est_documentos',{method:'POST',headers:{Prefer:'return=representation'},body:JSON.stringify({
+      id, tipo:o.tipo, titulo:o.titulo, ref:o.ref||null, os:o.os||null, nf:o.nf||null, chave:o.chave||null, destino:o.destino||null,
+      quem:o.quem||null, autorizado_por:sessao?sessao.nome:null, pdf_path:pdf, xml_path:xml, resumo:o.resumo||null})});
+    const j=await r.json();
+    toast('Documento '+((j&&j[0]&&j[0].numero)||'')+' guardado em Documentos.');
+  }catch(e){ toast('O documento não foi guardado em Documentos: '+e.message); }
+}
+function pdfBlobMov(v){ try{ const d=pdfMovimento(v,'blob'); return d?d.output('blob'):null; }catch(e){ return null; } }
+function arquivaLiberacao(itens,tr){
+  const v0=itens[0]||{}, troca=!!(tr&&tr.tipo!=='material');
+  arquivarDocumento({tipo:troca?'troca':'saida', titulo:troca?'Requisição de troca':'Requisição de saída',
+    ref:tr?tr.numero:(v0.reqId||v0.id), os:v0.os, destino:v0.destino, quem:v0.retirado,
+    pdf:pdfBlobMov(v0), resumo:{itens:itens.map(v=>({material:(mat(v.materialId)||{}).nome||'', qtd:num(v.qtd), series:v.series||''}))}});
+}
+function arquivaEntrada(o){
+  const chave=soChave(o.chave||'');
+  arquivarDocumento({tipo:'entrada', titulo:'Comprovante de entrada', ref:o.id, nf:o.nf, chave:chave||null, quem:o.origem,
+    pdf:pdfBlobMov(o), xml:(chave&&xmlUltimo.chave===chave)?xmlUltimo.texto:null,
+    resumo:{material:(mat(o.materialId)||{}).nome||'', qtd:num(o.qtd), preco:num(o.preco), motivo:o.motivo||''}});
+}
+function pdfCompra(t){
+  try{
+    const doc=new window.jspdf.jsPDF({unit:'mm',format:'a4'}), M=16; let y=M+4;
+    try{ doc.addImage(LOGO_ESCURA,'PNG',M,y-4,26,10.1); }catch(e){}
+    doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor(110); doc.text('MANUTENÇÃO TÉCNICA  ·  ALMOXARIFADO', M+30, y+2.5); y+=12;
+    doc.setFont('helvetica','bold'); doc.setFontSize(15); doc.setTextColor(25); doc.text('Solicitação de compra', M, y); y+=6;
+    doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(110); doc.text('Pedido '+(t.numero||'')+'  ·  '+dtBR(agora()), M, y); y+=9;
+    const linha=(r,v)=>{ doc.setFontSize(9); doc.setTextColor(90); doc.text(r, M, y); doc.setTextColor(25); doc.text(doc.splitTextToSize(String(v||'—'),120), M+42, y); y+=7; };
+    linha('Ordem de serviço', t.os); linha('Onde', t.onde); linha('Pedido por', t.quem); linha('Autorizado por', sessao?sessao.nome:'');
+    y+=3; doc.setFont('helvetica','bold'); doc.setFontSize(11); doc.setTextColor(25); doc.text('O que comprar', M, y); y+=7;
+    doc.setFont('helvetica','normal'); doc.setFontSize(10);
+    String(t.falta||'').split(/,\s*/).filter(Boolean).forEach(f=>{ doc.text('• '+f, M+2, y); y+=6; });
+    const lojas=(t.itens||[]).map(i=>i.loja).filter(Boolean);
+    if(lojas.length){ y+=3; doc.setFontSize(9); doc.setTextColor(90); doc.text('Onde comprar (sugestão): '+lojas.join(' · '), M, y); y+=8; }
+    y=Math.max(y+20,230); doc.setDrawColor(70); doc.line(M,y,M+70,y); doc.line(120,y,190,y);
+    doc.setFontSize(8.5); doc.setTextColor(90); doc.text('Almoxarifado', M, y+5); doc.text('Aprovação da compra', 120, y+5);
+    doc.setFontSize(7.2); doc.setTextColor(130); doc.text('Emitido em '+dtBR(agora()), M, 288);
+    return doc.output('blob');
+  }catch(e){ return null; }
+}
+function arquivaCompra(t){
+  arquivarDocumento({tipo:'compra', titulo:'Solicitação de compra', ref:t.numero, os:t.os, destino:t.onde, quem:t.quem,
+    pdf:pdfCompra(t), resumo:{falta:t.falta||'', lojas:(t.itens||[]).map(i=>i.loja).filter(Boolean)}});
+}
 
 /* v122: o SGI abre o estoque direto na tela certa (#entrada-xml, #entrada, #saida, #pedidos) */
 function abrirPeloLink(){

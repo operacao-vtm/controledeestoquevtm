@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Documentos do almoxarifado · VTM</title>
+<style>
+:root{--bg:#F4F5F8;--card:#fff;--ink:#1d2030;--muted:#6b7086;--line:#e2e4ee;--brand:#E5397F;--ok:#1b7f3b}
+@media (prefers-color-scheme:dark){:root{--bg:#121218;--card:#1c1b24;--ink:#ececf3;--muted:#9b9db0;--line:#2e2d3a}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",Arial,sans-serif}
+header{padding:18px 20px 8px;max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+h1{margin:0;font-size:22px}.sub{color:var(--muted);font-size:13px;margin-top:3px}
+main{max-width:1100px;margin:0 auto;padding:6px 20px 40px}
+.filtros{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0 14px}
+.chip{border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:8px 14px;font:inherit;font-size:13.5px;cursor:pointer}
+.chip.on{border-color:var(--brand);background:color-mix(in srgb,var(--brand) 12%,var(--card));font-weight:700}
+input,select{font:inherit;font-size:14px;padding:9px 11px;border-radius:10px;border:1.5px solid var(--line);background:var(--card);color:var(--ink)}
+#busca{flex:1;min-width:220px}
+table{width:100%;border-collapse:collapse;background:var(--card);border-radius:14px;overflow:hidden;font-size:14px}
+th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.tag{display:inline-block;border-radius:999px;padding:2px 9px;font-size:12px;font-weight:700}
+.t-saida{background:#FDE7E7;color:#B42318}.t-troca{background:#FCE7F2;color:#B4236B}.t-entrada{background:#E6F4EA;color:#1b7f3b}.t-compra{background:#E8EEFB;color:#2F4F9C}
+.abrir{border:1.5px solid var(--brand);color:var(--brand);background:transparent;border-radius:9px;padding:6px 11px;font:inherit;font-size:13px;font-weight:700;cursor:pointer;margin:2px 4px 2px 0}
+.vazio{padding:40px;text-align:center;color:var(--muted)}
+.btn{border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;padding:8px 13px;font:inherit;cursor:pointer}
+#login{position:fixed;inset:0;background:rgba(10,8,14,.9);display:none;align-items:center;justify-content:center;padding:20px;z-index:9}
+#login .caixa{background:var(--card);border-radius:16px;padding:22px;max-width:380px;width:100%}
+#login input{width:100%;margin:4px 0 10px}
+.scroll{overflow-x:auto}
+</style>
+</head>
+<body>
+<header>
+  <div><h1>📁 Documentos do almoxarifado</h1><div class="sub">Requisições de saída e de troca, comprovantes de entrada (com o XML da nota) e solicitações de compra.</div></div>
+  <div><span id="quem" class="sub"></span> <button class="btn" id="sair">Sair</button></div>
+</header>
+<main>
+  <div class="filtros">
+    <button class="chip on" data-tipo="">Todos</button>
+    <button class="chip" data-tipo="saida">Saídas</button>
+    <button class="chip" data-tipo="troca">Trocas</button>
+    <button class="chip" data-tipo="entrada">Entradas e notas</button>
+    <button class="chip" data-tipo="compra">Solicitações de compra</button>
+  </div>
+  <div class="filtros">
+    <input id="busca" placeholder="buscar por número, OS, nota fiscal, pedido, destino ou pessoa">
+    <input type="date" id="de" title="de"> <input type="date" id="ate" title="até">
+  </div>
+  <div class="scroll"><table><thead><tr><th>Documento</th><th>Tipo</th><th>Data</th><th>Referência</th><th>Destino / quem</th><th>Arquivos</th></tr></thead><tbody id="lista"></tbody></table></div>
+  <p class="sub" id="conta"></p>
+</main>
+<div id="login"><div class="caixa">
+  <h2 style="margin:0 0 6px">Documentos · entrar</h2>
+  <p class="sub" style="margin:0 0 12px">O mesmo e-mail e senha do estoque e do Painel de OS.</p>
+  <label class="sub">E-mail</label><input id="email" type="email" autocomplete="username">
+  <label class="sub">Senha</label><input id="senha" type="password" autocomplete="current-password">
+  <p id="aviso" class="sub" style="color:#b3261e;min-height:18px"></p>
+  <button class="abrir" id="entrar" style="width:100%;padding:11px">Entrar</button>
+</div></div>
+<script>
+const SB_URL='https://xqeyhsuoinayuwydyesu.supabase.co';
+const SB_ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhxZXloc3VvaW5heXV3eWR5ZXN1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI2ODM2NjAsImV4cCI6MjEwODI1OTY2MH0.qI3ExHVnS4gudCM4U4JSuPidzJUSVKneOcydoSLoMLw';
+const K='alm2:auth', $=id=>document.getElementById(id);
+const esc=t=>String(t==null?'':t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let auth=null; try{ auth=JSON.parse(localStorage.getItem(K)||'null'); }catch(e){}
+function guarda(j){ auth=j?{access_token:j.access_token,refresh_token:j.refresh_token,expires_at:j.expires_at||(Math.floor(Date.now()/1000)+(j.expires_in||3600)),uid:(j.user&&j.user.id)||(auth&&auth.uid)}:null;
+  try{ auth?localStorage.setItem(K,JSON.stringify(auth)):localStorage.removeItem(K); }catch(e){} }
+async function token(){
+  if(!auth) throw new Error('sem login');
+  if(Date.now()/1000>auth.expires_at-90){
+    const r=await fetch(SB_URL+'/auth/v1/token?grant_type=refresh_token',{method:'POST',headers:{apikey:SB_ANON,'Content-Type':'application/json'},body:JSON.stringify({refresh_token:auth.refresh_token})});
+    if(!r.ok){ guarda(null); throw new Error('sem login'); } guarda(await r.json());
+  }
+  return auth.access_token;
+}
+async function sb(caminho,op){ const o=op||{}; const r=await fetch(SB_URL+caminho,Object.assign({},o,{headers:Object.assign({apikey:SB_ANON,'Content-Type':'application/json',Authorization:'Bearer '+await token()},o.headers||{})}));
+  if(!r.ok) throw new Error(r.status+' '+(await r.text()).slice(0,160)); const t=await r.text(); return t?JSON.parse(t):null; }
+const ROT={saida:'Saída',troca:'Troca',entrada:'Entrada',compra:'Compra'};
+let docs=[], tipo='';
+const data=iso=>{ const d=new Date(iso); return isNaN(d)?'':d.toLocaleDateString('pt-BR')+' '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}); };
+function desenha(){
+  const q=$('busca').value.trim().toLowerCase(), de=$('de').value, ate=$('ate').value;
+  const L=docs.filter(d=>(!tipo||d.tipo===tipo)
+    &&(!q||[d.numero,d.titulo,d.ref,d.os,d.nf,d.chave,d.destino,d.quem,d.autorizado_por].join(' ').toLowerCase().includes(q))
+    &&(!de||String(d.criado_em).slice(0,10)>=de)&&(!ate||String(d.criado_em).slice(0,10)<=ate));
+  $('lista').innerHTML=L.length?L.map(d=>'<tr><td><b>'+esc(d.numero)+'</b><div class="sub">'+esc(d.titulo||'')+'</div></td>'+
+    '<td><span class="tag t-'+esc(d.tipo)+'">'+(ROT[d.tipo]||esc(d.tipo))+'</span></td><td>'+data(d.criado_em)+'</td>'+
+    '<td>'+[d.ref?'Ref. '+esc(d.ref):'',d.os?esc(d.os):'',d.nf?'NF '+esc(d.nf):''].filter(Boolean).join('<br>')+'</td>'+
+    '<td>'+[esc(d.destino||''),d.quem?esc(d.quem):'',d.autorizado_por?'<span class="sub">autorizado por '+esc(d.autorizado_por)+'</span>':''].filter(Boolean).join('<br>')+'</td>'+
+    '<td>'+(d.pdf_path?'<button class="abrir" data-arq="'+esc(d.pdf_path)+'">PDF</button>':'')+(d.xml_path?'<button class="abrir" data-arq="'+esc(d.xml_path)+'">XML</button>':'')+'</td></tr>').join('')
+    :'<tr><td colspan="6" class="vazio">Nenhum documento com esse filtro.</td></tr>';
+  $('conta').textContent=L.length+' de '+docs.length+' documento(s)';
+  $('lista').querySelectorAll('[data-arq]').forEach(b=>b.onclick=()=>abrir(b.dataset.arq,b));
+}
+async function abrir(caminho,b){
+  const janela=window.open('','_blank');
+  try{
+    const r=await sb('/storage/v1/object/sign/documentos/'+caminho.split('/').map(encodeURIComponent).join('/'),{method:'POST',body:JSON.stringify({expiresIn:600})});
+    const url=SB_URL+'/storage/v1'+(r.signedURL||r.signedUrl);
+    if(janela) janela.location=url; else location.href=url;
+  }catch(e){ if(janela) janela.close(); alert('Não foi possível abrir: '+e.message); }
+}
+async function carregar(){
+  try{
+    docs=await sb('/rest/v1/est_documentos?select=*&order=criado_em.desc&limit=2000')||[];
+    const eu=(await sb('/rest/v1/rpc/est_usuarios',{method:'POST',body:'{}'})||[]).find(p=>p.id===auth.uid);
+    $('quem').textContent=eu?eu.nome:'';
+    desenha();
+  }catch(e){ if(/sem login|401/.test(e.message)){ guarda(null); $('login').style.display='flex'; } else $('lista').innerHTML='<tr><td colspan="6" class="vazio">Não foi possível carregar: '+esc(e.message)+'</td></tr>'; }
+}
+document.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{ tipo=c.dataset.tipo; document.querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x===c)); desenha(); });
+['busca','de','ate'].forEach(id=>$(id).addEventListener('input',desenha));
+$('entrar').onclick=async()=>{
+  $('aviso').textContent='';
+  try{ const r=await fetch(SB_URL+'/auth/v1/token?grant_type=password',{method:'POST',headers:{apikey:SB_ANON,'Content-Type':'application/json'},body:JSON.stringify({email:$('email').value.trim(),password:$('senha').value})});
+    if(!r.ok) throw new Error('e-mail ou senha incorretos'); guarda(await r.json()); $('login').style.display='none'; carregar();
+  }catch(e){ $('aviso').textContent='Não foi possível entrar: '+e.message; }
+};
+$('senha').addEventListener('keydown',e=>{ if(e.key==='Enter') $('entrar').click(); });
+$('sair').onclick=()=>{ guarda(null); location.reload(); };
+{ const h=location.hash.replace('#',''); if(ROT[h]){ tipo=h; document.querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x.dataset.tipo===h)); } }
+if(!auth) $('login').style.display='flex'; else carregar();
+</script>
+</body>
+</html>
