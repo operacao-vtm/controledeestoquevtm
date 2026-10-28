@@ -696,6 +696,19 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
 .foto-prev img{width:100%;height:100%;object-fit:cover}
 .foto-bts{display:flex;flex-direction:column;gap:6px}
 .mat-foto{width:100%;height:120px;object-fit:cover;border-radius:10px;margin-bottom:8px;border:1px solid var(--hair2)}
+
+/* v123: entrada em duas etapas, como no SGI */
+.como-ent{margin:0 0 14px}
+.como-tit{font-weight:800;font-size:15px;margin:10px 0 8px}
+.como-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.como-4{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px}
+.como-bt,.como-mini{display:flex;flex-direction:column;align-items:flex-start;gap:3px;text-align:left;padding:14px;border-radius:12px;
+  border:2px solid var(--line,#3a3a44);background:transparent;color:inherit;font:inherit;cursor:pointer}
+.como-mini{padding:10px 12px;border-width:1.5px}
+.como-bt b{font-size:16px}.como-bt small,.como-mini small{font-size:12px;opacity:.75}
+.como-bt.on,.como-mini.on{border-color:var(--brand);background:color-mix(in srgb,var(--brand) 12%,transparent)}
+.como-sub{margin-top:4px}
+@media (max-width:560px){.como-2{grid-template-columns:1fr}}
 </style>
 <style>
 /* ---------- tela de abertura: aparece no instante em que o aplicativo abre ---------- */
@@ -746,7 +759,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
         <h1><img class="icone-app" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InRvcG8iIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNGN0I4NEEiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNFRTZCNTciLz48L2xpbmVhckdyYWRpZW50PjxsaW5lYXJHcmFkaWVudCBpZD0iZXNxIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRTgyMzdGIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjQjgxNDVGIi8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImRpciIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzZGQ0JFNiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzhFNkZCMCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iMTE2IiBmaWxsPSIjMEUwQjEyIi8+PHBvbHlnb24gcG9pbnRzPSIyNTYsMTAwIDQxMiwxODggMjU2LDI3NiAxMDAsMTg4IiBmaWxsPSJ1cmwoI3RvcG8pIi8+PHBvbHlnb24gcG9pbnRzPSIxMDAsMTg4IDI1NiwyNzYgMjU2LDQ0MCAxMDAsMzUyIiBmaWxsPSJ1cmwoI2VzcSkiLz48cG9seWdvbiBwb2ludHM9IjI1NiwyNzYgNDEyLDE4OCA0MTIsMzUyIDI1Niw0NDAiIGZpbGw9InVybCgjZGlyKSIvPjxwb2x5Z29uIHBvaW50cz0iMTkwLDEzNyAyMTIsMTI1IDM2OCwyMTMgMzQ2LDIyNSIgZmlsbD0iI0ZGRkZGRiIgZmlsbC1vcGFjaXR5PSIuODUiLz48cG9seWdvbiBwb2ludHM9IjM0NiwyMjUgMzY4LDIxMyAzNjgsMjY1IDM0NiwyNzciIGZpbGw9IiNGRkZGRkYiIGZpbGwtb3BhY2l0eT0iLjU1Ii8+PHBvbHlsaW5lIHBvaW50cz0iMTAwLDE4OCAyNTYsMjc2IDQxMiwxODgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGRkZGRiIgc3Ryb2tlLW9wYWNpdHk9Ii4zNSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGxpbmUgeDE9IjI1NiIgeTE9IjI3NiIgeDI9IjI1NiIgeTI9IjQ0MCIgc3Ryb2tlPSIjRkZGRkZGIiBzdHJva2Utb3BhY2l0eT0iLjI1IiBzdHJva2Utd2lkdGg9IjQiLz48L3N2Zz4=">Controle de estoque</h1>
         <p>Almoxarifado · Manutenção técnica</p>
         <div class="estado"><span class="ponto"></span><span id="estadoTxt">carregando…</span>
-          <span class="selo" title="versão deste programa">v121 · conferência e liberação da saída</span></div>
+          <span class="selo" title="versão deste programa">v123 · entrada com nota e sem nota, como no SGI</span></div>
       </div>
       <div class="direita">
         <span class="cracha" id="cracha">—</span>
@@ -982,7 +995,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
     <span class="discreto">
       <button id="json">exportar backup</button><b>·</b><button id="import">importar</button>
     </span>
-    <span class="versao" title="versão deste programa">v121 · conferência e liberação da saída</span>
+    <span class="versao" title="versão deste programa">v123 · entrada com nota e sem nota, como no SGI</span>
 </footer>
 </div>
 
@@ -1114,8 +1127,30 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
       </fieldset>
 
       <fieldset id="fsEntrada">
-<legend>Origem da entrada</legend>
-<div class="fgrid">
+        <legend>Origem da entrada</legend>
+        <div class="como-ent" id="comoEnt">
+          <div class="como-tit">1 · Como o material chegou?</div>
+          <div class="como-2">
+            <button type="button" class="como-bt" data-modo="com"><b>🧾 Com nota fiscal</b><small>Compra com NF</small></button>
+            <button type="button" class="como-bt" data-modo="sem"><b>📦 Sem nota fiscal</b><small>Recibo, doação, devolução, sobra, substituição, incorporação ou outro</small></button>
+          </div>
+          <div id="comoCom" class="como-sub" hidden>
+            <div class="como-tit">2 · Como a nota vai entrar?</div>
+            <div class="como-4">
+              <button type="button" class="como-mini" data-nota="xml">📄 <b>XML da nota</b><small>cadastra tudo de uma vez</small></button>
+              <button type="button" class="como-mini" data-nota="arquivo">📑 <b>PDF ou Excel</b><small>lê a chave da nota</small></button>
+              <button type="button" class="como-mini" data-nota="bipar">🔦 <b>Bipar a chave</b><small>leitor no código de barras</small></button>
+              <button type="button" class="como-mini" data-nota="digitar">⌨️ <b>Digitar a nota</b><small>sem foto nem arquivo</small></button>
+            </div>
+            <input type="file" id="notaArq" accept=".pdf,.xlsx,.xls,.csv,application/pdf" style="display:none">
+          </div>
+          <div id="comoSem" class="como-sub" hidden>
+            <div class="como-tit">2 · Como o bem chegou?</div>
+            <div class="como-4" id="comoSemOpcoes"></div>
+            <p class="hint" id="comoSemDica" style="margin:6px 0 0"></p>
+          </div>
+        </div>
+        <div class="fgrid" id="entCampos">
 <div class="f wide"><label for="v_chave">Chave de acesso da NF-e · 44 dígitos</label>
   <input id="v_chave" class="mono" inputmode="numeric" maxlength="60" placeholder="bipe o código de barras do DANFE ou cole a chave">
   <p class="hint" id="v_chaveInfo" style="margin:6px 0 0"></p>
@@ -1138,10 +1173,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
               <option value="minimo">Reposição de estoque mínimo</option>
               <option value="zerado">Reposição de item zerado</option>
               <option value="os">Compra para ordem de serviço</option>
-              <option value="devolucao">Devolução de material não usado</option>
-              <option value="transferencia">Transferência de outro setor</option>
-              <option value="inicial">Inventário inicial</option>
-              <option value="outro">Outro motivo</option>
+              <option value="recibo">Compra com recibo ou cupom</option> <option value="doacao">Doação</option> <option value="devolucao">Devolução</option> <option value="sobra">Sobra de serviço</option> <option value="transferencia">Transferência de outro setor</option> <option value="inicial">Incorporação por inventário</option> <option value="outro">Outra forma</option>
             </select></div>
           <div class="f" id="boxJustifica"><label for="v_justifica" id="rotJustifica">Justificativa</label>
             <input id="v_justifica" placeholder="por que esta entrada aconteceu"></div>
@@ -2191,6 +2223,7 @@ function entrar(){
   aba('tabRel'); ladoAtual='estoque'; pintaLado();
   $('#r_visao').value='cartoes'; descreveVisao(); gerar();
   toast('Bem-vindo, '+u.nome+' · '+PERFIS[u.perfil].rotulo);
+  abrirPeloLink();
 }
 function pedeSenha(){
   const u=usuarios.find(x=>x.id===$('#listaUsuarios').value);
@@ -5365,14 +5398,17 @@ function resumoItens(){
 $('#addItem').onclick=()=>{ $('#itens').appendChild(linhaItem('','')); resumoItens(); };
 
 const MOTIVOS={minimo:'Reposição de estoque mínimo',zerado:'Reposição de item zerado',
-  os:'Compra para ordem de serviço',devolucao:'Devolução de material não usado',
-  transferencia:'Transferência de outro setor',inicial:'Inventário inicial',outro:'Outro motivo'};
+  os:'Compra para ordem de serviço',recibo:'Compra com recibo ou cupom',doacao:'Doação',devolucao:'Devolução',sobra:'Sobra de serviço',
+  transferencia:'Transferência de outro setor',inicial:'Incorporação por inventário',outro:'Outra forma'};
 function pintaMotivo(){
   const m=$('#v_motivo').value;
   const precisa=(m!=='minimo'&&m!=='zerado');
   $('#boxJustifica').style.display=precisa?'':'none';
-  $('#rotJustifica').textContent=m==='os'?'Nº da ordem de serviço':'Justificativa';
-  $('#v_justifica').placeholder=m==='os'?'OS-77':'por que esta entrada aconteceu';
+  const ROT={os:['Nº da ordem de serviço','OS-77'],sobra:['Nº da OS de onde voltou','OS-77'],recibo:['Nº do recibo ou cupom','ex.: recibo 1234'],
+    doacao:['Quem doou','empresa ou pessoa'],devolucao:['Quem devolveu','nome de quem estava com o material'],
+    transferencia:['Setor de origem','de qual setor veio'],inicial:['Onde foi achado','local do inventário'],outro:['Descreva como chegou','como este material chegou']};
+  const r=ROT[m]||['Justificativa','por que esta entrada aconteceu'];
+  $('#rotJustifica').textContent=r[0]; $('#v_justifica').placeholder=r[1];
 }
 $('#v_motivo').addEventListener('change',pintaMotivo);
 
@@ -5497,6 +5533,82 @@ $('#v_bipe').addEventListener('keydown',e=>{
 });
 (function(){ const t=document.getElementById('v_series'); if(t) t.addEventListener('input',contaSeries); })();
 
+/* ================================================================
+   v123 — ENTRADA COMO NO SGI: primeiro como chegou, depois o documento
+   ================================================================ */
+let entModo='';   // 'com' | 'sem' | '' (ainda não escolhido)
+const FORMAS_SEM=[['recibo','🧾','Compra com recibo','Recibo ou cupom.'],['doacao','🎁','Doação','Recebido sem custo.'],
+  ['devolucao','↩️','Devolução','Material emprestado que voltou.'],['sobra','🔧','Sobra de serviço','O que voltou de uma OS.'],
+  ['substituicao','⇄','Substituição','Danificado volta, bom sai.'],['inicial','🔎','Incorporação','Bem achado no inventário.'],
+  ['transferencia','🏢','Transferência','Veio de outro setor.'],['outro','✏️','Outra forma','Descreva como chegou.']];
+function pintaComo(){
+  document.querySelectorAll('#comoEnt .como-bt').forEach(b=>b.classList.toggle('on',b.dataset.modo===entModo));
+  $('#comoCom').hidden=entModo!=='com'; $('#comoSem').hidden=entModo!=='sem';
+  $('#entCampos').style.display=entModo?'':'none';
+  { const t=$('#v_trava'); if(t) t.style.display=entModo?'':'none';
+    const h=t&&t.previousElementSibling; if(h&&h.classList.contains('hint')) h.style.display=entModo==='com'?'':'none'; }
+  const sel=$('#v_motivo'), atual=sel.value;
+  const doModo=entModo==='com'?['minimo','zerado','os']:['recibo','doacao','devolucao','sobra','transferencia','inicial','outro'];
+  [...sel.options].forEach(o=>{ o.hidden=doModo.indexOf(o.value)<0; o.disabled=o.hidden; });
+  if(doModo.indexOf(atual)<0) sel.value=doModo[0];
+  /* campos só da nota fiscal */
+  const comNota=entModo==='com';
+  ['v_chave','v_frete','v_desc','v_nf'].forEach(id=>{ const e=$('#'+id); if(e){ const f=e.closest('.f'); if(f) f.style.display=comNota?'':'none'; } });
+  if(entModo==='sem'){
+    $('#comoSemOpcoes').innerHTML=FORMAS_SEM.map(f=>'<button type="button" class="como-mini'+(sel.value===f[0]?' on':'')+'" data-forma="'+f[0]+'">'+f[1]+' <b>'+f[2]+'</b><small>'+f[3]+'</small></button>').join('');
+    $('#comoSemOpcoes').querySelectorAll('[data-forma]').forEach(b=>b.onclick=()=>escolheForma(b.dataset.forma));
+  }
+  pintaMotivo(); leChaveEntrada();
+}
+function escolheForma(f){
+  if(f==='substituicao'){
+    $('#comoSemDica').innerHTML='A substituição tem caminho próprio: o equipamento danificado volta pelos <b>Retornos</b> do pedido de troca, e o bom sai pela requisição. <button type="button" class="btn ghost sm" id="irRetornos">Abrir Retornos</button>';
+    const b=$('#irRetornos'); if(b) b.onclick=()=>{ closeMov(); aba('tabMat'); const c=document.querySelector('.chip.cad[data-cad="retornos"]'); if(c) c.click(); };
+    $('#entCampos').style.display='none';
+    $('#comoSemOpcoes').querySelectorAll('[data-forma]').forEach(b=>b.classList.toggle('on',b.dataset.forma===f));
+    return;
+  }
+  $('#comoSemDica').textContent='';
+  $('#v_motivo').value=f; pintaComo();
+}
+document.querySelectorAll('#comoEnt .como-bt').forEach(b=>b.onclick=()=>{ entModo=b.dataset.modo; $('#comoSemDica').textContent=''; pintaComo(); });
+document.querySelectorAll('#comoCom .como-mini').forEach(b=>b.onclick=()=>{
+  const n=b.dataset.nota;
+  if(n==='xml') $('#xmlArq').click();
+  else if(n==='arquivo') $('#notaArq').click();
+  else { const c=$('#v_chave'); if(c){ c.focus(); c.select&&c.select(); }
+    toast(n==='bipar'?'Aponte o leitor para o código de barras do DANFE.':'Digite a chave de 44 dígitos impressa no DANFE e confira os dados.'); }
+});
+/* PDF ou Excel da nota: acha a chave de 44 dígitos e preenche a entrada */
+function carregaScript(src){ return new Promise((ok,falha)=>{ if(document.querySelector('script[src="'+src+'"]')) return ok();
+  const e=document.createElement('script'); e.src=src; e.onload=ok; e.onerror=()=>falha(new Error('sem internet')); document.head.appendChild(e); }); }
+function chaveNoTexto(t){
+  const limpo=String(t||'').replace(/[^\d\s.\-\/]/g,' ');
+  const m=limpo.match(/(\d[\d .\-\/]{50,90}\d)/g)||[];
+  for(const x of m){ const d=x.replace(/\D/g,''); for(let i=0;i+44<=d.length;i++){ const c=d.slice(i,i+44); if(dvChaveNF(c.slice(0,43))===Number(c[43])&&['55','65'].indexOf(c.slice(20,22))>=0) return c; } }
+  return '';
+}
+async function lerArquivoNota(arq){
+  try{
+    let texto='';
+    if(/\.pdf$/i.test(arq.name)||arq.type==='application/pdf'){
+      await carregaScript('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js');
+      pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      const pdf=await pdfjsLib.getDocument({data:await arq.arrayBuffer()}).promise;
+      for(let i=1;i<=Math.min(pdf.numPages,3);i++){ const pg=await pdf.getPage(i); const c=await pg.getTextContent(); texto+=c.items.map(x=>x.str).join(' ')+'\n'; }
+    } else {
+      await carregaScript('https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js');
+      const wb=XLSX.read(await arq.arrayBuffer(),{type:'array'});
+      wb.SheetNames.forEach(n=>{ texto+=XLSX.utils.sheet_to_csv(wb.Sheets[n])+'\n'; });
+    }
+    const c=chaveNoTexto(texto);
+    if(!c){ toast('Não achei a chave da nota neste arquivo. Use o XML ou bipe a chave no DANFE.'); return; }
+    $('#v_chave').value=c; await leChaveEntrada();
+    toast('Chave da nota lida do arquivo. Confira o produto, a quantidade e o preço.');
+  }catch(e){ toast('Não foi possível ler o arquivo: '+e.message); }
+}
+$('#notaArq').onchange=e=>{ const f=e.target.files[0]; e.target.value=''; if(f) lerArquivoNota(f); };
+
 function pintaTipo(){
   const ent=tipoMov==='entrada';
   $('#fsEntrada').style.display=ent?'':'none';
@@ -5508,7 +5620,12 @@ function pintaTipo(){
   if(bs){ bs.style.background=ent?'var(--in)':'var(--out)';
     bs.style.color=ent?'#04231A':'#04121F';
     bs.style.borderColor=ent?'var(--in)':'var(--out)'; }
-  if(ent){ mostraSaldo(); pintaMotivo(); contaSeries(); } else resumoItens();
+  if(ent){
+    const v=editMov?movs.find(x=>x.id===editMov):null;
+    entModo=v?((MOTIVOS_COM_NOTA.indexOf(v.motivo)>=0||v.chave)?'com':'sem'):'';
+    $('#comoSemDica').textContent='';
+    pintaComo(); mostraSaldo(); contaSeries();
+  } else resumoItens();
   leChaveEntrada();
 }
 function mostraSaldo(){
@@ -5581,7 +5698,9 @@ async function salvarMov(){
 
   if(tipoMov==='entrada'){
     const o=Object.assign({},base,{id:editMov||'v-'+Date.now(),tipo:'entrada',materialId:$('#v_mat').value,usuario:(sessao?sessao.nome:'')});
-    if(o.motivo==='os') o.os=(o.justifica||'').toUpperCase();   /* a entrada fica amarrada à OS */
+    if(o.motivo==='os'||o.motivo==='sobra') o.os=(o.justifica||'').toUpperCase();   /* a entrada fica amarrada à OS */
+    if(o.motivo==='substituicao'){ toast('A substituição entra pelos Retornos do pedido de troca.'); return null; }
+    if(!entModo&&!editMov){ toast('Escolha primeiro: com nota fiscal ou sem nota fiscal.'); return null; }
     if(!o.motivo) o.motivo='minimo';
     o.qtd=num(o.qtd); o.preco=num(o.preco);
     if(!o.materialId){toast('Escolha o material.');return null;}
@@ -7212,6 +7331,23 @@ $('#previaCopiar').onclick=async()=>{
 
 (function(){const l=document.getElementById('logoTopo'); if(l)l.src=LOGO_CLARA;
   const b=document.getElementById('desfazer'); if(b)b.disabled=true;})();
+/* v122: o SGI abre o estoque direto na tela certa (#entrada-xml, #entrada, #saida, #pedidos) */
+function abrirPeloLink(){
+  const h=(location.hash||'').replace('#','');
+  if(!h||!sessao||sessao.perfil==='campo') return;
+  try{ history.replaceState(null,'',location.pathname+location.search); }catch(e){}
+  setTimeout(()=>{
+    if(h==='entrada-xml'){
+      openMov('entrada'); entModo='com'; pintaComo();
+      const b=document.querySelector('#comoCom [data-nota="xml"]');
+      if(b){ b.scrollIntoView({block:'center'}); b.style.outline='3px solid var(--brand)'; b.style.outlineOffset='3px'; }
+      toast('Toque em "XML da nota" e escolha o arquivo da nota.');
+    }
+    else if(h==='entrada'){ openMov('entrada'); entModo='sem'; pintaComo(); }
+    else if(h==='saida') openMov('saida');
+    else if(h==='pedidos'){ aba('tabMat'); const c=document.querySelector('.chip.cad[data-cad="trocas"]'); if(c) c.click(); }
+  },400);
+}
 load().then(()=>{
   try{ const g=localStorage.getItem('alm:sessao'); if(g) sessao=JSON.parse(g); }catch(e){}
   if(sessao&&!usuarios.some(u=>u.id===sessao.id&&u.perfil===sessao.perfil)) sessao=null;
@@ -7221,6 +7357,7 @@ load().then(()=>{
     else{
       aba('tabRel'); ladoAtual='estoque'; pintaLado();
       $('#r_visao').value='cartoes'; descreveVisao(); gerar();
+      abrirPeloLink();
     }
   } else abreLogin();
   fechaAbertura();
