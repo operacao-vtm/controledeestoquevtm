@@ -759,7 +759,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
         <h1><img class="icone-app" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InRvcG8iIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNGN0I4NEEiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNFRTZCNTciLz48L2xpbmVhckdyYWRpZW50PjxsaW5lYXJHcmFkaWVudCBpZD0iZXNxIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRTgyMzdGIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjQjgxNDVGIi8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImRpciIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzZGQ0JFNiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzhFNkZCMCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iMTE2IiBmaWxsPSIjMEUwQjEyIi8+PHBvbHlnb24gcG9pbnRzPSIyNTYsMTAwIDQxMiwxODggMjU2LDI3NiAxMDAsMTg4IiBmaWxsPSJ1cmwoI3RvcG8pIi8+PHBvbHlnb24gcG9pbnRzPSIxMDAsMTg4IDI1NiwyNzYgMjU2LDQ0MCAxMDAsMzUyIiBmaWxsPSJ1cmwoI2VzcSkiLz48cG9seWdvbiBwb2ludHM9IjI1NiwyNzYgNDEyLDE4OCA0MTIsMzUyIDI1Niw0NDAiIGZpbGw9InVybCgjZGlyKSIvPjxwb2x5Z29uIHBvaW50cz0iMTkwLDEzNyAyMTIsMTI1IDM2OCwyMTMgMzQ2LDIyNSIgZmlsbD0iI0ZGRkZGRiIgZmlsbC1vcGFjaXR5PSIuODUiLz48cG9seWdvbiBwb2ludHM9IjM0NiwyMjUgMzY4LDIxMyAzNjgsMjY1IDM0NiwyNzciIGZpbGw9IiNGRkZGRkYiIGZpbGwtb3BhY2l0eT0iLjU1Ii8+PHBvbHlsaW5lIHBvaW50cz0iMTAwLDE4OCAyNTYsMjc2IDQxMiwxODgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGRkZGRiIgc3Ryb2tlLW9wYWNpdHk9Ii4zNSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGxpbmUgeDE9IjI1NiIgeTE9IjI3NiIgeDI9IjI1NiIgeTI9IjQ0MCIgc3Ryb2tlPSIjRkZGRkZGIiBzdHJva2Utb3BhY2l0eT0iLjI1IiBzdHJva2Utd2lkdGg9IjQiLz48L3N2Zz4=">Controle de estoque</h1>
         <p>Almoxarifado · Manutenção técnica</p>
         <div class="estado"><span class="ponto"></span><span id="estadoTxt">carregando…</span>
-          <span class="selo" title="versão deste programa">v203 · plano de contas</span></div>
+          <span class="selo" title="versão deste programa">v204 · consumo real</span></div>
       </div>
       <div class="direita">
         <span class="cracha" id="cracha">—</span>
@@ -995,7 +995,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
     <span class="discreto">
       <button id="json">exportar backup</button><b>·</b><button id="import">importar</button>
     </span>
-    <span class="versao" title="versão deste programa">v203 · plano de contas</span>
+    <span class="versao" title="versão deste programa">v204 · consumo real</span>
 </footer>
 </div>
 
@@ -6099,7 +6099,10 @@ const VISOES={
     ['centrocusto','Por centro de custo','A que área o consumo pertence: Manutenção, Administração, TV Busão…'],
     ['os','Por ordem de serviço','Quanto de material cada ordem de serviço consumiu.'],
     ['mes','Por mês','Como as saídas se distribuem ao longo dos meses.'],
-    ['resumo','Resumo do período','Uma página para a reunião: saídas, quantidade, valor e destaques.']
+    ['resumo','Resumo do período','Uma página para a reunião: saídas, quantidade, valor e destaques.'],
+    ['consumoOS','Consumo real por OS','O que saiu menos o que voltou no retorno de serviço, por ordem de serviço.'],
+    ['consumoLocal','Consumo real por local','O que cada terminal, estação ou cliente consumiu de verdade (saiu − voltou).'],
+    ['consumoConta','Consumo real por mês e conta','A evolução do consumo em cada grupo e subgrupo do plano de contas.']
   ],
   registros:[
     ['produto','Por produto','Tudo que foi cadastrado como produto: mínimo, preço, onde fica, quem registrou.'],
@@ -6629,6 +6632,29 @@ function montar(f){
     if(T.ac) R.filtros.push('Há produtos sem natureza: as saídas deles aparecem em "sem natureza". Classifique em Completar cadastros.');
   }
 
+  if(f.lado==='saidas'&&/^consumo(OS|Local|Conta)$/.test(f.visao)){   /* v204: consumo real = saiu − voltou */
+    const C=consumoReal(f), soma=(L,k)=>L.reduce((s,x)=>s+x[k],0);
+    const agrupa=chave=>{ const G={}; C.forEach(x=>{ const k=chave(x); (G[k]=G[k]||[]).push(x); }); return G; };
+    if(f.visao==='consumoOS'){
+      R.titulo='Consumo real por ordem de serviço';
+      R.cols=['Ordem de serviço','Destino','Itens','Saiu (R$)','Voltou (R$)','Consumo real (R$)'];
+      Object.entries(agrupa(x=>x.os||'sem OS')).map(([k,L])=>({k,L,v:soma(L,'liq')})).sort((a,b)=>b.v-a.v).forEach(g=>{
+        R.rows.push([g.k,[...new Set(g.L.map(x=>x.destino).filter(Boolean))].join(', ')||'—',{v:g.L.length,n:true},{v:brl(soma(g.L,'saiu')),n:true},{v:brl(soma(g.L,'voltou')),n:true},{v:brl(g.v),n:true}]); R.meta.push({}); });
+    }else if(f.visao==='consumoLocal'){
+      R.titulo='Consumo real por local';
+      R.cols=['Local / destino','Ordens de serviço','Saiu (R$)','Voltou (R$)','Consumo real (R$)'];
+      Object.entries(agrupa(x=>x.destino||'sem destino')).map(([k,L])=>({k,L,v:soma(L,'liq')})).sort((a,b)=>b.v-a.v).forEach(g=>{
+        R.rows.push([g.k,{v:new Set(g.L.map(x=>x.os).filter(Boolean)).size,n:true},{v:brl(soma(g.L,'saiu')),n:true},{v:brl(soma(g.L,'voltou')),n:true},{v:brl(g.v),n:true}]); R.meta.push({}); });
+    }else{
+      R.titulo='Consumo real por mês e conta';
+      R.cols=['Mês','Grupo','Subgrupo','Quantidade','Consumo real (R$)'];
+      Object.entries(agrupa(x=>x.mes+'|'+x.grupo+'|'+x.sub)).sort((a,b)=>a[0].localeCompare(b[0],'pt-BR')).forEach(([k,L])=>{
+        const [mes,grupo,sub]=k.split('|');
+        R.rows.push([mes.split('-').reverse().join('/'),grupo,sub,{v:soma(L,'qtdLiq'),n:true},{v:brl(soma(L,'liq')),n:true}]); R.meta.push({}); });
+    }
+    R.totais=[['Saiu',brl(soma(C,'saiu'))],['Voltou no retorno de serviço',brl(soma(C,'voltou'))],['Consumo real',brl(soma(C,'liq'))]];
+    R.filtros.push('Consumo real = saídas liberadas − sobras e devoluções registradas no retorno de serviço. Equipamentos não entram: vão para o Patrimônio.');
+  }
   if(f.lado==='estoque'&&f.visao==='conta'){   /* v203: plano de contas */
     R.titulo='Estoque por conta contábil';
     R.cols=['Grupo','Subgrupo','Materiais','Entradas no período','Saídas no período','Valor em estoque hoje'];
@@ -7840,4 +7866,21 @@ function pintaSubgrupos(){
 }
 { const nat=$('#m_natureza'); if(nat) nat.addEventListener('change',pintaSubgrupos);
   const sub=$('#m_subgrupo'); if(sub) sub.addEventListener('focus',pintaSubgrupos); }
+
+/* v204: consumo real — cada linha de saída liberada, menos o que voltou dela no retorno de serviço */
+function consumoReal(f){
+  const dentro=v=>{ const d=String(v.data||'').slice(0,10); return (!f.de||d>=f.de)&&(!f.ate||d<=f.ate); };
+  const voltou={};   /* req|material → quantidade que voltou */
+  movs.filter(v=>v.tipo==='entrada'&&/req:/.test(String(v.obs||''))).forEach(v=>{
+    const req=String(v.obs).split('req:')[1].trim(); const k=req+'|'+v.materialId; voltou[k]=(voltou[k]||0)+num(v.qtd); });
+  const L=[];
+  movs.filter(v=>v.tipo==='saida'&&!v.pendente&&dentro(v)&&(!f.mat||v.materialId===f.mat)&&tem(v.destino,f.destino)&&tem(v.os,f.os)).forEach(v=>{
+    const m=mat(v.materialId)||{}; if(m.natureza==='equipamento') return;
+    const p=num(m.preco)||num(v.preco), q=num(v.qtd), k=(v.reqId||v.id)+'|'+v.materialId;
+    const vq=Math.min(q,voltou[k]||0); if(voltou[k]) voltou[k]-=vq;
+    L.push({os:v.os||'',destino:v.destino||'',mes:String(v.data||'').slice(0,7),grupo:grupoContabil(m),sub:String(m.subgrupo||'').trim()||'sem subgrupo',
+      saiu:q*p,voltou:vq*p,liq:(q-vq)*p,qtdLiq:q-vq});
+  });
+  return L;
+}
 </script>
