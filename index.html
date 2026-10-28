@@ -759,7 +759,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
         <h1><img class="icone-app" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InRvcG8iIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNGN0I4NEEiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNFRTZCNTciLz48L2xpbmVhckdyYWRpZW50PjxsaW5lYXJHcmFkaWVudCBpZD0iZXNxIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRTgyMzdGIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjQjgxNDVGIi8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImRpciIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzZGQ0JFNiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzhFNkZCMCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iMTE2IiBmaWxsPSIjMEUwQjEyIi8+PHBvbHlnb24gcG9pbnRzPSIyNTYsMTAwIDQxMiwxODggMjU2LDI3NiAxMDAsMTg4IiBmaWxsPSJ1cmwoI3RvcG8pIi8+PHBvbHlnb24gcG9pbnRzPSIxMDAsMTg4IDI1NiwyNzYgMjU2LDQ0MCAxMDAsMzUyIiBmaWxsPSJ1cmwoI2VzcSkiLz48cG9seWdvbiBwb2ludHM9IjI1NiwyNzYgNDEyLDE4OCA0MTIsMzUyIDI1Niw0NDAiIGZpbGw9InVybCgjZGlyKSIvPjxwb2x5Z29uIHBvaW50cz0iMTkwLDEzNyAyMTIsMTI1IDM2OCwyMTMgMzQ2LDIyNSIgZmlsbD0iI0ZGRkZGRiIgZmlsbC1vcGFjaXR5PSIuODUiLz48cG9seWdvbiBwb2ludHM9IjM0NiwyMjUgMzY4LDIxMyAzNjgsMjY1IDM0NiwyNzciIGZpbGw9IiNGRkZGRkYiIGZpbGwtb3BhY2l0eT0iLjU1Ii8+PHBvbHlsaW5lIHBvaW50cz0iMTAwLDE4OCAyNTYsMjc2IDQxMiwxODgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGRkZGRiIgc3Ryb2tlLW9wYWNpdHk9Ii4zNSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGxpbmUgeDE9IjI1NiIgeTE9IjI3NiIgeDI9IjI1NiIgeTI9IjQ0MCIgc3Ryb2tlPSIjRkZGRkZGIiBzdHJva2Utb3BhY2l0eT0iLjI1IiBzdHJva2Utd2lkdGg9IjQiLz48L3N2Zz4=">Controle de estoque</h1>
         <p>Almoxarifado · Manutenção técnica</p>
         <div class="estado"><span class="ponto"></span><span id="estadoTxt">carregando…</span>
-          <span class="selo" title="versão deste programa">v123 · entrada com nota e sem nota, como no SGI</span></div>
+          <span class="selo" title="versão deste programa">v200 · Supabase</span></div>
       </div>
       <div class="direita">
         <span class="cracha" id="cracha">—</span>
@@ -769,7 +769,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
       <button class="btn ghost sm" id="irDocs" style="display:none" title="abre no Google Drive a pasta com todas as requisições e comprovantes">Pasta de documentos</button>
         <button class="btn sm" id="irTV" title="tela cheia para TV/monitor, atualiza sozinha">Modo TV</button>
         <button class="btn ghost sm" id="ativarAvisos" style="display:none" title="receber neste celular os avisos de pedido de troca e saída de material">🔔 Ativar avisos</button>
-        <button class="btn sm" id="sair">Sair</button>
+        <button class="btn ghost sm" id="irSupabase" style="display:none" title="copia todos os dados da planilha para o Supabase (só o administrador sênior)">⇪ Levar para o Supabase</button> <button class="btn sm" id="sair">Sair</button>
       </div>
     </header>
   </div>
@@ -995,7 +995,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
     <span class="discreto">
       <button id="json">exportar backup</button><b>·</b><button id="import">importar</button>
     </span>
-    <span class="versao" title="versão deste programa">v123 · entrada com nota e sem nota, como no SGI</span>
+    <span class="versao" title="versão deste programa">v200 · Supabase</span>
 </footer>
 </div>
 
@@ -1269,6 +1269,35 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
   </div>
 </div>
 
+<div class="scrim" id="sbLoginScrim" style="z-index:200">
+  <div class="sheet" style="max-width:420px" role="dialog" aria-modal="true" aria-labelledby="sbLoginTit">
+    <div class="sheet-head"><h2 id="sbLoginTit">Controle de Estoque · entrar</h2></div>
+    <div class="sheet-body">
+      <p class="hint" style="margin:0 0 10px">Use o seu e-mail e a sua senha, os mesmos do Painel de OS.</p>
+      <div class="fgrid">
+        <div class="f wide"><label for="sbLEmail">E-mail</label><input id="sbLEmail" type="email" autocomplete="username"></div>
+        <div class="f wide"><label for="sbLSenha">Senha</label><input id="sbLSenha" type="password" autocomplete="current-password"></div>
+      </div>
+      <p id="sbLAviso" class="hint" style="margin:8px 0 0"></p>
+    </div>
+    <div class="sheet-foot"><button class="btn" id="sbLEntrar" style="background:var(--brand);color:#fff;border-color:var(--brand)">Entrar</button></div>
+  </div>
+</div>
+<div class="scrim" id="scrimSB">
+  <div class="sheet" style="max-width:620px" role="dialog" aria-modal="true" aria-labelledby="sbTitle">
+    <div class="sheet-head"><h2 id="sbTitle">Levar os dados para o Supabase</h2><button class="btn" id="sbFechar">Fechar</button></div>
+    <div class="sheet-body">
+      <p class="hint" style="margin:0 0 10px">Copia da planilha para o Supabase todos os produtos, lançamentos, cadastros, pedidos de troca, retornos e o registro de atividades. A planilha <b>não muda</b> e continua valendo. Pode repetir quantas vezes quiser: o que já foi copiado é atualizado, sem duplicar.</p>
+      <div class="fgrid">
+        <div class="f wide"><label for="sbEmail">E-mail do seu login (administrador sênior no estoque)</label><input id="sbEmail" type="email" autocomplete="username" placeholder="voce@vtmmidia.com.br"></div>
+        <div class="f wide"><label for="sbSenha">Senha</label><input id="sbSenha" type="password" autocomplete="current-password"></div>
+      </div>
+      <div id="sbProgresso" class="hint" style="margin:10px 0 0"></div>
+      <div id="sbResultado"></div>
+    </div>
+    <div class="sheet-foot"><button class="btn" id="sbCopiar" style="background:var(--brand);color:#fff;border-color:var(--brand)">Copiar agora</button><span style="flex:1"></span><span class="hint" style="margin:0">Só leitura na planilha.</span></div>
+  </div>
+</div>
 <div class="scrim" id="scrimUsu">
   <div class="sheet" style="max-width:520px" role="dialog" aria-modal="true" aria-labelledby="usuTitle">
     <div class="sheet-head">
@@ -2157,6 +2186,7 @@ function podeLiberar(){
 }
 function aplicaPermissoes(){
   try{ mostraBotaoAvisos(); }catch(e){}
+  { const b=$('#irSupabase'); if(b) b.style.display=(sessao&&sessao.perfil==='senior')?'':'none'; }
   if(!sessao) return;
   const b=document.body;
   escondeSe('#tabMat,#tabMov',!pode('lancar'));
@@ -7331,6 +7361,160 @@ $('#previaCopiar').onclick=async()=>{
 
 (function(){const l=document.getElementById('logoTopo'); if(l)l.src=LOGO_CLARA;
   const b=document.getElementById('desfazer'); if(b)b.disabled=true;})();
+/* =====================================================================
+   v200 — O ESTOQUE TRABALHA DIRETO NO SUPABASE
+   Entrada com e-mail e senha; cada gravação manda só o que mudou;
+   a cada 30 segundos traz o que os outros gravaram. As telas são as mesmas.
+   O Apps Script continua para documentos, fotos e avisos no celular.
+   ===================================================================== */
+(()=>{ const g=store.get.bind(store), st=store.set.bind(store);   /* cache local separado da versão da planilha */
+  store.get=k=>g('v2:'+k); store.set=(k,v)=>st('v2:'+k,v); })();
+const SB_AUTH_KEY='alm2:auth';
+let sbAuth=null; try{ sbAuth=JSON.parse(localStorage.getItem(SB_AUTH_KEY)||'null'); }catch(e){}
+function sbGuardaAuth(j){
+  sbAuth=j?{access_token:j.access_token,refresh_token:j.refresh_token,expires_at:j.expires_at||(Math.floor(Date.now()/1000)+(j.expires_in||3600)),uid:(j.user&&j.user.id)||(sbAuth&&sbAuth.uid)}:null;
+  try{ if(sbAuth) localStorage.setItem(SB_AUTH_KEY,JSON.stringify(sbAuth)); else localStorage.removeItem(SB_AUTH_KEY); }catch(e){}
+}
+async function sbTokenValido(){
+  if(!sbAuth) throw new Error('sem login');
+  if(Date.now()/1000>sbAuth.expires_at-90){
+    const r=await fetch(SB_URL+'/auth/v1/token?grant_type=refresh_token',{method:'POST',headers:{apikey:SB_ANON,'Content-Type':'application/json'},body:JSON.stringify({refresh_token:sbAuth.refresh_token})});
+    if(!r.ok){ sbGuardaAuth(null); throw new Error('o login expirou; entre de novo'); }
+    sbGuardaAuth(await r.json());
+  }
+  return sbAuth.access_token;
+}
+async function sbApi(caminho,opcoes){ return sbPedido(caminho,opcoes||{},await sbTokenValido()); }
+const SB_COLECOES=[
+  {k:'mat',tabela:'est_materiais',pega:()=>mats,poe:v=>{mats=v.map(normalizaMat);}},
+  {k:'cad',tabela:'est_cadastros',pega:()=>cads,poe:v=>{cads=v;}},
+  {k:'mov',tabela:'est_movimentos',pega:()=>movs,poe:v=>{movs=v.map(normalizaMov);}},
+  {k:'tro',tabela:'est_trocas',pega:()=>trocas,poe:v=>{trocas=v;}},
+  {k:'ret',tabela:'est_retornos',pega:()=>retornos,poe:v=>{retornos=v;}},
+  {k:'atv',tabela:'est_atividades',pega:()=>atividades,poe:v=>{atividades=v;},soAcrescenta:true}
+];
+const sbFoto={};   /* o que o banco já tem, por id: só manda o que mudou */
+function sbParaLinha(c,o,ehNovo){
+  const M=SB_MAPAS[c.tabela];
+  const r=sbLinha(o,M.campos,M.numeros,M.linha(o));
+  delete r.criado_por; delete r.atualizado_em;
+  Object.keys(r).forEach(k=>{ if(r[k]===undefined) delete r[k]; });
+  if(c.k==='tro'&&ehNovo&&sessao&&sessao.perfil==='campo'){ r.criado_por=sbAuth&&sbAuth.uid; r.status='aguardando'; }
+  return r;
+}
+function sbDaLinha(c,r){
+  const M=SB_MAPAS[c.tabela], camel=k=>k.replace(/_([a-z])/g,(x,l)=>l.toUpperCase()), o={};
+  M.campos.forEach(k=>{ const v=r[snake(k)]; o[k]=(v===null||v===undefined)?(M.numeros.indexOf(k)>=0?0:''):v; });
+  if(c.k==='mov') o.pendente=r.pendente?'1':'';
+  if(c.k==='tro'){ o.itens=Array.isArray(r.itens)?r.itens:[]; if(r.falta!=null) o.falta=r.falta; if(r.fotos!=null) o.fotos=r.fotos; o.criadoPor=r.criado_por||''; }
+  if(c.k==='ret') o.patrimonio=!!r.patrimonio;
+  if(r.atualizado_em) o.atualizadoEm=o.atualizadoEm||r.atualizado_em;
+  return o;
+}
+async function sbTodas(tabela){
+  const tudo=[]; let de=0;
+  while(true){
+    const r=await sbApi('/rest/v1/'+tabela+'?select=*&order=id',{method:'GET',headers:{Range:de+'-'+(de+999)}});
+    const lote=await r.json(); tudo.push(...lote); if(lote.length<1000) break; de+=1000;
+  }
+  return tudo;
+}
+let sbUltimaCarga=0;
+async function sbCarregarTudo(forcar){
+  if(!forcar&&Date.now()-sbUltimaCarga<25000) return false;
+  const pessoas=await (await sbApi('/rest/v1/rpc/est_usuarios',{method:'POST',body:'{}'})).json();
+  usuarios=(pessoas||[]).map(u=>({id:u.id,nome:u.nome,perfil:u.perfil,libera:u.libera?'1':'',senha:''})).filter(u=>PERFIS[u.perfil]);
+  for(const c of SB_COLECOES){
+    if(sessao&&sessao.perfil==='campo'&&(c.k==='mov'||c.k==='ret'||c.k==='atv')) continue;   /* o técnico só vê o que precisa */
+    let linhas=[]; try{ linhas=await sbTodas(c.tabela); }catch(e){ if(!/401|403/.test(e.message)) throw e; }
+    const objs=linhas.map(r=>sbDaLinha(c,r));
+    c.poe(objs);
+    sbFoto[c.k]={}; objs.forEach(o=>{ sbFoto[c.k][o.id]=JSON.stringify(sbParaLinha(c,o,false)); });
+  }
+  sbUltimaCarga=Date.now();
+  return true;
+}
+let sbEnviando=false;
+async function sbEnviar(){
+  if(sbEnviando){ pendenteEnvio=true; return false; }
+  sbEnviando=true;
+  try{
+    for(const c of SB_COLECOES){
+      if(sessao&&sessao.perfil!=='senior'&&sessao.perfil!=='junior'&&c.k!=='atv'&&c.k!=='tro') continue;
+      const foto=sbFoto[c.k]||(sbFoto[c.k]={});
+      const atuais=(c.pega()||[]).filter(o=>o&&o.id);
+      const mudados=[], idsAqui={};
+      atuais.forEach(o=>{ idsAqui[o.id]=1; const r=sbParaLinha(c,o,!foto[o.id]); const j=JSON.stringify(Object.assign({},r,{criado_por:undefined}));
+        if(foto[o.id]!==j) mudados.push([o.id,r,j]); });
+      for(let i=0;i<mudados.length;i+=200){
+        const lote=mudados.slice(i,i+200);
+        await sbApi('/rest/v1/'+c.tabela+'?on_conflict=id',{method:'POST',body:JSON.stringify(lote.map(x=>x[1])),
+          headers:{Prefer:'return=minimal,resolution='+(c.soAcrescenta?'ignore':'merge')+'-duplicates'}});
+        lote.forEach(x=>{ foto[x[0]]=x[2]; });
+      }
+      if(!c.soAcrescenta){
+        const sumiram=Object.keys(foto).filter(id=>!idsAqui[id]);
+        for(let i=0;i<sumiram.length;i+=80){
+          const lote=sumiram.slice(i,i+80);
+          await sbApi('/rest/v1/'+c.tabela+'?id=in.('+encodeURIComponent(lote.map(id=>'"'+String(id).replace(/"/g,'')+'"').join(','))+')',{method:'DELETE',headers:{Prefer:'return=minimal'}});
+          lote.forEach(id=>{ delete foto[id]; });
+        }
+      }
+    }
+    return true;
+  } finally { sbEnviando=false; }
+}
+/* as funções de sincronizar passam a falar com o Supabase */
+enviarParaPlanilha=async function(){ if(!sbAuth) return false; await sbEnviar(); pendenteEnvio=false; return true; };
+puxarDaPlanilha=async function(forcar){
+  if(!sbAuth) return false;
+  if(pendenteEnvio){ await sbEnviar(); pendenteEnvio=false; }
+  return sbCarregarTudo(!!forcar);
+};
+enviarTroca=async function(t){
+  if(!sbAuth) return false;
+  const c=SB_COLECOES.find(x=>x.k==='tro');
+  await sbApi('/rest/v1/est_trocas?on_conflict=id',{method:'POST',body:JSON.stringify([sbParaLinha(c,t,!sbFoto.tro||!sbFoto.tro[t.id])]),headers:{Prefer:'return=minimal,resolution=merge-duplicates'}});
+  (sbFoto.tro=sbFoto.tro||{})[t.id]=JSON.stringify(sbParaLinha(c,t,false)); t.pendente=false; return true;
+};
+const sbEstadoTopoOrig=estadoTopo;
+estadoTopo=function(txt,cor){ sbEstadoTopoOrig(String(txt||'').replace(/planilha/gi,'Supabase'),cor); };
+const sbStatusOrig=statusSinc;
+statusSinc=function(txt,cor){ sbStatusOrig(String(txt||'').replace(/Planilha/g,'Supabase').replace(/planilha/g,'Supabase'),cor); };
+/* carregar: com login guardado, já traz tudo do banco */
+load=async function(){
+  if(!sbAuth) return;
+  try{ await sbCarregarTudo(true); estadoTopo('Supabase em dia · '+horaAgora()); }
+  catch(e){ estadoTopo('Supabase fora de alcance','var(--zero)'); if(/expirou|sem login/.test(e.message)) sbGuardaAuth(null); }
+};
+/* entrar com e-mail e senha */
+const sbEntrarOrig=entrar;
+abreLogin=function(){ $('#sbLAviso').textContent=''; $('#sbLoginScrim').classList.add('on'); document.body.style.overflow='hidden'; setTimeout(()=>$('#sbLEmail').focus(),60); };
+async function sbFazerLogin(){
+  const email=$('#sbLEmail').value.trim(), senha=$('#sbLSenha').value, av=$('#sbLAviso');
+  if(!email||!senha){ av.textContent='Informe o e-mail e a senha.'; return; }
+  av.textContent='Entrando…'; $('#sbLEntrar').disabled=true;
+  try{
+    const r=await fetch(SB_URL+'/auth/v1/token?grant_type=password',{method:'POST',headers:{apikey:SB_ANON,'Content-Type':'application/json'},body:JSON.stringify({email,password:senha})});
+    if(!r.ok) throw new Error('e-mail ou senha incorretos');
+    sbGuardaAuth(await r.json());
+    await sbCarregarTudo(true);
+    const eu=usuarios.find(u=>u.id===sbAuth.uid);
+    if(!eu){ sbGuardaAuth(null); throw new Error('o seu usuário não tem perfil no estoque (coluna estoque da tabela usuarios)'); }
+    escolhido=eu.id; $('#loginSenha').value='';
+    $('#sbLoginScrim').classList.remove('on'); document.body.style.overflow='';
+    $('#sbLSenha').value='';
+    sbEntrarOrig();
+    estadoTopo('Supabase em dia · '+horaAgora());
+  }catch(e){ av.textContent='Não foi possível entrar: '+e.message; av.style.color='var(--zero)'; }
+  $('#sbLEntrar').disabled=false;
+}
+$('#sbLEntrar').onclick=sbFazerLogin;
+$('#sbLSenha').addEventListener('keydown',e=>{ if(e.key==='Enter') sbFazerLogin(); });
+{ const sairOrig=$('#sair').onclick; $('#sair').onclick=()=>{ sbGuardaAuth(null); try{ localStorage.removeItem('alm:sessao'); }catch(e){} sairOrig(); }; }
+/* o que era da planilha some desta versão */
+document.head.insertAdjacentHTML('beforeend','<style>.chip.cad[data-cad="usuarios"],#irSupabase,#backupAgora{display:none!important}</style>');
+
 /* v122: o SGI abre o estoque direto na tela certa (#entrada-xml, #entrada, #saida, #pedidos) */
 function abrirPeloLink(){
   const h=(location.hash||'').replace('#','');
@@ -7350,7 +7534,7 @@ function abrirPeloLink(){
 }
 load().then(()=>{
   try{ const g=localStorage.getItem('alm:sessao'); if(g) sessao=JSON.parse(g); }catch(e){}
-  if(sessao&&!usuarios.some(u=>u.id===sessao.id&&u.perfil===sessao.perfil)) sessao=null;
+  if(sessao&&(!sbAuth||sessao.id!==sbAuth.uid||!usuarios.some(u=>u.id===sessao.id&&u.perfil===sessao.perfil))) sessao=null;
   if(sessao){
     aplicaPermissoes(); render();
     if(sessao.perfil==='campo') abreTroca();
@@ -7362,4 +7546,84 @@ load().then(()=>{
   } else abreLogin();
   fechaAbertura();
 }).catch(()=>fechaAbertura());
+
+/* ================================================================
+   v124 — LEVAR OS DADOS PARA O SUPABASE (fase 2, passo 2)
+   Lê tudo da planilha e grava nas tabelas est_* do Supabase.
+   A planilha não muda. Repetir só atualiza (sem duplicar).
+   ================================================================ */
+const SB_URL='https://xqeyhsuoinayuwydyesu.supabase.co';
+const SB_ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhxZXloc3VvaW5heXV3eWR5ZXN1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI2ODM2NjAsImV4cCI6MjEwODI1OTY2MH0.qI3ExHVnS4gudCM4U4JSuPidzJUSVKneOcydoSLoMLw';
+const sbTxt=v=>(v===undefined||v===null)?null:String(v);
+const sbNum=v=>{ const n=num(v); return isNaN(n)?0:n; };
+const sbBool=v=>v===true||v==='true'||v==='TRUE'||v==='1'||v===1||v==='sim';
+const sbJson=(v,padrao)=>{ if(v===undefined||v===null||v==='') return padrao; if(typeof v==='object') return v; try{ return JSON.parse(v); }catch(e){ return padrao===null?{texto:String(v)}:padrao; } };
+const snake=k=>k.replace(/[A-Z]/g,c=>'_'+c.toLowerCase());
+function sbLinha(o,campos,numeros,extras){
+  const r={}; campos.forEach(k=>{ r[snake(k)]=numeros.indexOf(k)>=0?sbNum(o[k]):sbTxt(o[k]); });
+  return Object.assign(r,extras||{});
+}
+const SB_MAPAS={
+  est_materiais:{de:'materiais',campos:['id','patrimonio','ean','sn','nome','unidade','minimo','docfiscal','emissao','preco','local','fornecedor','link','registrador','cadastradoEm','obs','natureza','fotoUrl'],
+    numeros:['minimo','preco'], linha:o=>({nome:String(o.nome||'').trim()||'(sem nome)'})},
+  est_cadastros:{de:'cadastros',campos:['id','tipo','nome','detalhe','site','contato','obs'],numeros:[],
+    linha:o=>({tipo:String(o.tipo||'outro'),nome:String(o.nome||'').trim()||'(sem nome)'})},
+  est_movimentos:{de:'movimentos',campos:['id','reqId','tipo','material','materialId','ean','patrimonio','series','qtd','data','origem','nf','emissao','preco','recebido','motivo','justifica',
+    'retirado','destino','centro','os','autorizado','entregue','obs','assinadoUrl','assinadoEm','xmlUrl','trocaId','retornoId','chave','freteNota','descNota',
+    'lancadoEm','corrigidoPor','corrigidoEm','usuario','liberadoPor','liberadoEm'],
+    numeros:['qtd','preco','freteNota','descNota'],
+    linha:o=>({pendente:sbBool(o.pendente), liberado_em:(o.tipo==='saida'&&!sbBool(o.pendente))?(sbTxt(o.liberadoEm)||sbTxt(o.lancadoEm)||sbTxt(o.data)||'antes da liberação em duas etapas'):(sbTxt(o.liberadoEm)||null)}),
+    valido:o=>!!o.materialId&&(o.tipo==='entrada'||o.tipo==='saida')},
+  est_trocas:{de:'trocas',campos:['id','numero','tipo','quando','quem','onde','os','obs','status','reqId','atendidoPor','atendidoEm','canceladoPor','canceladoEm','atualizadoEm',
+    'registradaPor','origem','chave','pushToken','compraEm'],numeros:[],
+    linha:o=>({status:String(o.status||'aguardando'),itens:sbJson(o.itens,[]),falta:sbJson(o.falta,null),fotos:sbJson(o.fotos,null),criado_por:null,atualizado_em:undefined})},
+  est_retornos:{de:'retornos',campos:['id','sn','produto','produtoId','onde','os','trocaId','numero','reqId','chegouEm','decisao','motivo','entradaId','decididoPor','decididoEm'],numeros:[],
+    linha:o=>({patrimonio:sbBool(o.patrimonio)})},
+  est_atividades:{de:'atividades',campos:['id','quem','quando','oque','onde','ref'],numeros:[],linha:()=>({}),ignorarRepetidos:true}
+};
+async function sbPedido(caminho,opcoes,token){
+  const h=Object.assign({apikey:SB_ANON,'Content-Type':'application/json'},token?{Authorization:'Bearer '+token}:{},(opcoes&&opcoes.headers)||{});
+  const r=await fetch(SB_URL+caminho,Object.assign({},opcoes,{headers:h}));
+  if(!r.ok){ let t=''; try{ t=await r.text(); }catch(e){} throw new Error((r.status)+' '+t.slice(0,240)); }
+  return r;
+}
+async function sbCopiar(){
+  const email=$('#sbEmail').value.trim(), senha=$('#sbSenha').value;
+  const pr=$('#sbProgresso'), res=$('#sbResultado'), bt=$('#sbCopiar');
+  if(!email||!senha){ pr.textContent='Informe o e-mail e a senha do seu login.'; return; }
+  bt.disabled=true; res.innerHTML='';
+  try{
+    pr.textContent='Entrando no Supabase…';
+    const lg=await (await sbPedido('/auth/v1/token?grant_type=password',{method:'POST',body:JSON.stringify({email,password:senha})})).json();
+    const token=lg.access_token, uid=lg.user&&lg.user.id;
+    const eu=await (await sbPedido('/rest/v1/usuarios?select=nome,estoque&id=eq.'+uid,{method:'GET'},token)).json();
+    if(!eu.length||String(eu[0].estoque||'').toLowerCase()!=='senior')
+      throw new Error('o seu usuário no Supabase precisa ter "senior" na coluna estoque (Table Editor → usuarios).');
+    pr.textContent='Lendo a planilha…';
+    const d=await lerPlanilha();
+    const linhasRes=[];
+    for(const tabela of Object.keys(SB_MAPAS)){
+      const M=SB_MAPAS[tabela], origem=(d[M.de]||[]).filter(o=>o&&o.id);
+      const validos=M.valido?origem.filter(M.valido):origem;
+      const linhas=validos.map(o=>{ const r=sbLinha(o,M.campos,M.numeros,M.linha(o)); Object.keys(r).forEach(k=>{ if(r[k]===undefined) delete r[k]; }); return r; });
+      for(let i=0;i<linhas.length;i+=300){
+        pr.textContent='Copiando '+M.de+'… '+Math.min(i+300,linhas.length)+' de '+linhas.length;
+        await sbPedido('/rest/v1/'+tabela+'?on_conflict=id',{method:'POST',body:JSON.stringify(linhas.slice(i,i+300)),
+          headers:{Prefer:'return=minimal,resolution='+(M.ignorarRepetidos?'ignore':'merge')+'-duplicates'}},token);
+      }
+      const rc=await sbPedido('/rest/v1/'+tabela+'?select=id',{method:'HEAD',headers:{Prefer:'count=exact',Range:'0-0'}},token);
+      const total=Number(String(rc.headers.get('content-range')||'').split('/')[1]||0);
+      linhasRes.push([M.de,origem.length,origem.length-validos.length,total]);
+    }
+    pr.textContent='Pronto. Confira as contagens:';
+    res.innerHTML='<table class="tbl" style="width:100%;margin-top:8px"><tr><th style="text-align:left">O quê</th><th>Na planilha</th><th>Não copiados</th><th>No Supabase</th></tr>'+
+      linhasRes.map(r=>'<tr><td>'+esc(r[0])+'</td><td style="text-align:center">'+r[1]+'</td><td style="text-align:center">'+(r[2]?'<b style="color:var(--low)">'+r[2]+'</b>':'0')+'</td><td style="text-align:center"><b style="color:'+(r[3]>=r[1]-r[2]?'var(--ok)':'var(--zero)')+'">'+r[3]+'</b></td></tr>').join('')+'</table>'+
+      '<p class="hint" style="margin:8px 0 0">"Não copiados" são lançamentos sem produto ou sem tipo, que o banco não aceita. Se houver algum, me mande o print.</p>';
+    registra('Levou os dados para o Supabase','',linhasRes.map(r=>r[0]+' '+r[3]).join(' · ')); persist(['atv']);
+  }catch(e){ pr.textContent='Não foi possível copiar: '+e.message; }
+  bt.disabled=false;
+}
+$('#irSupabase').onclick=()=>{ if(!sessao||sessao.perfil!=='senior') return barra('Só o administrador sênior.'); $('#sbProgresso').textContent=''; $('#sbResultado').innerHTML=''; $('#scrimSB').classList.add('on'); setTimeout(()=>$('#sbEmail').focus(),60); };
+$('#sbFechar').onclick=()=>$('#scrimSB').classList.remove('on');
+$('#sbCopiar').onclick=sbCopiar;
 </script>
