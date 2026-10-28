@@ -746,7 +746,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
         <h1><img class="icone-app" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InRvcG8iIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNGN0I4NEEiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNFRTZCNTciLz48L2xpbmVhckdyYWRpZW50PjxsaW5lYXJHcmFkaWVudCBpZD0iZXNxIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRTgyMzdGIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjQjgxNDVGIi8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImRpciIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzZGQ0JFNiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzhFNkZCMCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iMTE2IiBmaWxsPSIjMEUwQjEyIi8+PHBvbHlnb24gcG9pbnRzPSIyNTYsMTAwIDQxMiwxODggMjU2LDI3NiAxMDAsMTg4IiBmaWxsPSJ1cmwoI3RvcG8pIi8+PHBvbHlnb24gcG9pbnRzPSIxMDAsMTg4IDI1NiwyNzYgMjU2LDQ0MCAxMDAsMzUyIiBmaWxsPSJ1cmwoI2VzcSkiLz48cG9seWdvbiBwb2ludHM9IjI1NiwyNzYgNDEyLDE4OCA0MTIsMzUyIDI1Niw0NDAiIGZpbGw9InVybCgjZGlyKSIvPjxwb2x5Z29uIHBvaW50cz0iMTkwLDEzNyAyMTIsMTI1IDM2OCwyMTMgMzQ2LDIyNSIgZmlsbD0iI0ZGRkZGRiIgZmlsbC1vcGFjaXR5PSIuODUiLz48cG9seWdvbiBwb2ludHM9IjM0NiwyMjUgMzY4LDIxMyAzNjgsMjY1IDM0NiwyNzciIGZpbGw9IiNGRkZGRkYiIGZpbGwtb3BhY2l0eT0iLjU1Ii8+PHBvbHlsaW5lIHBvaW50cz0iMTAwLDE4OCAyNTYsMjc2IDQxMiwxODgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGRkZGRiIgc3Ryb2tlLW9wYWNpdHk9Ii4zNSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGxpbmUgeDE9IjI1NiIgeTE9IjI3NiIgeDI9IjI1NiIgeTI9IjQ0MCIgc3Ryb2tlPSIjRkZGRkZGIiBzdHJva2Utb3BhY2l0eT0iLjI1IiBzdHJva2Utd2lkdGg9IjQiLz48L3N2Zz4=">Controle de estoque</h1>
         <p>Almoxarifado · Manutenção técnica</p>
         <div class="estado"><span class="ponto"></span><span id="estadoTxt">carregando…</span>
-          <span class="selo" title="versão deste programa">v120 · botão de avisos ativa e desativa</span></div>
+          <span class="selo" title="versão deste programa">v121 · conferência e liberação da saída</span></div>
       </div>
       <div class="direita">
         <span class="cracha" id="cracha">—</span>
@@ -982,7 +982,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
     <span class="discreto">
       <button id="json">exportar backup</button><b>·</b><button id="import">importar</button>
     </span>
-    <span class="versao" title="versão deste programa">v120 · botão de avisos ativa e desativa</span>
+    <span class="versao" title="versão deste programa">v121 · conferência e liberação da saída</span>
 </footer>
 </div>
 
@@ -1260,6 +1260,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
           <input type="password" id="u_senha" class="mono" autocomplete="new-password">
           <button type="button" class="btn ghost sm" id="verSenha" style="margin-top:6px">Mostrar</button></div>
         <div class="f wide"><label for="u_obs">Observação</label><input id="u_obs" placeholder="setor, telefone, quando foi criado"></div>
+            <div class="f wide"><label style="display:flex;gap:8px;align-items:center;cursor:pointer"><input type="checkbox" id="u_libera" style="width:auto"> Pode liberar saídas (conferência e liberação)</label><p class="hint" style="margin:2px 0 0">O administrador sênior sempre pode liberar.</p></div>
       </div>
       <p class="hint" id="usuDica"></p>
     </div>
@@ -1448,7 +1449,9 @@ const dtBR=s=>{if(!s)return '';const[d,t]=String(s).split('T');const p=d.split('
 const agora=()=>{const d=new Date();const p=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+'T'+p(d.getHours())+':'+p(d.getMinutes());};
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(t._x);t._x=setTimeout(()=>t.classList.remove('on'),2800);}
 const mat=id=>mats.find(m=>m.id===id);
-function saldo(id){return movs.filter(v=>v.materialId===id).reduce((s,v)=>s+(v.tipo==='entrada'?num(v.qtd):-num(v.qtd)),0);}
+function saldo(id){return movs.filter(v=>v.materialId===id&&!v.pendente).reduce((s,v)=>s+(v.tipo==='entrada'?num(v.qtd):-num(v.qtd)),0);}
+/* v121: material separado, aguardando liberação (reservado: ainda não baixou o saldo) */
+function reservado(id){return movs.filter(v=>v.materialId===id&&v.pendente&&v.tipo==='saida').reduce((s,v)=>s+num(v.qtd),0);}
 function nivel(m){const s=saldo(m.id);if(s<=0)return 'zerado';if(num(m.minimo)>0&&s<num(m.minimo))return 'baixo';return 'ok';}
 
 let askOpen=false;
@@ -2113,6 +2116,13 @@ function barra(msg){ toast(msg||'Seu perfil não permite esta ação.'); return 
 function escondeSe(seletor,esconder){
   document.querySelectorAll(seletor).forEach(e=>{ e.style.display=esconder?'none':''; });
 }
+/* v121: libera a saída o administrador sênior e quem tiver a marca "pode liberar saídas" */
+function podeLiberar(){
+  if(!sessao) return false;
+  if(sessao.perfil==='senior') return true;
+  const u=usuarios.find(x=>x.id===sessao.id)||usuarios.find(x=>x.nome===sessao.nome);
+  return !!(u&&(u.libera===true||u.libera==='1'||u.libera==='true'));
+}
 function aplicaPermissoes(){
   try{ mostraBotaoAvisos(); }catch(e){}
   if(!sessao) return;
@@ -2222,6 +2232,7 @@ function openUsu(u){
   $('#usuTitle').textContent=u?'Editar usuário':'Novo usuário';
   $('#u_nome').value=u?u.nome:''; $('#u_perfil').value=u?u.perfil:'junior';
   $('#u_senha').value=u?u.senha:''; $('#u_obs').value=u?(u.obs||''):'';
+  $('#u_libera').checked=!!(u&&(u.libera===true||u.libera==='1'||u.libera==='true'));
   $('#usuDel').style.display=(u&&pode('excluir'))?'':'none';
   $('#usuDica').textContent=PERFIS[$('#u_perfil').value].resumo;
   $('#scrimUsu').classList.add('on'); document.body.style.overflow='hidden';
@@ -2259,7 +2270,7 @@ async function salvarUsu(){
   }
   const alvo=usuarios.find(x=>x.id===editUsu);
   if(alvo&&alvo.perfil==='senior'&&sessao.perfil!=='senior'){ toast('Você não pode alterar um administrador sênior.'); return; }
-  const o={id:editUsu||'u-'+Date.now(),nome:nome,perfil:perfil,senha:senha,obs:$('#u_obs').value.trim()};
+  const o={id:editUsu||'u-'+Date.now(),nome:nome,perfil:perfil,senha:senha,obs:$('#u_obs').value.trim(),libera:$('#u_libera').checked?'1':''};
   if(editUsu){ const i=usuarios.findIndex(x=>x.id===editUsu); usuarios[i]=Object.assign({},usuarios[i],o); }
   else usuarios.push(o);
   const era=editUsu;
@@ -2270,7 +2281,7 @@ async function salvarUsu(){
 }
 function limparFormUsu(){
   editUsu=null; $('#usuTitle').textContent='Novo usuário';
-  ['u_nome','u_senha','u_obs'].forEach(id=>$('#'+id).value='');
+  ['u_nome','u_senha','u_obs'].forEach(id=>$('#'+id).value=''); $('#u_libera').checked=false;
   $('#u_perfil').value='junior'; $('#usuDel').style.display='none'; $('#u_nome').focus();
 }
 ligarBarra({prefixo:'usu',
@@ -3338,10 +3349,76 @@ function atualizaBadges(){
   if(a){ const n=trocas.filter(t=>t.status==='aguardando').length; a.textContent=n||''; }
   if(b){ const n=retornos.filter(r=>!r.decisao).length; b.textContent=n||''; }
 }
+/* ================================================================
+   v121 — CONFERÊNCIA E LIBERAÇÃO DA SAÍDA
+   O almoxarifado separa (a saída fica reservada); quem libera confere e libera.
+   Só na liberação o saldo baixa, o documento sai e o técnico é avisado.
+   ================================================================ */
+function saidasPendentes(){
+  const g={};
+  movs.filter(v=>v.tipo==='saida'&&v.pendente).forEach(v=>{ const k=v.reqId||v.id; (g[k]=g[k]||[]).push(v); });
+  return Object.keys(g).map(k=>({req:k, itens:g[k]})).sort((a,b)=>String(a.itens[0].lancadoEm).localeCompare(String(b.itens[0].lancadoEm)));
+}
+function htmlLiberacoes(){
+  const L=saidasPendentes();
+  if(!L.length) return '';
+  const pl=podeLiberar();
+  let h='<div class="tr-card" style="border-color:var(--brand);background:color-mix(in srgb,var(--brand) 6%,transparent)"><div class="cab"><span class="tag-t pend">conferência e liberação</span><b>'+L.length+(L.length===1?' saída aguardando liberação':' saídas aguardando liberação')+'</b>'+
+    '<span>'+(pl?'Confira o material separado e libere. Só na liberação o saldo baixa.':'Aguardando um administrador sênior ou quem pode liberar saídas.')+'</span></div>';
+  L.forEach(g=>{
+    const v0=g.itens[0], tr=v0.trocaId?trocas.find(t=>t.id===v0.trocaId):null;
+    h+='<div class="tr-linha" style="grid-template-columns:1fr auto;align-items:center"><div>'+
+      '<b>'+(tr?esc(tr.numero)+' · ':'')+esc(v0.destino||'—')+'</b>'+(v0.os?' · '+esc(v0.os):'')+
+      '<div class="hint" style="margin:3px 0 0">'+g.itens.map(v=>{ const m=mat(v.materialId); return num(v.qtd)+'× '+esc(m?m.nome:'produto')+(v.series?' ('+esc(String(v.series).split('\n').filter(Boolean).join(', '))+')':''); }).join(' · ')+'</div>'+
+      '<div class="hint" style="margin:3px 0 0">retira: '+esc(v0.retirado||'—')+' · separado por '+esc(v0.usuario||'—')+(v0.lancadoEm?' em '+dtBR(String(v0.lancadoEm).slice(0,16)):'')+'</div></div>'+
+      (pl?'<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" data-liberar="'+esc(g.req)+'" style="background:var(--marca);border-color:var(--marca);color:#fff">Liberar saída</button>'+
+          '<button class="btn ghost sm danger" data-recusar="'+esc(g.req)+'">Recusar</button></div>':'<span class="tag-t pend">aguardando</span>')+'</div>';
+  });
+  return h+'</div>';
+}
+async function liberarSaida(req){
+  if(!podeLiberar()) return barra('Só o administrador sênior ou quem pode liberar saídas.');
+  const itens=movs.filter(v=>(v.reqId||v.id)===req&&v.pendente);
+  if(!itens.length) return;
+  /* confere o saldo de novo na hora de liberar */
+  const soma={}; itens.forEach(v=>{ soma[v.materialId]=(soma[v.materialId]||0)+num(v.qtd); });
+  const falta=Object.keys(soma).filter(id=>soma[id]>saldo(id));
+  if(falta.length) return toast('Sem saldo para '+falta.map(id=>(mat(id)||{}).nome||'produto').join(', ')+'. Dê entrada antes de liberar.');
+  const ok=await ask('Liberar a saída de '+itens.length+' material(is) para '+(itens[0].destino||'o destino')+'? O saldo baixa agora.','Liberar saída','Voltar');
+  if(!ok) return;
+  guardaAnterior('a liberação da saída');
+  const quem=sessao?sessao.nome:'', quando=new Date().toISOString();
+  itens.forEach(v=>{ v.pendente=''; v.liberadoPor=quem; v.liberadoEm=quando; if(!v.autorizado) v.autorizado=quem; });
+  const tr=itens[0].trocaId?trocas.find(t=>t.id===itens[0].trocaId):null;
+  if(tr&&tr.status==='liberacao'){ tr.status='atendido'; tr.atualizadoEm=quando; }
+  registra('Liberou saída',itens.map(v=>(mat(v.materialId)||{}).nome||'produto').slice(0,3).join(', '),[itens[0].destino,itens[0].os].filter(Boolean).join(' · '));
+  await persist(['mov','tro']); render();
+  toast('Saída liberada.'+(tr?' O técnico é avisado.':''));
+  try{ printMov(itens[0]); }catch(e){}   /* o documento da requisição sai agora, para assinar */
+}
+async function recusarSaida(req){
+  if(!podeLiberar()) return barra('Só o administrador sênior ou quem pode liberar saídas.');
+  const itens=movs.filter(v=>(v.reqId||v.id)===req&&v.pendente);
+  if(!itens.length) return;
+  const motivo=(prompt('Motivo da recusa (volta para o almoxarifado):','')||'').trim();
+  if(!motivo) return toast('Informe o motivo para recusar.');
+  guardaAnterior('a recusa da saída');
+  movs=movs.filter(v=>!((v.reqId||v.id)===req&&v.pendente));   /* a reserva é desfeita */
+  const tr=itens[0].trocaId?trocas.find(t=>t.id===itens[0].trocaId):null;
+  if(tr){
+    tr.status='aguardando'; tr.obs=[tr.obs,'Saída recusada: '+motivo].filter(Boolean).join(' · '); tr.atualizadoEm=new Date().toISOString();
+    retornos=retornos.filter(r=>!(r.reqId===req&&!r.decisao));   /* a peça que voltaria sai de Retornos */
+  }
+  registra('Recusou saída',itens.map(v=>(mat(v.materialId)||{}).nome||'produto').slice(0,3).join(', '),motivo);
+  await persist(['mov','tro','ret']); render();
+  toast('Saída recusada. A reserva foi desfeita.');
+}
+
 function pintaTrocas(){
   const pend=trocas.filter(t=>t.status==='aguardando'||t.status==='compra').sort((a,b)=>String(a.quando).localeCompare(String(b.quando)));
+  const htmlLib=htmlLiberacoes();   /* v121 */
   const feitos=trocas.filter(t=>t.status==='atendido').sort((a,b)=>String(b.atendidoEm).localeCompare(String(a.atendidoEm))).slice(0,30);
-  let h='';
+  let h=htmlLib;
   if(!pend.length) h+='<div class="empty"><p>Nenhum pedido de troca esperando atendimento.</p></div>';
   pend.forEach(t=>{
     if(t.tipo==='devolucao'){
@@ -3387,7 +3464,7 @@ function pintaTrocas(){
         </div>`;}).join('')}
       ${t.fotos?'<p class="hint" style="margin:6px 0 0">'+String(t.fotos).split('\n').filter(String).map((u,k)=>'<a href="'+esc(u)+'" target="_blank" rel="noopener">📷 foto '+(k+1)+'</a>').join(' · ')+'</p>':''}
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
-        ${pode('lancar')?`<button class="btn" data-atender="${t.id}" style="background:var(--marca);border-color:var(--marca);color:#fff">Atender e gerar requisição</button>`:''}
+        ${pode('lancar')?`<button class="btn" data-atender="${t.id}" style="background:var(--marca);border-color:var(--marca);color:#fff">Separar e enviar para liberação</button>`:''}
         ${pode('lancar')&&!compra?`<button class="btn ghost" data-falta="${t.id}">Falta material</button>`:''}
         ${pode('excluir')?`<button class="btn ghost sm danger" data-cancelar="${t.id}">Cancelar pedido</button>`:''}
       </div>
@@ -3423,6 +3500,8 @@ function pintaTrocas(){
       await persist(['tro']); pintaTrocas(); toast('Material vinculado ao pedido '+t.numero+'.');
     });
   });
+  $('#gridMat').querySelectorAll('[data-liberar]').forEach(b=>b.onclick=()=>liberarSaida(b.dataset.liberar));   /* v121 */
+  $('#gridMat').querySelectorAll('[data-recusar]').forEach(b=>b.onclick=()=>recusarSaida(b.dataset.recusar));
   $('#gridMat').querySelectorAll('[data-desfazer]').forEach(b=>b.onclick=()=>{
     const t=trocas.find(x=>x.id===b.dataset.desfazer); if(t) desfazerAtendimento(t);
   });
@@ -3445,19 +3524,19 @@ async function atenderTroca(t){
   const falta=Object.keys(soma).filter(id=>soma[id]>saldoBase(id));
   if(falta.length) return toast('Sem saldo para '+falta.map(id=>mat(id).nome).join(', ')+'. Use “Falta material” ou dê entrada antes de atender.');
   const totalPecas=Object.keys(soma).reduce((x,id)=>x+soma[id],0);
-  const ok=await ask('Atender o pedido '+t.numero+'? Sai '+totalPecas+' peça(s) do estoque para '+t.onde+(t.tipo==='material'?'.':', e as que voltam ficam em Retornos.'),'Atender');
+  const ok=await ask('Separar o pedido '+t.numero+'? Ficam reservadas '+totalPecas+' peça(s) do estoque para '+t.onde+(t.tipo==='material'?'.':', e as que voltam ficam em Retornos.'),'Atender');
   if(!ok) return;
   guardaAnterior('o atendimento do pedido '+t.numero);
   const req='req-'+Date.now(), quando=agora(), iso=new Date().toISOString(), marca=Date.now();
   const porMat={};
   itens.forEach((it,i)=>{ const g=porMat[it.precisaId]=porMat[it.precisaId]||{qtd:0,series:[]}; g.qtd+=(Number(it.qtd)||1); if(e[i]) g.series.push(e[i]); it.sai=e[i]||''; });
   const novos=Object.keys(porMat).map((id,k)=>({
-    id:'v-'+marca+'-'+k, reqId:req, tipo:'saida', materialId:id, qtd:porMat[id].qtd, preco:0,
+    id:'v-'+marca+'-'+k, reqId:req, tipo:'saida', pendente:'1', materialId:id, qtd:porMat[id].qtd, preco:0,
     series:porMat[id].series.join('\n'), data:quando, retirado:t.quem, destino:t.onde, os:t.os,
     autorizado:'', entregue:sessao?sessao.nome:'', obs:(t.tipo==='material'?'Pedido de material ':'Troca ')+t.numero+(t.obs?' · '+t.obs:''),
     trocaId:t.id, usuario:sessao?sessao.nome:''}));
   movs=movs.concat(novos);
-  t.status='atendido'; t.reqId=req; t.atendidoPor=sessao?sessao.nome:''; t.atendidoEm=quando; t.atualizadoEm=iso;
+  t.status='liberacao'; t.reqId=req; t.atendidoPor=sessao?sessao.nome:''; t.atendidoEm=quando; t.atualizadoEm=iso;
   itens.forEach((it,i)=>{
     if(t.tipo==='material'||!it.volta) return;   /* pedido de material: nada volta do campo */
     const mv=mat(it.produtoVoltaId)||mat(it.precisaId);
@@ -3468,8 +3547,7 @@ async function atenderTroca(t){
   delete escolhaTroca[t.id];
   await persist(['mov','tro','ret']);
   render();
-  toast('Pedido '+t.numero+' atendido.'+(t.tipo==='material'?'':' As peças que voltam estão em Retornos.'));
-  printMov(novos[0]);
+  toast('Pedido '+t.numero+' separado. Aguarda a liberação da saída.'+(t.tipo==='material'?'':' As peças que voltam estão em Retornos.'));
 }
 /* v119: falta material → o pedido espera a compra; nada sai pela metade */
 async function faltaMaterial(t){
@@ -5264,7 +5342,7 @@ function itensAtuais(){
 }
 /* saldo sem contar o que está sendo editado agora */
 function saldoBase(materialId){
-  let s=saldo(materialId);
+  let s=saldo(materialId)-reservado(materialId);   /* v121: o reservado não está disponível */
   if(editReq) movs.filter(v=>(v.reqId||v.id)===editReq&&v.materialId===materialId)
     .forEach(v=>{ s+=(v.tipo==='entrada'? -num(v.qtd) : num(v.qtd)); });
   return s;
@@ -5607,16 +5685,18 @@ async function salvarMov(){
   const marca=Date.now(), agoraIso=new Date().toISOString();
   const autor=(antigos[0]&&(antigos[0].usuario||antigos[0].entregue))||(sessao?sessao.nome:'');
   const lancado=(antigos[0]&&(antigos[0].lancadoEm||antigos[0].data))||agoraIso;
+  const continuaPendente=eraEdicao?antigos.some(v=>v.pendente):true;   /* v121 */
+  const liberadoAntes=eraEdicao&&antigos[0]&&!antigos[0].pendente?{liberadoPor:antigos[0].liberadoPor||'',liberadoEm:antigos[0].liberadoEm||''}:{};
   const criados=Object.keys(soma).map((id,i)=>Object.assign({},base,{
     id:'v-'+marca+'-'+i, reqId:req, tipo:'saida', materialId:id, qtd:soma[id], preco:0,
-    series:(seriesPorMat[id]||[]).join('\n'), usuario:autor, lancadoEm:lancado},
+    series:(seriesPorMat[id]||[]).join('\n'), usuario:autor, lancadoEm:lancado, pendente:continuaPendente?'1':''},liberadoAntes,
     eraEdicao?{corrigidoPor:sessao?sessao.nome:'',corrigidoEm:agoraIso}:{}));
   if(eraEdicao) registra('Corrigiu saída',criados.map(c=>{const mm=mat(c.materialId); return mm?mm.nome:'produto';}).slice(0,3).join(', '),
     [base.destino,base.os].filter(Boolean).join(' · '));
   movs=movs.concat(criados);
   render();persist(['mov']);
   if(relAtual&&!$('#panRel').hidden)gerar();
-  toast((eraEdicao?'Requisição atualizada':'Saída registrada')+' — '+criados.length+' material(is).');
+  toast((eraEdicao?'Requisição atualizada':'Saída separada')+' — '+criados.length+' material(is).'+(continuaPendente?' Aguarda a liberação.':''));
   editMov=criados[0].id; editReq=req;
   return criados[0];
 }
@@ -6786,11 +6866,12 @@ function dadosMov(v){
   if(!ent&&grupo.length&&grupo[0].trocaId){
     const t=trocas.find(x=>x.id===grupo[0].trocaId);
     if(t){
-      troca={numero:t.numero, voltam:(t.itens||[]).map((it,i)=>{
+      troca={numero:t.numero, voltam:(t.itens||[]).filter(it=>it.volta).map((it,i)=>{
         const mv=mat(it.produtoVoltaId)||mat(it.precisaId);
         return {n:i+1, nome:mv?mv.nome:'equipamento', sn:it.volta};
       })};
-      cab.unshift(['Pedido de troca', t.numero+' · pedido por '+(t.quem||'')]);
+      cab.unshift([t.tipo==='material'?'Pedido de material':'Pedido de troca', t.numero+' · pedido por '+(t.quem||'')]);
+      if(!troca.voltam.length) troca=null;   /* v121: pedido de material é retirada comum */
     }
   }
   for(let i=cab.length-1;i>=0;i--) if(!cab[i]) cab.splice(i,1);
