@@ -272,7 +272,8 @@ async function desenharMeus(){
     const itens=(p.itens||[]).map(i=>(p.tipo==='material'?(i.qtd+'× '+i.nome):((i.sn?i.sn+' → ':'')+i.nome))+(i.loja?' (sugestão: '+i.loja+')':'')).join(' · ');
     const selo=p.status==='atendido'?'<span class="selo s-ok">✅ '+(p.tipo==='devolucao'?'Devolução recebida':'Atendido · retire no almoxarifado')+'</span>'
       :p.status==='compra'?'<span class="selo" style="background:#E8EEFB;color:#2F4F9C">🛒 Aguardando compra</span>'+(p.falta?'<div class="ped-mais">falta: '+esc(p.falta)+'</div>':'')
-      :p.status==='cancelado'?'<span class="selo s-nao">Cancelado</span>':'<span class="selo s-fila">🕒 Aguardando o almoxarifado</span>';
+      :p.status==='cancelado'?'<span class="selo s-nao">Cancelado</span>'
+      :p.status==='liberacao'?'<span class="selo s-os">📦 Separado · aguardando liberação</span>':'<span class="selo s-fila">🕒 Aguardando o almoxarifado</span>';
     const q=String(p.quando||'').replace('T',' ').slice(0,16).split(' '); const dt=q[0]?q[0].split('-').reverse().slice(0,2).join('/')+' '+(q[1]||''):'';
     return '<div class="ped"><div class="ped-topo"><b>'+esc(p.numero)+' · '+(ROT[p.tipo]||'Troca')+'</b><span>'+esc(dt)+'</span></div><div class="ped-onde">'+esc(p.onde)+(p.os?' · '+esc(p.os):'')+'</div>'+selo+'<div class="ped-mais">'+esc(itens)+'</div></div>';
   }).join(''):'<div class="vazio">Nenhum pedido encontrado.</div>';
