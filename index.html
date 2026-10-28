@@ -759,7 +759,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
         <h1><img class="icone-app" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InRvcG8iIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNGN0I4NEEiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNFRTZCNTciLz48L2xpbmVhckdyYWRpZW50PjxsaW5lYXJHcmFkaWVudCBpZD0iZXNxIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRTgyMzdGIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjQjgxNDVGIi8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImRpciIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzZGQ0JFNiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzhFNkZCMCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iMTE2IiBmaWxsPSIjMEUwQjEyIi8+PHBvbHlnb24gcG9pbnRzPSIyNTYsMTAwIDQxMiwxODggMjU2LDI3NiAxMDAsMTg4IiBmaWxsPSJ1cmwoI3RvcG8pIi8+PHBvbHlnb24gcG9pbnRzPSIxMDAsMTg4IDI1NiwyNzYgMjU2LDQ0MCAxMDAsMzUyIiBmaWxsPSJ1cmwoI2VzcSkiLz48cG9seWdvbiBwb2ludHM9IjI1NiwyNzYgNDEyLDE4OCA0MTIsMzUyIDI1Niw0NDAiIGZpbGw9InVybCgjZGlyKSIvPjxwb2x5Z29uIHBvaW50cz0iMTkwLDEzNyAyMTIsMTI1IDM2OCwyMTMgMzQ2LDIyNSIgZmlsbD0iI0ZGRkZGRiIgZmlsbC1vcGFjaXR5PSIuODUiLz48cG9seWdvbiBwb2ludHM9IjM0NiwyMjUgMzY4LDIxMyAzNjgsMjY1IDM0NiwyNzciIGZpbGw9IiNGRkZGRkYiIGZpbGwtb3BhY2l0eT0iLjU1Ii8+PHBvbHlsaW5lIHBvaW50cz0iMTAwLDE4OCAyNTYsMjc2IDQxMiwxODgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGRkZGRiIgc3Ryb2tlLW9wYWNpdHk9Ii4zNSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGxpbmUgeDE9IjI1NiIgeTE9IjI3NiIgeDI9IjI1NiIgeTI9IjQ0MCIgc3Ryb2tlPSIjRkZGRkZGIiBzdHJva2Utb3BhY2l0eT0iLjI1IiBzdHJva2Utd2lkdGg9IjQiLz48L3N2Zz4=">Controle de estoque</h1>
         <p>Almoxarifado · Manutenção técnica</p>
         <div class="estado"><span class="ponto"></span><span id="estadoTxt">carregando…</span>
-          <span class="selo" title="versão deste programa">v202 · retorno de serviço e ferramentas</span></div>
+          <span class="selo" title="versão deste programa">v203 · plano de contas</span></div>
       </div>
       <div class="direita">
         <span class="cracha" id="cracha">—</span>
@@ -995,7 +995,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
     <span class="discreto">
       <button id="json">exportar backup</button><b>·</b><button id="import">importar</button>
     </span>
-    <span class="versao" title="versão deste programa">v202 · retorno de serviço e ferramentas</span>
+    <span class="versao" title="versão deste programa">v203 · plano de contas</span>
 </footer>
 </div>
 
@@ -1026,6 +1026,7 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
             <select id="m_natureza"><option value="">— escolha —</option>
               <option value="consumo">Material de consumo · vira despesa ao sair</option>
               <option value="equipamento">Equipamento · vai para o patrimônio ao sair</option> <option value="ferramenta">Ferramenta · empréstimo, volta ao almoxarifado</option></select></div>
+          <div class="f"><label for="m_subgrupo">Subgrupo contábil</label><input id="m_subgrupo" list="subgruposLista" placeholder="Elétrico, Eletrônico, Hidráulico ou um novo"><datalist id="subgruposLista"></datalist><p class="hint" id="m_grupoInfo" style="margin:3px 0 0"></p></div>
           <div class="f"><label for="m_preco">Preço unitário (R$) *</label>
             <input type="text" inputmode="decimal" id="m_preco" placeholder="obrigatório · ex.: 2.281 ou 45,90"></div>
           <div class="f"><label for="m_local">Localização</label>
@@ -5073,7 +5074,7 @@ $('#q').addEventListener('input',e=>{busca=e.target.value;render();});
 $('#clearMat').onclick=()=>{matFiltro=null;render();};
 
 /* ============ formulário de material ============ */
-const MF=[['m_nome','nome'],['m_patrimonio','patrimonio'],['m_ean','ean'],['m_sn','sn'],['m_unidade','unidade'],['m_minimo','minimo'],['m_preco','preco'],['m_natureza','natureza'],['m_local','local'],['m_fornecedor','fornecedor'],['m_link','link'],['m_fotoUrl','fotoUrl'],['m_registrador','registrador'],['m_obs','obs']];
+const MF=[['m_nome','nome'],['m_patrimonio','patrimonio'],['m_ean','ean'],['m_sn','sn'],['m_unidade','unidade'],['m_minimo','minimo'],['m_preco','preco'],['m_natureza','natureza'],['m_subgrupo','subgrupo'],['m_local','local'],['m_fornecedor','fornecedor'],['m_link','link'],['m_fotoUrl','fotoUrl'],['m_registrador','registrador'],['m_obs','obs']];
 function campoDoUsuario(id,valorGravado){
   const e=$('#'+id); if(!e) return;
   const souSenior=!!(sessao&&sessao.perfil==='senior');
@@ -6116,6 +6117,7 @@ const VISOES={
     ['media','Consumo médio por mês','Base para definir o estoque mínimo de cada item.'],
     ['ficha','Ficha do material (saldo acumulado)','A vida de um material: cada entrada e saída com o saldo depois de cada uma. Escolha o material.'],
     ['contagem','Folha de contagem','Para imprimir e levar à prateleira: anote o contado e confira a diferença.'],
+    ['conta','Por conta contábil','Grupo e subgrupo do plano de contas: quanto entrou e saiu no período e quanto vale o estoque hoje.'],
     ['fechamentoMes','Fechamento do mês','A mesma conta do estoque, para um mês: início + entradas − consumo − patrimônio − perdas = fim. Sem data, é o mês atual; para outro mês, preencha a data “de” com qualquer dia dele.'],
     ['fechamento','Fechamento do ano (balanço)','A conta do estoque no período, pelo custo médio: início + entradas − consumo − patrimônio − perdas = fim. Use o período “de / até”; sem período, é o ano inteiro.']
   ]
@@ -6627,6 +6629,25 @@ function montar(f){
     if(T.ac) R.filtros.push('Há produtos sem natureza: as saídas deles aparecem em "sem natureza". Classifique em Completar cadastros.');
   }
 
+  if(f.lado==='estoque'&&f.visao==='conta'){   /* v203: plano de contas */
+    R.titulo='Estoque por conta contábil';
+    R.cols=['Grupo','Subgrupo','Materiais','Entradas no período','Saídas no período','Valor em estoque hoje'];
+    const G={}, dentro=v=>{ const d=String(v.data||'').slice(0,10); return (!f.de||d>=f.de)&&(!f.ate||d<=f.ate); };
+    matsFiltrados(f).forEach(m=>{
+      const sub=String(m.subgrupo||'').trim()||'sem subgrupo', k=grupoContabil(m)+'|'+sub;
+      const g=G[k]||(G[k]={grupo:grupoContabil(m),sub:sub,n:0,ent:0,sai:0,est:0});
+      g.n++; g.est+=valorEstq(m);
+      movs.filter(v=>v.materialId===m.id&&!v.pendente&&dentro(v)).forEach(v=>{
+        if(v.tipo==='entrada') g.ent+=num(v.qtd)*num(v.preco||m.preco); else g.sai+=num(v.qtd)*num(m.preco); });
+    });
+    let te=0,ts=0,tv=0;
+    Object.values(G).sort((a,b)=>(a.grupo+a.sub).localeCompare(b.grupo+b.sub,'pt-BR')).forEach(g=>{
+      te+=g.ent; ts+=g.sai; tv+=g.est;
+      R.rows.push([g.grupo,g.sub,{v:g.n,n:true},{v:brl(g.ent),n:true},{v:brl(g.sai),n:true},{v:brl(g.est),n:true}]); R.meta.push({});
+    });
+    R.totais=[['Entradas no período',brl(te)],['Saídas no período',brl(ts)],['Valor em estoque hoje',brl(tv)]];
+    if(Object.keys(G).some(k=>k.indexOf('sem grupo')===0)) R.filtros.push('Há materiais sem natureza: eles aparecem em "sem grupo". Classifique no cadastro.');
+  }
   if(f.lado==='estoque'&&f.visao==='contagem'){
     R.titulo='Folha de contagem do estoque';
     R.filtros.push('Imprima, conte na prateleira e anote nas duas últimas colunas.');
@@ -7646,7 +7667,7 @@ function sbLinha(o,campos,numeros,extras){
   return Object.assign(r,extras||{});
 }
 const SB_MAPAS={
-  est_materiais:{de:'materiais',campos:['id','patrimonio','ean','sn','nome','unidade','minimo','docfiscal','emissao','preco','local','fornecedor','link','registrador','cadastradoEm','obs','natureza','fotoUrl'],
+  est_materiais:{de:'materiais',campos:['id','patrimonio','ean','sn','nome','unidade','minimo','docfiscal','emissao','preco','local','fornecedor','link','registrador','cadastradoEm','obs','natureza','fotoUrl','subgrupo'],
     numeros:['minimo','preco'], linha:o=>({nome:String(o.nome||'').trim()||'(sem nome)'})},
   est_cadastros:{de:'cadastros',campos:['id','tipo','nome','detalhe','site','contato','obs'],numeros:[],
     linha:o=>({tipo:String(o.tipo||'outro'),nome:String(o.nome||'').trim()||'(sem nome)'})},
@@ -7802,4 +7823,21 @@ function pdfRetorno(g,voltas,fica){
 $('#irRetorno').onclick=retAbre;
 $('#retFechar').onclick=()=>$('#retScrim').classList.remove('on');
 $('#retConfirmar').onclick=retConfirmar;
+
+/* v203: plano de contas (o mesmo do SGI). O grupo sai da natureza; o subgrupo é do cadastro. */
+const SUBGRUPOS_PADRAO=['Elétrico','Eletrônico','Hidráulico'];
+function grupoContabil(m){
+  const n=m&&m.natureza;
+  if(n==='equipamento') return 'Máquinas e equipamentos';
+  if(n==='consumo'||n==='ferramenta') return 'Material operacional';
+  return 'sem grupo';
+}
+function pintaSubgrupos(){
+  const L=[...new Set(SUBGRUPOS_PADRAO.concat(mats.map(m=>String(m.subgrupo||'').trim()).filter(Boolean)))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
+  const dl=$('#subgruposLista'); if(dl) dl.innerHTML=L.map(x=>'<option value="'+esc(x)+'">').join('');
+  const info=$('#m_grupoInfo'), nat=$('#m_natureza');
+  if(info&&nat) info.textContent='Grupo: '+grupoContabil({natureza:nat.value});
+}
+{ const nat=$('#m_natureza'); if(nat) nat.addEventListener('change',pintaSubgrupos);
+  const sub=$('#m_subgrupo'); if(sub) sub.addEventListener('focus',pintaSubgrupos); }
 </script>
