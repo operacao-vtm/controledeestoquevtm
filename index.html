@@ -821,7 +821,7 @@ body.comMenu{padding-left:250px}
         <h1><img class="icone-app" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InRvcG8iIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNGN0I4NEEiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNFRTZCNTciLz48L2xpbmVhckdyYWRpZW50PjxsaW5lYXJHcmFkaWVudCBpZD0iZXNxIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRTgyMzdGIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjQjgxNDVGIi8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImRpciIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzZGQ0JFNiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzhFNkZCMCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iMTE2IiBmaWxsPSIjMEUwQjEyIi8+PHBvbHlnb24gcG9pbnRzPSIyNTYsMTAwIDQxMiwxODggMjU2LDI3NiAxMDAsMTg4IiBmaWxsPSJ1cmwoI3RvcG8pIi8+PHBvbHlnb24gcG9pbnRzPSIxMDAsMTg4IDI1NiwyNzYgMjU2LDQ0MCAxMDAsMzUyIiBmaWxsPSJ1cmwoI2VzcSkiLz48cG9seWdvbiBwb2ludHM9IjI1NiwyNzYgNDEyLDE4OCA0MTIsMzUyIDI1Niw0NDAiIGZpbGw9InVybCgjZGlyKSIvPjxwb2x5Z29uIHBvaW50cz0iMTkwLDEzNyAyMTIsMTI1IDM2OCwyMTMgMzQ2LDIyNSIgZmlsbD0iI0ZGRkZGRiIgZmlsbC1vcGFjaXR5PSIuODUiLz48cG9seWdvbiBwb2ludHM9IjM0NiwyMjUgMzY4LDIxMyAzNjgsMjY1IDM0NiwyNzciIGZpbGw9IiNGRkZGRkYiIGZpbGwtb3BhY2l0eT0iLjU1Ii8+PHBvbHlsaW5lIHBvaW50cz0iMTAwLDE4OCAyNTYsMjc2IDQxMiwxODgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGRkZGRiIgc3Ryb2tlLW9wYWNpdHk9Ii4zNSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGxpbmUgeDE9IjI1NiIgeTE9IjI3NiIgeDI9IjI1NiIgeTI9IjQ0MCIgc3Ryb2tlPSIjRkZGRkZGIiBzdHJva2Utb3BhY2l0eT0iLjI1IiBzdHJva2Utd2lkdGg9IjQiLz48L3N2Zz4=">Controle de estoque</h1>
         <p>Almoxarifado · Manutenção técnica</p>
         <div class="estado"><span class="ponto"></span><span id="estadoTxt">carregando…</span>
-          <span class="selo" title="versão deste programa">v206 · atalhos do SGI</span></div>
+          <span class="selo" title="versão deste programa">v207 · som de requisição de OS</span></div>
       </div>
       <div class="direita">
         <span class="cracha" id="cracha">—</span>
@@ -1079,7 +1079,7 @@ body.comMenu{padding-left:250px}
     <span class="discreto">
       <button id="json">exportar backup</button><b>·</b><button id="import">importar</button>
     </span>
-    <span class="versao" title="versão deste programa">v206 · atalhos do SGI</span>
+    <span class="versao" title="versão deste programa">v207 · som de requisição de OS</span>
 </footer>
 </div>
 
@@ -8044,4 +8044,65 @@ if((location.hash||'')==='#e-nota-xml'){ let tent=0; const vez=setInterval(()=>{
     irChip('entrada');
     setTimeout(()=>{ try{ recebeXML(new File([x.xml],x.nome||'nota.xml',{type:'text/xml'})); }catch(e){ toast('Não foi possível ler a nota enviada pelo SGI.'); } },400);
   }catch(e){ clearInterval(vez); } },500); }   /* v206: atalhos vindos do SGI (#k-liberar, #k-compras…) */
+</script>
+<script>
+/* =====================================================================
+   v207 · SOM DE NOVA REQUISIÇÃO DE OS
+   A cada 30 s olha os pedidos aguardando que vieram de uma OS.
+   Pedido novo → toca a campainha UMA vez e mostra a faixa no topo.
+   Funciona com a aba aberta, mesmo olhando outra tela.
+   ===================================================================== */
+(function(){
+  const K_SOM='alm:somOS';
+  let ligado=localStorage.getItem(K_SOM)!=='0', conhecidos=null, ctx=null;
+  function audio(){ try{ if(!ctx) ctx=new (window.AudioContext||window.webkitAudioContext)(); if(ctx.state==='suspended') ctx.resume(); }catch(e){} return ctx; }
+  document.addEventListener('click',()=>audio(),{once:true});
+  document.addEventListener('keydown',()=>audio(),{once:true});
+  function campainha(){
+    const c=audio(); if(!c) return;
+    const t0=c.currentTime+0.02;
+    [[880,0],[660,0.28]].forEach(([f,d])=>{
+      const o=c.createOscillator(), g=c.createGain();
+      o.type='sine'; o.frequency.value=f; o.connect(g); g.connect(c.destination);
+      g.gain.setValueAtTime(0.0001,t0+d); g.gain.exponentialRampToValueAtTime(0.35,t0+d+0.02); g.gain.exponentialRampToValueAtTime(0.0001,t0+d+0.6);
+      o.start(t0+d); o.stop(t0+d+0.65);
+    });
+  }
+  function faixa(novos){
+    let f=document.getElementById('somFaixa');
+    if(!f){ document.body.insertAdjacentHTML('beforeend','<div id="somFaixa" style="position:fixed;left:50%;top:12px;transform:translateX(-50%);z-index:99990;width:min(620px,calc(100% - 20px));background:#1A1622;color:#F6F3F8;border-left:6px solid #E0187B;border-radius:12px;padding:12px 14px;box-shadow:0 12px 30px rgba(0,0,0,.35);font:15px/1.4 system-ui,Arial,sans-serif;display:flex;gap:12px;align-items:center"><div style="flex:1" id="somTxt"></div><button id="somVer" style="border:0;background:#E0187B;color:#fff;border-radius:999px;padding:7px 14px;font-weight:700;cursor:pointer">Ver pedido</button><button id="somVi" style="border:1px solid #777;background:transparent;color:inherit;border-radius:999px;padding:7px 12px;cursor:pointer">Vi</button></div>'); f=document.getElementById('somFaixa');
+      document.getElementById('somVi').onclick=()=>f.remove();
+      document.getElementById('somVer').onclick=()=>{ f.remove(); try{ irMenu('k-liberar'); }catch(e){} };
+    }
+    const t=novos[0], mais=novos.length>1?' <span style="opacity:.75">(+'+(novos.length-1)+' outro'+(novos.length>2?'s':'')+')</span>':'';
+    document.getElementById('somTxt').innerHTML='🔔 <b>Nova requisição de material</b><br>'+esc(t.os||'')+(t.onde?' · '+esc(t.onde):'')+(t.quem?' · '+esc(t.quem):'')+(t.numero?' · '+esc(t.numero):'')+mais;
+  }
+  function botao(){
+    let b=document.getElementById('somBt');
+    if(!b){ document.body.insertAdjacentHTML('beforeend','<button id="somBt" title="Som quando chegar requisição de OS" style="position:fixed;left:12px;bottom:12px;z-index:9000;border:1px solid #ccc;background:#fff;color:#1A1622;border-radius:999px;padding:7px 12px;font:600 13px system-ui,Arial,sans-serif;box-shadow:0 4px 12px rgba(0,0,0,.15);cursor:pointer"></button>'); b=document.getElementById('somBt');
+      b.onclick=()=>{ ligado=!ligado; localStorage.setItem(K_SOM,ligado?'1':'0'); botao(); if(ligado){ audio(); campainha(); } };
+    }
+    b.textContent=ligado?'🔔 Som ligado':'🔕 Som desligado';
+  }
+  async function olhar(){
+    try{
+      if(typeof sbAuth==='undefined'||!sbAuth) return;
+      const r=await fetch(SB_URL+'/rest/v1/est_trocas?select=id,numero,onde,quem,os,status&status=eq.aguardando',{headers:{apikey:SB_ANON,Authorization:'Bearer '+await sbTokenValido()}});
+      if(!r.ok) return;
+      const L=(await r.json()).filter(t=>String(t.os||'').trim());
+      const ids=new Set(L.map(t=>t.id));
+      if(conhecidos===null){ conhecidos=ids; botao(); return; }   /* primeira olhada: só guarda o que já existia */
+      const novos=L.filter(t=>!conhecidos.has(t.id));
+      conhecidos=ids;
+      if(novos.length){
+        if(ligado) campainha();
+        faixa(novos);
+        if(!document.hidden&&typeof tique==='function') try{ tique(); }catch(e){}
+      }
+    }catch(e){}
+  }
+  setInterval(olhar,30000); setTimeout(olhar,4000);
+  window.somTeste=()=>{ audio(); campainha(); faixa([{os:'OS-TESTE',onde:'Teste',quem:'Sistema',numero:'PT-0000'}]); };
+})();
+
 </script>
