@@ -3041,6 +3041,7 @@ function pintaHistorico(){
         +(v.assinadoUrl
           ? '<a class="btn ghost sm" style="color:var(--ok);border-color:var(--ok);text-decoration:none" href="'+esc(v.assinadoUrl)+'" target="_blank" rel="noopener" title="ver o PDF assinado anexado">✓ Assinado</a> '
           : '<button class="btn ghost sm" data-act="anexar" title="anexar o PDF/foto assinado pelo retirador">Anexar assinado</button> ')):'')
+      +(ent?'<button class="btn ghost sm" data-act="nfanexa" title="anexar o PDF ou a foto da nota fiscal desta entrada">📎 Nota</button> ':'')
       +'<button class="btn ghost sm" data-act="corrigir">Corrigir</button> '
       +'<button class="btn ghost sm danger" data-act="del">Excluir</button>';
     const alerta=(!ent&&!v.assinadoUrl)?'<span class="hc-alerta">sem assinado</span>':'';
@@ -3083,6 +3084,7 @@ $('#histOut').addEventListener('click',async e=>{
   const b=e.target.closest('button[data-act]'); if(!b) return;   /* nos cartões, só os botões agem */
   if(b.dataset.act==='comprov'){ verComprovanteSaida(v); return; }
   if(b.dataset.act==='anexar'){ anexarAssinado(v); return; }
+  if(b.dataset.act==='nfanexa'){ nfAnexaDoCartao(v); return; }
   if(b.dataset.act==='del'){ await removeMov(v); pintaHistorico(); return; }
   if(b.dataset.act==='corrigir'){
     if(v.tipo==='saida'&&v.reqId){ editReq=v.reqId; openMov('saida',null,v); }
@@ -8165,6 +8167,18 @@ document.addEventListener('click',e=>{
   const titulo='Nota fiscal'+(v&&v.nf?' '+v.nf:'')+(v&&v.origem?' · '+v.origem:'');
   nfAbreGuardada(lista[0],titulo+(lista.length>1?' (1 de '+lista.length+')':''));
 },true);
+/* v203 — 📎 Nota no cartão do Histórico: escolhe o arquivo e já sobe, sem abrir a correção */
+function nfAnexaDoCartao(v){
+  const inp=document.createElement('input'); inp.type='file'; inp.accept='application/pdf,image/*'; inp.multiple=true;
+  inp.onchange=async()=>{
+    const arqs=[...inp.files].filter(f=>(/pdf|image\//i.test(f.type)||/\.pdf$/i.test(f.name))&&f.size<=15*1024*1024);
+    if(!arqs.length){ toast('Escolha um PDF ou uma foto de até 15 MB.'); return; }
+    nfPendentes=arqs; toast('Enviando a nota…');
+    await nfEnviaPendentes(v); nfPendentes=[];
+    pintaHistorico();
+  };
+  inp.click();
+}
 async function nfEnviaPendentes(v){
   if(!nfPendentes.length) return;
   const arqs=nfPendentes.slice(); let ok=0;
