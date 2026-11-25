@@ -1153,6 +1153,9 @@ body.comMenu{padding-left:250px}
         <div class="f wide"><label for="m_obs">Observação</label><textarea id="m_obs"></textarea></div>
       </div>
       <p class="hint" id="dicaMat">A quantidade já existente vira uma entrada de inventário inicial. Se informar os números de série, a quantidade se ajusta a eles. Depois disso, o saldo só muda por entrada ou saída.</p>
+      <div class="f wide" id="matNotasBox" style="display:none;margin-top:14px"><label>Notas fiscais das entradas deste produto</label>
+        <div id="matNotas" class="nf-anexos"></div>
+        <p class="hint" style="margin:6px 0 0">A nota fica presa à entrada em que o produto chegou. Use 📎 Nota na entrada certa; 📄 abre a nota guardada.</p></div>
     </div>
     <div class="sheet-foot">
 <button class="btn" id="matSalvar" style="background:var(--brand);color:#FFFFFF">Salvar</button>
@@ -8167,6 +8170,34 @@ document.addEventListener('click',e=>{
   const titulo='Nota fiscal'+(v&&v.nf?' '+v.nf:'')+(v&&v.origem?' · '+v.origem:'');
   nfAbreGuardada(lista[0],titulo+(lista.length>1?' (1 de '+lista.length+')':''));
 },true);
+
+/* v203 — notas fiscais também na janela do produto (Editar, nos cartões do Estoque) */
+function matPintaNotas(){
+  const box=$('#matNotasBox'); if(!box) return;
+  const ents=editMat?movs.filter(v=>v.materialId===editMat&&v.tipo==='entrada').sort((a,b)=>String(b.data).localeCompare(String(a.data))):[];
+  box.style.display=ents.length?'':'none';
+  if(!ents.length){ $('#matNotas').innerHTML=''; return; }
+  $('#matNotas').innerHTML=ents.map(v=>{
+    const n=(notasNF[v.id]||[]).length, dt=String(v.data||'').slice(0,10).split('-').reverse().join('/');
+    return '<div class="nf-item"><span style="flex:1">'+esc(dt)+' · +'+num(v.qtd)+(v.nf?' · NF '+esc(v.nf):' · sem NF')+(v.origem?' · '+esc(v.origem):'')+'</span>'
+      +(n?'<button type="button" class="nf-ver" data-nfver="'+esc(v.id)+'">📄 '+(n>1?n+' notas':'nota')+'</button>':'')
+      +'<button type="button" class="nf-ver" data-nfmat="'+esc(v.id)+'">📎 Nota</button></div>';
+  }).join('');
+}
+$('#matNotas').addEventListener('click',e=>{
+  const b=e.target.closest('[data-nfmat]'); if(!b) return;
+  const v=movs.find(x=>x.id===b.dataset.nfmat); if(!v) return;
+  const inp=document.createElement('input'); inp.type='file'; inp.accept='application/pdf,image/*'; inp.multiple=true;
+  inp.onchange=async()=>{
+    const arqs=[...inp.files].filter(f=>(/pdf|image\//i.test(f.type)||/\.pdf$/i.test(f.name))&&f.size<=15*1024*1024);
+    if(!arqs.length){ toast('Escolha um PDF ou uma foto de até 15 MB.'); return; }
+    nfPendentes=arqs; toast('Enviando a nota…');
+    await nfEnviaPendentes(v); nfPendentes=[]; matPintaNotas();
+  };
+  inp.click();
+});
+{ const abreMatOrig=openMat; openMat=function(){ const r=abreMatOrig.apply(this,arguments); matPintaNotas(); return r; }; }
+
 /* v203 — 📎 Nota no cartão do Histórico: escolhe o arquivo e já sobe, sem abrir a correção */
 function nfAnexaDoCartao(v){
   const inp=document.createElement('input'); inp.type='file'; inp.accept='application/pdf,image/*'; inp.multiple=true;
