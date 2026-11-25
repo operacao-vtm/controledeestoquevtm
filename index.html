@@ -625,6 +625,22 @@ body.so-campo footer.bot, body.so-campo #backupAgora, body.so-campo #irPlanilha{
 .trava-nf.bloq{background:var(--tn-out);border-color:var(--out)} .trava-nf.bloq b{color:var(--out)}
 .trava-nf.livre{background:var(--tn-ok);border-color:var(--ok)} .trava-nf.livre b{color:var(--ok)}
 #movSalvar[disabled]{opacity:.35;cursor:not-allowed;filter:grayscale(.6)}
+/* v203 — notas fiscais anexadas */
+.nf-anexos{display:flex;flex-direction:column;gap:6px;margin:0 0 8px}
+.nf-anexos:empty{display:none}
+.nf-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--line,#D9DEE5);border-radius:10px;font-size:13px}
+.nf-item button.nf-nome{flex:1;text-align:left;background:none;border:0;padding:0;color:inherit;font:inherit;cursor:pointer;text-decoration:underline}
+.nf-item small{opacity:.7}
+.nf-item .nf-tira{background:none;border:0;font-size:18px;line-height:1;cursor:pointer;opacity:.7}
+.nf-ver{display:inline-flex;align-items:center;gap:4px;margin-left:6px;padding:2px 8px;border-radius:999px;border:1px solid var(--line,#D9DEE5);background:transparent;color:inherit;font-size:12px;cursor:pointer}
+#nfVisor{position:fixed;inset:0;z-index:200;background:rgba(10,14,20,.6);display:none;align-items:center;justify-content:center;padding:16px}
+#nfVisor.on{display:flex}
+#nfVisor .nfv-caixa{width:min(980px,100%);height:min(92vh,1200px);background:var(--bg,#fff);border-radius:14px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+#nfVisor header{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--line,#D9DEE5)}
+#nfVisor header b{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#nfVisor .nfv-corpo{flex:1;min-height:0;background:#3a3f47;display:flex;align-items:center;justify-content:center}
+#nfVisor iframe{width:100%;height:100%;border:0;background:#fff}
+#nfVisor img{max-width:100%;max-height:100%;object-fit:contain}
 
 .eco-din{display:block;font-family:var(--mono);font-size:11px;color:var(--ok);margin-top:4px;min-height:14px}
 .eco-din.mau{color:var(--out)}
@@ -1184,6 +1200,9 @@ body.comMenu{padding-left:250px}
     </div>
   </div>
 </div>
+<div id="nfVisor" role="dialog" aria-modal="true" aria-label="Nota fiscal"><div class="nfv-caixa"><header><b id="nfvTitulo">Nota fiscal</b>
+  <a class="btn ghost sm" id="nfvBaixar" download>Baixar</a><button class="btn ghost sm" id="nfvImprimir" type="button">Imprimir</button><button class="btn sm" id="nfvFechar" type="button">Fechar</button></header>
+  <div class="nfv-corpo" id="nfvCorpo"></div></div></div>
 <div class="scrim" id="scrimMov">
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="movTitle">
     <div class="sheet-head">
@@ -1243,6 +1262,11 @@ body.comMenu{padding-left:250px}
   <div id="v_fornBox"></div>
   <div style="margin-top:10px"><button type="button" class="btn ghost sm" id="btXML">📄 Ou ler o XML da nota (cadastra tudo de uma vez)</button>
     <input type="file" id="xmlArq" accept=".xml,text/xml" style="display:none"></div></div>
+<div class="f wide" id="nfAnexoBox"><label>Nota fiscal anexada · PDF ou foto</label>
+  <div id="nfAnexos" class="nf-anexos"></div>
+  <button type="button" class="btn ghost sm" id="btNfAnexar">📎 Anexar nota fiscal</button>
+  <input type="file" id="nfAnexoArq" accept="application/pdf,image/*" multiple style="display:none">
+  <p class="hint" style="margin:6px 0 0">A nota fica guardada junto desta entrada e sobe ao salvar. Toque no nome para ver.</p></div>
 <div class="f"><label for="v_frete">Frete e despesas da nota (R$)</label><input type="text" inputmode="decimal" id="v_frete" placeholder="0,00"></div>
 <div class="f"><label for="v_desc">Desconto da nota (R$)</label><input type="text" inputmode="decimal" id="v_desc" placeholder="0,00"></div>
           <div class="f"><label for="v_origem">Veio de</label><input id="v_origem" list="lista-fornecedor" placeholder="Fornecedor, compra, devolução de obra…"><datalist id="lista-fornecedor"></datalist></div>
@@ -1898,10 +1922,13 @@ async function sincronizar(sentido){
     if(sentido==='baixar') await puxarDaPlanilha(); else await enviarParaPlanilha();
     statusSinc('Planilha sincronizada às '+horaAgora()+'.','var(--ok)');
     estadoTopo('planilha em dia · '+horaAgora());
+    { const e=$('#estadoTxt'); if(e){ e.title=''; e.style.cursor=''; e.onclick=null; } }
     ok=true;
   }catch(err){
     statusSinc('Falha ao sincronizar: '+esc(err.message)+' — o lançamento continua salvo aqui e sobe na próxima tentativa.','var(--zero)');
-    estadoTopo('falha ao sincronizar','var(--zero)');
+    estadoTopo('falha ao sincronizar — toque para ver o motivo','var(--zero)');
+    { const e=$('#estadoTxt'); if(e){ const msg=String(err&&err.message||err||'sem detalhe'); e.title=msg; e.style.cursor='pointer';
+      e.onclick=()=>ask('Motivo da falha ao sincronizar:\n\n'+msg+'\n\nO lançamento continua salvo neste aparelho e sobe na próxima tentativa.','Entendi'); } }
   }
   sincronizando=false;
   if(pendenteEnvio && ok) sincronizar('enviar');
@@ -2996,7 +3023,7 @@ function pintaHistorico(){
     const qtd=(ent?'+':'−')+num(v.qtd)+' '+esc(m?m.unidade||'':'');
     const quem=esc(ent?(v.origem||'—'):(v.retirado||'—'));
     const nfLimpa=numNF(v);
-    const doc=esc(ent?(nfLimpa?'NF '+nfLimpa:'—'):(v.destino||'—'));
+    const doc=esc(ent?(nfLimpa?'NF '+nfLimpa:'—'):(v.destino||'—'))+(ent?nfBotao(v.id):'');
     const series=v.series?String(v.series).split(/[\n;,]+/).filter(x=>x.trim()).length:0;
     const campos=[];
     campos.push(['Quantidade',qtd]);
@@ -5058,7 +5085,7 @@ function movHTML(grupo){
   const v=grupo[0], ent=v.tipo==='entrada', varios=grupo.length>1;
   const m=mat(v.materialId);
   const linha=ent
-    ? [v.origem?'De <b>'+esc(v.origem)+'</b>':'', v.nf?'NF <b>'+esc(v.nf)+'</b>':'', v.recebido?'Recebeu <b>'+esc(v.recebido)+'</b>':'', v.preco?'Unitário <b>'+brl(v.preco)+'</b>':'']
+    ? [v.origem?'De <b>'+esc(v.origem)+'</b>':'', (v.nf?'NF <b>'+esc(v.nf)+'</b>':'')+nfBotao(v.id), v.recebido?'Recebeu <b>'+esc(v.recebido)+'</b>':'', v.preco?'Unitário <b>'+brl(v.preco)+'</b>':'']
     : [v.retirado?'Retirou <b>'+esc(v.retirado)+'</b>':'', v.destino?'Para <b>'+esc(v.destino)+'</b>':'', v.os?'OS <b>'+esc(v.os)+'</b>':'', v.autorizado?'Autorizou <b>'+esc(v.autorizado)+'</b>':'', v.entregue?'Entregou <b>'+esc(v.entregue)+'</b>':''];
   const cabeca=varios
     ? '<div class="qtd">'+grupo.length+'<span style="font-size:11px;color:var(--ink2)"> itens</span></div>'
@@ -7565,24 +7592,46 @@ async function sbTodas(tabela){
   }
   return tudo;
 }
-let sbUltimaCarga=0;
+let sbUltimaCarga=0, sbUltimaAtv=0;
+/* v202 — a leitura do banco é feita "de lado" e só entra na tela se ninguém lançou nada aqui
+   enquanto ela acontecia. Antes, um lançamento feito durante a leitura era apagado pela
+   cópia antiga do banco (a saída "sumia"). O registro de atividades, que só cresce e é o
+   mais pesado, é relido a cada 5 minutos (e sempre ao entrar). */
 async function sbCarregarTudo(forcar){
-  if(!forcar&&Date.now()-sbUltimaCarga<25000) return false;
+  if(!forcar&&Date.now()-sbUltimaCarga<10000) return false;
+  const marca=versaoLocal;
   const pessoas=await (await sbApi('/rest/v1/rpc/est_usuarios',{method:'POST',body:'{}'})).json();
-  usuarios=(pessoas||[]).map(u=>({id:u.id,nome:u.nome,perfil:u.perfil,libera:u.libera?'1':'',senha:''})).filter(u=>PERFIS[u.perfil]);
+  const leAtv=forcar||Date.now()-sbUltimaAtv>300000;
+  const lido=[];
   for(const c of SB_COLECOES){
     if(sessao&&sessao.perfil==='campo'&&(c.k==='mov'||c.k==='ret'||c.k==='atv')) continue;   /* o técnico só vê o que precisa */
+    if(c.k==='atv'&&!leAtv) continue;
     let linhas=[]; try{ linhas=await sbTodas(c.tabela); }catch(e){ if(!/401|403/.test(e.message)) throw e; }
-    const objs=linhas.map(r=>sbDaLinha(c,r));
+    lido.push([c,linhas.map(r=>sbDaLinha(c,r))]);
+  }
+  try{ await notasCarregar(); }catch(e){}
+  /* lançaram algo aqui enquanto eu lia: não sobrescreve; primeiro sobe, depois lê de novo */
+  if(versaoLocal!==marca||pendenteEnvio||sbEnviando) return false;
+  usuarios=(pessoas||[]).map(u=>({id:u.id,nome:u.nome,perfil:u.perfil,libera:u.libera?'1':'',senha:''})).filter(u=>PERFIS[u.perfil]);
+  lido.forEach(([c,objs])=>{
     c.poe(objs);
     sbFoto[c.k]={}; objs.forEach(o=>{ sbFoto[c.k][o.id]=JSON.stringify(sbParaLinha(c,o,false)); });
-  }
+  });
+  if(leAtv) sbUltimaAtv=Date.now();
   sbUltimaCarga=Date.now();
   return true;
 }
-let sbEnviando=false;
+let sbEnviando=false, sbEnvioAtual=null;
+/* v202 — se já tem um envio em andamento, este espera ele terminar e envia em seguida.
+   Antes ele desistia, e o aviso de "falta enviar" era apagado mesmo sem ter enviado. */
 async function sbEnviar(){
-  if(sbEnviando){ pendenteEnvio=true; return false; }
+  while(sbEnvioAtual){ try{ await sbEnvioAtual; }catch(e){} }
+  const marca=versaoLocal;
+  sbEnvioAtual=sbEnviarAgora();
+  try{ const ok=await sbEnvioAtual; if(ok&&versaoLocal===marca) pendenteEnvio=false; return ok; }
+  finally{ sbEnvioAtual=null; }
+}
+async function sbEnviarAgora(){
   sbEnviando=true;
   try{
     for(const c of SB_COLECOES){
@@ -7611,10 +7660,10 @@ async function sbEnviar(){
   } finally { sbEnviando=false; }
 }
 /* as funções de sincronizar passam a falar com o Supabase */
-enviarParaPlanilha=async function(){ if(!sbAuth) return false; await sbEnviar(); pendenteEnvio=false; return true; };
+enviarParaPlanilha=async function(){ if(!sbAuth) return false; return await sbEnviar(); };
 puxarDaPlanilha=async function(forcar){
   if(!sbAuth) return false;
-  if(pendenteEnvio){ await sbEnviar(); pendenteEnvio=false; }
+  if(pendenteEnvio){ await sbEnviar(); if(pendenteEnvio) return false; }
   return sbCarregarTudo(!!forcar);
 };
 enviarTroca=async function(t){
@@ -8044,6 +8093,100 @@ if((location.hash||'')==='#e-nota-xml'){ let tent=0; const vez=setInterval(()=>{
     irChip('entrada');
     setTimeout(()=>{ try{ recebeXML(new File([x.xml],x.nome||'nota.xml',{type:'text/xml'})); }catch(e){ toast('Não foi possível ler a nota enviada pelo SGI.'); } },400);
   }catch(e){ clearInterval(vez); } },500); }   /* v206: atalhos vindos do SGI (#k-liberar, #k-compras…) */
+
+/* =====================================================================
+   v203 — NOTA FISCAL ANEXADA À ENTRADA
+   Na entrada (nova ou editando) dá para anexar o PDF ou a foto da nota.
+   O arquivo vai para o Supabase (pasta documentos/notas) e fica registrado
+   em Documentos como "Nota fiscal" da entrada. Na lista, o 📄 abre a nota
+   aqui mesmo, sem baixar.
+   ===================================================================== */
+var notasNF={};          /* id da entrada -> [{id,path,nome,tipo}] */
+var nfPendentes=[];      /* escolhidas no formulário, sobem ao salvar */
+async function notasCarregar(){
+  const r=await sbApi('/rest/v1/est_documentos?select=id,ref,pdf_path,resumo&titulo=eq.'+encodeURIComponent('Nota fiscal'),{method:'GET'});
+  const lista=await r.json(), mapa={};
+  (lista||[]).forEach(d=>{ if(!d.ref||!d.pdf_path) return; const z=d.resumo||{};
+    (mapa[d.ref]=mapa[d.ref]||[]).push({id:d.id,path:d.pdf_path,nome:z.arquivo||'nota fiscal',tipo:z.tipo||''}); });
+  notasNF=mapa;
+}
+function nfBotao(id){ const n=(notasNF[id]||[]).length; return n?' <button type="button" class="nf-ver" data-nfver="'+esc(id)+'" title="Ver a nota fiscal">📄 '+(n>1?n+' notas':'nota')+'</button>':''; }
+function nfPintaFormulario(){
+  const box=$('#nfAnexoBox'); if(!box) return;
+  box.style.display=tipoMov==='entrada'?'':'none';
+  const salvas=(editMov&&notasNF[editMov])||[];
+  const linhas=salvas.map((n,i)=>'<div class="nf-item">📄 <button type="button" class="nf-nome" data-nfsalva="'+i+'">'+esc(n.nome)+'</button><small>guardada</small></div>')
+    .concat(nfPendentes.map((f,i)=>'<div class="nf-item">📎 <button type="button" class="nf-nome" data-nfpend="'+i+'">'+esc(f.name)+'</button><small>sobe ao salvar</small><button type="button" class="nf-tira" data-nftira="'+i+'" aria-label="Tirar este arquivo">×</button></div>'));
+  $('#nfAnexos').innerHTML=linhas.join('');
+}
+var nfUrlAtual=null;
+function nfMostra(titulo,blob,nomeArq){
+  if(nfUrlAtual) URL.revokeObjectURL(nfUrlAtual);
+  nfUrlAtual=URL.createObjectURL(blob);
+  const ehPdf=/pdf/i.test(blob.type)||/\.pdf$/i.test(nomeArq||'');
+  $('#nfvTitulo').textContent=titulo;
+  $('#nfvCorpo').innerHTML=ehPdf?'<iframe id="nfvQuadro" title="Nota fiscal" src="'+nfUrlAtual+'"></iframe>':'<img alt="Nota fiscal" src="'+nfUrlAtual+'">';
+  const b=$('#nfvBaixar'); b.href=nfUrlAtual; b.setAttribute('download',nomeArq||'nota-fiscal');
+  $('#nfVisor').classList.add('on');
+}
+async function nfAbreGuardada(n,titulo){
+  try{
+    toast('Abrindo a nota…');
+    const r=await fetch(SB_URL+'/storage/v1/object/authenticated/documentos/'+n.path,{headers:{apikey:SB_ANON,Authorization:'Bearer '+await sbTokenValido()}});
+    if(!r.ok) throw new Error(r.status);
+    nfMostra(titulo||n.nome,await r.blob(),n.nome);
+  }catch(e){ toast('Não foi possível abrir a nota: '+e.message); }
+}
+function nfFecha(){ $('#nfVisor').classList.remove('on'); $('#nfvCorpo').innerHTML=''; if(nfUrlAtual){ URL.revokeObjectURL(nfUrlAtual); nfUrlAtual=null; } }
+$('#nfvFechar').onclick=nfFecha;
+$('#nfVisor').addEventListener('click',e=>{ if(e.target===$('#nfVisor')) nfFecha(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&$('#nfVisor').classList.contains('on')) nfFecha(); });
+$('#nfvImprimir').onclick=()=>{ const q=$('#nfvQuadro'); if(q&&q.contentWindow){ q.contentWindow.focus(); q.contentWindow.print(); }
+  else { const w=window.open(nfUrlAtual,'_blank'); if(w) w.addEventListener('load',()=>w.print()); } };
+$('#btNfAnexar').onclick=()=>$('#nfAnexoArq').click();
+$('#nfAnexoArq').addEventListener('change',e=>{
+  const arqs=[...e.target.files].filter(f=>/pdf|image\//i.test(f.type)||/\.pdf$/i.test(f.name));
+  const grandes=arqs.filter(f=>f.size>15*1024*1024);
+  if(grandes.length) toast('Arquivo acima de 15 MB não entra: '+grandes.map(f=>f.name).join(', '));
+  nfPendentes=nfPendentes.concat(arqs.filter(f=>f.size<=15*1024*1024));
+  e.target.value=''; nfPintaFormulario();
+});
+$('#nfAnexos').addEventListener('click',e=>{
+  const t=e.target, sal=t.closest('[data-nfsalva]'), pen=t.closest('[data-nfpend]'), tira=t.closest('[data-nftira]');
+  if(tira){ nfPendentes.splice(+tira.dataset.nftira,1); nfPintaFormulario(); return; }
+  if(pen){ const f=nfPendentes[+pen.dataset.nfpend]; nfMostra(f.name,f,f.name); return; }
+  if(sal){ const n=(notasNF[editMov]||[])[+sal.dataset.nfsalva]; if(n) nfAbreGuardada(n); }
+});
+document.addEventListener('click',e=>{
+  const b=e.target.closest&&e.target.closest('[data-nfver]'); if(!b) return;
+  e.preventDefault(); e.stopPropagation();
+  const id=b.dataset.nfver, lista=notasNF[id]||[], v=movs.find(x=>x.id===id);
+  if(!lista.length) return;
+  const titulo='Nota fiscal'+(v&&v.nf?' '+v.nf:'')+(v&&v.origem?' · '+v.origem:'');
+  nfAbreGuardada(lista[0],titulo+(lista.length>1?' (1 de '+lista.length+')':''));
+},true);
+async function nfEnviaPendentes(v){
+  if(!nfPendentes.length) return;
+  const arqs=nfPendentes.slice(); let ok=0;
+  for(let i=0;i<arqs.length;i++){
+    const f=arqs[i], ext=(f.name.match(/\.([a-z0-9]+)$/i)||[,(/pdf/i.test(f.type)?'pdf':'jpg')])[1].toLowerCase();
+    const id='doc-'+Date.now()+'-'+Math.random().toString(36).slice(2,6), caminho='notas/'+v.id+'-'+id+'.'+ext;
+    try{
+      await sbGuardaArquivo(caminho,f,f.type||'application/pdf');
+      await sbApi('/rest/v1/est_documentos',{method:'POST',headers:{Prefer:'return=minimal'},body:JSON.stringify({
+        id, tipo:'entrada', titulo:'Nota fiscal', ref:v.id, nf:v.nf||null, chave:v.chave||null, quem:v.origem||null,
+        autorizado_por:sessao?sessao.nome:null, pdf_path:caminho, resumo:{anexo:'nota_fiscal',arquivo:f.name,tipo:f.type||''}})});
+      (notasNF[v.id]=notasNF[v.id]||[]).push({id,path:caminho,nome:f.name,tipo:f.type||''});
+      nfPendentes.splice(nfPendentes.indexOf(f),1); ok++;
+    }catch(e){ toast('A nota '+f.name+' não subiu: '+e.message+'. Ela continua na lista para tentar de novo ao salvar.'); }
+  }
+  if(ok){ toast(ok===1?'Nota fiscal anexada.':ok+' notas fiscais anexadas.'); registra('Anexou nota fiscal',(mat(v.materialId)||{}).nome||'entrada',v.nf?'NF '+v.nf:''); render(); }
+  nfPintaFormulario();
+}
+{ const abreOrig=openMov; openMov=function(){ nfPendentes=[]; const r=abreOrig.apply(this,arguments); nfPintaFormulario(); return r; }; }
+{ const fechaOrig=closeMov; closeMov=function(){ if(nfPendentes.length&&!confirm('Há nota fiscal anexada que ainda não foi salva. Fechar mesmo assim?')) return; nfPendentes=[]; return fechaOrig.apply(this,arguments); };
+  $('#movClose').onclick=closeMov; }
+{ const salvaOrig=salvarMov; salvarMov=async function(){ const r=await salvaOrig.apply(this,arguments); if(r&&r.tipo==='entrada') await nfEnviaPendentes(r); else nfPintaFormulario(); return r; }; }
 </script>
 <script>
 /* =====================================================================
