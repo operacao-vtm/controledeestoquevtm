@@ -2531,25 +2531,43 @@ const TEM_LISTA=['requisitante','almoxarife','destino','fornecedor','usuario','c
 function linhaSol(materialId,qtd){
   const d=document.createElement('div');
   d.className='item-row';
-  d.innerHTML=`<div class="f"><label>Produto</label><select class="s-mat">${opcoesHTML(materialId)}</select></div>
+  d.innerHTML=`<div class="f"><label>Produto</label><select class="s-mat">${opcoesHTML(materialId)}<option value="__livre">✏️ Material não cadastrado (descrever)</option></select></div>
     <div class="f"><label>Quantidade</label><input type="number" class="s-qtd" min="0" step="1" value="${qtd||''}" placeholder="0"></div>
     <button class="x" type="button" title="remover">remover</button>
+    <div class="s-livre" style="display:none;grid-column:1/-1;gap:8px;flex-wrap:wrap">
+      <div class="f" style="flex:3 1 260px"><label>Descreva o material</label><input type="text" class="s-desc" placeholder="ex.: parafuso para TV Busão, genérico"></div>
+      <div class="f" style="flex:1 1 90px"><label>Unidade</label><input type="text" class="s-un" value="UN"></div>
+      <div class="f" style="flex:1 1 130px"><label>Preço estimado (opcional)</label><input type="text" class="s-preco" inputmode="decimal" placeholder="0,00"></div>
+    </div>
     <div class="sld"></div>`;
   d.querySelector('.x').onclick=()=>{ d.remove(); resumoSol(); };
-  d.querySelector('.s-mat').onchange=resumoSol;
+  /* v204 — material ainda sem cadastro: descreve livremente, sem criar produto */
+  d.querySelector('.s-mat').onchange=()=>{ const livre=d.querySelector('.s-mat').value==='__livre';
+    d.querySelector('.s-livre').style.display=livre?'flex':'none'; if(livre) d.querySelector('.s-desc').focus(); resumoSol(); };
+  ['.s-desc','.s-un','.s-preco'].forEach(c=>d.querySelector(c).oninput=resumoSol);
   d.querySelector('.s-qtd').oninput=resumoSol;
   return d;
 }
 function itensSolAtuais(){
-  return [...$('#itensSol').querySelectorAll('.item-row')].map(d=>({
-    el:d, materialId:d.querySelector('.s-mat').value, qtd:num(d.querySelector('.s-qtd').value)
-  }));
+  return [...$('#itensSol').querySelectorAll('.item-row')].map(d=>{
+    const v=d.querySelector('.s-mat').value, livre=v==='__livre';
+    return { el:d, materialId:livre?'':v, qtd:num(d.querySelector('.s-qtd').value), livre,
+      desc:livre?d.querySelector('.s-desc').value.trim():'', un:livre?(d.querySelector('.s-un').value.trim()||'UN'):'',
+      preco:livre?num(d.querySelector('.s-preco').value):0 };
+  });
 }
+/* v204 — o item vira um "produto" só para o documento: cadastrado ou descrito à mão */
+function matSol(it){ return it.livre
+  ? {nome:(it.desc||'(sem descrição)')+' · não cadastrado', unidade:it.un, preco:it.preco, fornecedor:'', link:'', livre:true}
+  : mat(it.materialId); }
+function itemSolValido(it){ return (it.materialId||(it.livre&&it.desc))&&it.qtd>0; }
 function resumoSol(){
   const itens=itensSolAtuais();
   let total=0, semPreco=0;
   itens.forEach(it=>{
     const m=mat(it.materialId), sld=it.el.querySelector('.sld');
+    if(it.livre){ const sub=it.qtd*num(it.preco); total+=sub; if(!num(it.preco))semPreco++;
+      sld.innerHTML='material não cadastrado · '+(it.desc?esc(it.desc):'<b style="color:var(--low)">descreva o material</b>')+' · subtotal <b>'+brl(sub)+'</b>'; return; }
     if(!m){ sld.textContent=''; return; }
     const sub=it.qtd*num(m.preco); total+=sub;
     if(!num(m.preco))semPreco++;
@@ -2622,17 +2640,19 @@ $('#solExportar').onclick=()=>{ solExportarCsv(); };
 $('#scrimSol').addEventListener('click',e=>{ if(e.target===$('#scrimSol'))closeSol(); });
 
 function solExportarCsv(){
-  const itens=itensSolAtuais().filter(it=>it.materialId&&it.qtd>0);
+  const itens=itensSolAtuais().filter(itemSolValido);
   if(!itens.length){ toast('Adicione ao menos um produto com quantidade.'); return; }
   const q=t=>'"'+String(t==null?'':t).replace(/"/g,'""')+'"';
   const linhas=[['PRODUTO','QUANTIDADE','UNIDADE','PRECO UNITARIO','SUBTOTAL','FORNECEDOR','LINK'].map(q).join(';')];
-  itens.forEach(it=>{ const m=mat(it.materialId);
+  itens.forEach(it=>{ const m=matSol(it);
     linhas.push([m.nome,it.qtd,m.unidade||'',num(m.preco),it.qtd*num(m.preco),m.fornecedor||'',m.link||''].map(q).join(';')); });
   baixar('solicitacao-de-compra.csv','\ufeff'+linhas.join('\r\n'),'text/csv;charset=utf-8');
   toast('Solicitação exportada em CSV.');
 }
 $('#solGerar').onclick=()=>{
-  const itens=itensSolAtuais().filter(it=>it.materialId&&it.qtd>0);
+  const semDesc=itensSolAtuais().filter(it=>it.livre&&!it.desc&&it.qtd>0).length;
+  if(semDesc){ toast('Descreva o material não cadastrado antes de imprimir.'); return; }
+  const itens=itensSolAtuais().filter(itemSolValido);
   if(!itens.length){ toast('Adicione ao menos um produto com quantidade.'); return; }
   const motivo=$('#s_motivo').value;
   const justifica=$('#s_justifica').value.trim();
@@ -2647,7 +2667,7 @@ $('#solGerar').onclick=()=>{
 
   const grupos={};
   itens.forEach(it=>{
-    const m=mat(it.materialId);
+    const m=matSol(it);
     const k=(m.fornecedor||'(sem fornecedor definido)').toUpperCase();
     (grupos[k]=grupos[k]||[]).push({m:m,qtd:it.qtd});
   });
